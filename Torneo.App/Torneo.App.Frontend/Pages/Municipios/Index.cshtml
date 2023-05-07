@@ -1,0 +1,52 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Municipios.IndexModel
+@{
+}
+@if (Model.ErrorEliminar)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error</strong> No se pudo eliminar el municipio.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
+<h1>Listado de municipios
+<a class="btn btn-primary" asp-page="./Create">Crear municipio</a>
+</h1>
+<table class="table table-dark table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var municipio in Model.municipios)
+        {
+            <tr>
+                <th>@municipio.Id</th>
+                <td>@municipio.Nombre</td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./Details" asp-route-id="@municipio.Id">
+                        Detalle
+                    </a>
+                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
+                        Editar
+                    </a>
+                    @if (municipio.Equipos.Count == 0)
+                    {
+                        <form method="post" class="d-inline">
+                            <button asp-page-handler="Delete" asp-route-id="@municipio.Id"
+                            onclick="return confirm('Esta seguro de eliminar el municipio?')"
+                            class="btn btn-danger">
+                            Delete
+                            </button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

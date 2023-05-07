@@ -1,0 +1,41 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Partidos.CreateModel
+@{
+}
+<h1>Nuevo partido</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="partido.FechaHora"></label>
+        <input asp-for="partido.FechaHora" required class="form-control" value="2022-09-24T00:00:00.000"/>
+    </div>
+    <div class="form-group">
+        <label for="EquipoLocalId">Seleccione un equipo</label>
+        <select id="EquipoLocalId" name="EquipoLocalId" required class="form-control">
+            <!--option value="">Seleccione un equipo</option-->
+            @foreach (var equipo in Model.equipos)
+            {
+                <option value="@equipo.Id">@equipo.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="partido.MarcadorLocal"></label>
+        <input asp-for="partido.MarcadorLocal" required type="number" min="0" max="100" pattern="^[0-9]+" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label for="EquipoVisitanteId">Seleccione un equipo</label>
+        <select id="EquipoVisitanteId" name="EquipoVisitanteId" required class="form-control">
+            <!--option value="">Seleccione un equipo</option-->
+            @foreach (var equipo in Model.equipos)
+            {
+                <option value="@equipo.Id">@equipo.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label asp-for="partido.MarcadorVisitante"></label>
+        <input asp-for="partido.MarcadorVisitante" required type="number" min="0" max="100" pattern="^[0-9]+" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Crear partido</button>
+</form>
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

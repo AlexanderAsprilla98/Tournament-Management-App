@@ -1,0 +1,36 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Jugadores.CreateModel
+@{
+}
+<h1>Nuevo Jugador</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="jugador.Nombre"></label>
+        <input asp-for="jugador.Nombre" minlength="1" maxlength="30" required class="form-control">
+    </div>
+    <div class="form-group">
+        <label asp-for="jugador.Numero"></label>
+        <input asp-for="jugador.Numero" required  type="number" min="1" max="99" pattern="^[0-9]+" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="idEquipo">Seleccione un equipo</label>
+        <select id="idEquipo" name="idEquipo" class="form-control" required>
+            <!--option value="">Seleccione un equipo</option-->
+            @foreach (var equipo in Model.equipos)
+            {
+                <option value="@equipo.Id">@equipo.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="idPosicion">Seleccione una Posicion</label>
+        <select id="idPosicion" name="idPosicion" class="form-control" required>
+            @foreach (var posicion in Model.posiciones)
+            {
+                <option value="@posicion.Id">@posicion.Nombre</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Crear jugador</button>
+</form>
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

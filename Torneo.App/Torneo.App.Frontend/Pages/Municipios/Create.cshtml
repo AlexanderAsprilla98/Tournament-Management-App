@@ -1,0 +1,15 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Municipios.CreateModel
+@{
+}
+<h1>Nuevo municipio</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="municipio.Nombre"></label>
+        <input asp-for="municipio.Nombre" minlength="1"  maxlength="30" required  pattern="[A-Za-z]+\' '" class="form-control"
+        title="Obligatorio. Solo Letras. Tamaño máximo: 40">
+        <span class="text-danger" asp-validation-for="municipio.Nombre"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Crear municipio</button>
+</form>
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

@@ -1,0 +1,33 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Partidos.EditModel
+@{
+}
+<h1>Editar partido</h1>
+<form method="post">
+    <div class="form-group">
+        <label asp-for="partido.Id"></label>
+        <input asp-for="partido.Id" class="form-control" readonly/>
+    </div>
+    <div class="form-group">
+        <label asp-for="partido.FechaHora"></label>
+        <input asp-for="partido.FechaHora" class="form-control" />
+    </div>
+    <div class="form-group">
+        <label asp-for="EquipoLocalSelected"></label>
+        <select asp-for="EquipoLocalSelected" asp-items="@Model.equipoOptions" name="idEquipoLocal" class="form-control"></select>  
+    </div>
+    <div class="form-group">
+        <label asp-for="EquipoVisitanteSelected"></label>
+        <select asp-for="EquipoVisitanteSelected" asp-items="@Model.equipoOptions" name="idEquipoVisitante" class="form-control"></select>   
+    </div>
+    <div class="form-group">
+        <label asp-for="partido.MarcadorLocal"></label>
+        <input asp-for="partido.MarcadorLocal" class="form-control" type="number" min="0" max="100" pattern="^[0-9]+"/>
+    </div>
+    <div class="form-group">
+        <label asp-for="partido.MarcadorVisitante"></label>
+        <input asp-for="partido.MarcadorVisitante" class="form-control" type="number" min="0" max="100" pattern="^[0-9]+"/>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">Editar equipo</button>
+</form>
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

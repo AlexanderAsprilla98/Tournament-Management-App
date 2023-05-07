@@ -1,0 +1,33 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Posiciones.IndexModel
+@{
+}
+<h1>Listado de posiciones
+     <a class="btn btn-primary" asp-page="./Create">Crear posiciones</a>
+</h1>
+<table class="table table-dark table-striped">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var posicion in Model.posiciones)
+        {
+            <tr>
+                <th>@posicion.Id</th>
+                <td>@posicion.Nombre</td>
+                <td>
+                    <a class="btn btn-primary" asp-page="./Details" asp-route-id="@posicion.Id">
+                        Detalle
+                    </a>
+                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@posicion.Id">
+                        Editar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

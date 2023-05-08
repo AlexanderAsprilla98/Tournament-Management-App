@@ -19,8 +19,12 @@ namespace Torneo.App.Persistencia
         {
             var equipos = _dataContext.Equipos
                             .Include(e => e.Municipio)
-                            .Include(e => e.DirectorTecnico)
+                            .Include(e => e.DirectorTecnico)                            
+                            .Include(e => e.Jugadores)
+                            .Include(e => e.PartidosLocal)                         
+                            .Include(e => e.PartidosVisitante)                         
                             .ToList();
+                            
             return equipos;
         }
 
@@ -45,6 +49,20 @@ namespace Torneo.App.Persistencia
             return equipoEncontrado;
         }
 
+        public Equipo DeleteEquipo(int idEquipo)
+        {
+            var equipoEncontrado = GetEquipo(idEquipo);
+            if (equipoEncontrado != null)
+            {
+                
+                _dataContext.Equipos.Remove(equipoEncontrado);
+                _dataContext.SaveChanges();
+                
+                
+            }
+            return equipoEncontrado;
+        }
+
         public IEnumerable<Equipo> GetEquiposMunicipio(int idMunicipio)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
@@ -60,5 +78,34 @@ namespace Torneo.App.Persistencia
             return _dataContext.Equipos
             .Where(e => e.Nombre.Contains(nombre));
         }
+
+       /* public IEnumerable<Equipo> GetEquiposPartido(int idEquipo)
+        {
+            var PartidoEncontrado = _dataContext.Partido.Find(idEquipo);
+            var equipos = _dataContext.Equipos
+            .Where(e => e.Partido == PartidoEncontrado)
+            .Include(e => e.Partido)
+            .Include(e => e.Equipo)
+            .ToList();
+            return equipos;
+        }
+        
+
+            public bool PartidoEncontrado(Equipo id)
+            {
+            if(!_dataContext.Partidos.Any(p => p.Local == id || p.Visitante == id))
+                {
+
+                    return false;
+                }
+
+                return true;
+             }
+
+        */
+
+
+
+
     }
 }

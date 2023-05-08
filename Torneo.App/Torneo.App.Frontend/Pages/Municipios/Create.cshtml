@@ -7,7 +7,7 @@
     <div class="form-group">
         <label asp-for="municipio.Nombre"></label>
         <input asp-for="municipio.Nombre" minlength="1"  maxlength="30" required  pattern="[A-Za-z]+\' '" class="form-control"
-        title="Obligatorio. Solo Letras. Tamaño máximo: 40">
+        title="Obligatorio. Solo Letras. Tamaño máximo: 30">
         <span class="text-danger" asp-validation-for="municipio.Nombre"></span>
     </div>
     <button type="submit" class="btn btn-primary btn-block">Crear municipio</button>

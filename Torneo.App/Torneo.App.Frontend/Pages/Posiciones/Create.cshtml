@@ -6,7 +6,7 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="posicion.Nombre"></label>
-        <input asp-for="posicion.Nombre" class="form-control" minlength="1" maxlength="30" pattern="[A-Za-z]+\' '">
+        <input asp-for="posicion.Nombre" class="form-control" minlength="1" maxlength="30" pattern="[A-Za-z]+\' '" required>
     </div>
         <button type="submit" class="btn btn-primary btn-block">Crear posicion</button>
 </form>

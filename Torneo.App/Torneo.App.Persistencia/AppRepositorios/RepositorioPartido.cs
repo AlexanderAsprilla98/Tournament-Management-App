@@ -21,6 +21,7 @@ namespace Torneo.App.Persistencia
                             .Include(p => p.Local)
                             .Include(p => p.Visitante)
                             .ToList();
+                            
             return partidos;
         }
         public Partido GetPartido(int idPartido)

@@ -2,6 +2,15 @@
 @model Torneo.App.Frontend.Pages.Equipos.IndexModel
 @{
 }
+@if (Model.ErrorEliminar)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error</strong> No se pudo eliminar el Equipo.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <form method="post">
     <div class="input-group mb-3">
         <select asp-for="MunicipioSelected" asp-items="@Model.MunicipioOptions"
@@ -49,6 +58,17 @@
                     <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@equipo.Id">
                         Editar
                     </a>
+                    @if (equipo.Jugadores.Count == 0 && equipo.PartidosLocal.Count == 0 && equipo.PartidosVisitante.Count == 0)
+                    {                
+                        <form method="post" class="d-inline">
+                            <button asp-page-handler="Delete" asp-route-id="@equipo.Id"
+                            onclick="return confirm('Esta seguro de eliminar el equipo?')"
+                            class="btn btn-danger">
+                            Delete
+                            </button>
+                        </form>
+                    }
+                    
                 </td>
             </tr>
         }

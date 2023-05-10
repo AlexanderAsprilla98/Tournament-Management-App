@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioPartido : IRepositorioPartido
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Partido AddPartido(Partido partido, int idEquipoLocal, int idEquipoVisitante)
         {
             var equipoLocalEncontrado = _dataContext.Equipos.Find(idEquipoLocal);
@@ -46,6 +46,9 @@ namespace Torneo.App.Persistencia
                 partidoEncontrado.MarcadorVisitante = partido.MarcadorVisitante;
                 _dataContext.SaveChanges();
             }
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();
             return partidoEncontrado;
         }
 
@@ -57,6 +60,9 @@ namespace Torneo.App.Persistencia
                 
                 _dataContext.Partidos.Remove(partidoEncontrado);
                 _dataContext.SaveChanges();
+                _dataContext.ChangeTracker.Clear();
+                _dataContext.Dispose();
+                _dataContext = new DataContext();
                 
                 
             }

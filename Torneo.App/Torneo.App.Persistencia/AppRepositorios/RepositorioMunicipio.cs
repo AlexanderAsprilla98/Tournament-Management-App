@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioMunicipio : IRepositorioMunicipio
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Municipio AddMunicipio(Municipio municipio)
         {
             var municipioInsertado = _dataContext.Municipios.Add(municipio);
@@ -16,6 +16,11 @@ namespace Torneo.App.Persistencia
             var municipios = _dataContext.Municipios
             .Include(m => m.Equipos)
             .ToList();
+
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();   
+
             return municipios;
         }
         public Municipio GetMunicipio(int idMunicipio)

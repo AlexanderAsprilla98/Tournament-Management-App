@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioEquipo : IRepositorioEquipo
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Equipo AddEquipo(Equipo equipo, int idMunicipio, int idDT)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
@@ -24,6 +24,9 @@ namespace Torneo.App.Persistencia
                             .Include(e => e.PartidosLocal)                         
                             .Include(e => e.PartidosVisitante)                         
                             .ToList();
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();           
                             
             return equipos;
         }
@@ -60,6 +63,10 @@ namespace Torneo.App.Persistencia
                 
                 
             }
+           /* _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();
+            */
             return equipoEncontrado;
         }
 

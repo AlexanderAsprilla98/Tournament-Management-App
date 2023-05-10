@@ -62,11 +62,7 @@ namespace Torneo.App.Persistencia
                 _dataContext.SaveChanges();
                 
                 
-            }
-           /* _dataContext.ChangeTracker.Clear();
-            _dataContext.Dispose();
-            _dataContext = new DataContext();
-            */
+            }           
             return equipoEncontrado;
         }
 

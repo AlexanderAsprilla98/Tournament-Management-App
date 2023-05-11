@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioPosicion : IRepositorioPosicion
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Posicion AddPosicion(Posicion posicion)
         {
             var posicionInsertada = _dataContext.Posiciones.Add(posicion);
@@ -12,8 +12,16 @@ namespace Torneo.App.Persistencia
             return posicionInsertada.Entity;
         }
         public IEnumerable<Posicion> GetAllPosiciones()
-        {
-            return _dataContext.Posiciones;
+        {   
+            var posiciones = _dataContext.Posiciones
+                                .Include(p => p.Jugadores)
+                                .ToList();
+
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();   
+
+            return posiciones;
         }
         public Posicion GetPosicion(int idPosicion)
         {
@@ -28,8 +36,23 @@ namespace Torneo.App.Persistencia
             _dataContext.SaveChanges();
 
             return posicionEncontrada;
-
-
         }
+
+        public Posicion DeletePosicion(int idPosicion)
+        {
+            var posicionEncontrada = GetPosicion(idPosicion);
+            if (posicionEncontrada != null)
+            {
+                
+                _dataContext.Posiciones.Remove(posicionEncontrada);
+                _dataContext.SaveChanges();
+                
+                
+            }           
+            return posicionEncontrada;
+        }
+
+
+
     }
 }

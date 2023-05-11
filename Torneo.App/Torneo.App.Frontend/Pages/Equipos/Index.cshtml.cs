@@ -66,7 +66,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             }
         }
 
-         public IActionResult OnPostDelete(int id)
+        public IActionResult OnPostDelete(int id)
         {
             try
             {

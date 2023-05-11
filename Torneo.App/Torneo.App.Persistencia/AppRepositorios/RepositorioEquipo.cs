@@ -107,6 +107,22 @@ namespace Torneo.App.Persistencia
 
         */
 
+    |    /*Metodo para limpiar cache(ChatGPT) Pendiente usar y validar
+        Este método debería recibir como parámetro el objeto DataContext
+        que se está utilizando para acceder a la base de datos y realizar las operaciones necesarias para eliminar la caché.
+        */
+        /*public void ClearCache(DataContext context)
+        {
+            var cache = context.ChangeTracker.Entries()
+                                .Where(e => e.State != EntityState.Unchanged)
+                                .ToList();
+
+            foreach (var entry in cache)
+            {
+                entry.State = EntityState.Detached;
+            }
+        }*/
+
 
 
 

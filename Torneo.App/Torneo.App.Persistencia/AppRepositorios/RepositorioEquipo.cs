@@ -107,7 +107,7 @@ namespace Torneo.App.Persistencia
 
         */
 
-    |    /*Metodo para limpiar cache(ChatGPT) Pendiente usar y validar
+        /*Metodo para limpiar cache(ChatGPT) Pendiente usar y validar
         Este método debería recibir como parámetro el objeto DataContext
         que se está utilizando para acceder a la base de datos y realizar las operaciones necesarias para eliminar la caché.
         */

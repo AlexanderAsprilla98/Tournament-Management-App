@@ -79,7 +79,10 @@ namespace Torneo.App.Persistencia
         public IEnumerable<Equipo> SearchEquipos(string nombre)
         {
             return _dataContext.Equipos
-            .Where(e => e.Nombre.Contains(nombre));
+            .Include(e => e.Municipio) // Carga explicita de la propiedad Municipio
+            .Include(e => e.DirectorTecnico) // Carga explicita de la propiedad DirectorTecnico
+            .Where(e => e.Nombre.Contains(nombre))
+            .ToList();
         }
 
        /* public IEnumerable<Equipo> GetEquiposPartido(int idEquipo)

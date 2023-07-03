@@ -24,7 +24,8 @@
 </form>
 <form method="post">
     <div class="input-group mb-3">
-    <input asp-for="@Model.BusquedaActual" name="nombre" class="form-control">
+    <input asp-for="@Model.BusquedaActual" name="nombre" class="form-control" minlength="0" maxlength="20" pattern="[A-Za-z]+\' '"
+    placeholder="Ingrese el nombre de un equipo"  title="Solo Letras. Tamaño máximo: 20">
     <button class="btn btn-outline-secondary" asp-page-handler="Buscar">
         Buscar
     </button>
@@ -46,11 +47,12 @@
     <tbody>
         @foreach(var equipo in Model.equipos)
         {
-            <tr>
-                <td>@equipo.Id</td>
-                <td>@equipo.Nombre</td>
-                <td>@equipo.Municipio.Nombre</td>
+            <tr>                
+                <td>@equipo.Id</td>                
+                <td>@equipo.Nombre</td>                
+                <td>@equipo.Municipio.Nombre</td>                
                 <td>@equipo.DirectorTecnico.Nombre</td>
+                
                 <td>
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@equipo.Id">
                         Detalle
@@ -58,7 +60,8 @@
                     <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@equipo.Id">
                         Editar
                     </a>
-                    @if (equipo.Jugadores.Count == 0 && equipo.PartidosLocal.Count == 0 && equipo.PartidosVisitante.Count == 0)
+                    @if (equipo != null && equipo.Jugadores != null && equipo.PartidosLocal != null && equipo.PartidosVisitante != null && 
+                    equipo.Jugadores.Count == 0 && equipo.PartidosLocal.Count == 0 && equipo.PartidosVisitante.Count == 0)
                     {                
                         <form method="post" class="d-inline">
                             <button asp-page-handler="Delete" asp-route-id="@equipo.Id"
@@ -67,7 +70,7 @@
                             Delete
                             </button>
                         </form>
-                    }                    
+                    }                   
                 </td>
             </tr>
         }

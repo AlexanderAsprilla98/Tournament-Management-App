@@ -21,12 +21,10 @@ namespace Torneo.App.Frontend.Pages.Equipos
             _repoMunicipio = repoMunicipio;
         }
 
-
       /*  public bool PartidoEncontrado(Equipo id){
                 _repoEquipo.PartidoEncontrado(id);
         }
         */
-
 
         public void OnGet()
         {

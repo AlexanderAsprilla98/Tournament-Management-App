@@ -70,6 +70,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             {
                 _repoEquipo.DeleteEquipo(id);
                 equipos = _repoEquipo.GetAllEquipos();
+                MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
                 return Page();
             }
             catch (Exception ex)

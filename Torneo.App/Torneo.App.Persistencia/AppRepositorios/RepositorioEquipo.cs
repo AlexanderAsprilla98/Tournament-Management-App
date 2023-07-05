@@ -73,6 +73,9 @@ namespace Torneo.App.Persistencia
             .Where(e => e.Municipio == municipioEncontrado)
             .Include(e => e.Municipio)
             .Include(e => e.DirectorTecnico)
+            .Include(e => e.Jugadores) // Carga explicita
+            .Include(e => e.PartidosLocal)       // Carga explicita                   
+            .Include(e => e.PartidosVisitante) // Carga explicita
             .ToList();
             return equipos;
         }
@@ -81,6 +84,9 @@ namespace Torneo.App.Persistencia
             return _dataContext.Equipos
             .Include(e => e.Municipio) // Carga explicita de la propiedad Municipio
             .Include(e => e.DirectorTecnico) // Carga explicita de la propiedad DirectorTecnico
+            .Include(e => e.Jugadores) // Carga explicita
+            .Include(e => e.PartidosLocal)       // Carga explicita                   
+            .Include(e => e.PartidosVisitante) // Carga explicita
             .Where(e => e.Nombre.Contains(nombre))
             .ToList();
         }

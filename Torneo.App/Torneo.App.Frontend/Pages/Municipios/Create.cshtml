@@ -6,10 +6,10 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="municipio.Nombre"></label>
-        <input asp-for="municipio.Nombre" minlength="1"  maxlength="30" required  pattern="[A-Za-z]+\' '" class="form-control"
-        title="Obligatorio. Solo Letras. Tamaño máximo: 30">
+        <input asp-for="municipio.Nombre" id="NombreMunicipioCrear" minlength="1"  maxlength="30" required  pattern="[A-Za-z\s]*" class="form-control"
+        title="Campo Obligatorio. Solo letras."/>
         <span class="text-danger" asp-validation-for="municipio.Nombre"></span>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Crear municipio</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnMunicipioCrear">Crear municipio</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

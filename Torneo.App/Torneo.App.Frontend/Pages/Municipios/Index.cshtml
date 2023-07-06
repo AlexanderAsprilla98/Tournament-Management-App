@@ -41,10 +41,17 @@
                             <button asp-page-handler="Delete" asp-route-id="@municipio.Id"
                             onclick="return confirm('Esta seguro de eliminar el municipio?')"
                             class="btn btn-danger">
-                            Delete
+                            Eliminar
                             </button>
                         </form>
                     }
+                     else
+                    {                        
+                            <button asp-page-handler="Delete" 
+                            class="btn btn-outline-danger" disabled >
+                            Eliminar
+                            </button>                       
+                    }  
                 </td>
             </tr>
         }

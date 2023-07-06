@@ -10,21 +10,22 @@
     </div>
     <div class="form-group">
         <label asp-for="jugador.Nombre"></label>
-        <input asp-for="jugador.Nombre" minlength="1" maxlength="30" class="form-control">
+        <input asp-for="jugador.Nombre" id="NombreJugadorEditar" required maxlength="30" class="form-control" pattern="[A-Za-z\s]*"
+        title="Campo Obligatorio. Solo letras">
     </div>
         <div class="form-group">
         <label asp-for="jugador.Numero"></label>
-        <input asp-for="jugador.Numero"  type="number" min="1" max="99" pattern="^[0-9]+" class="form-control">
+        <input asp-for="jugador.Numero" class="form-control" id="NumeroJugadorEditar" required type="number" min="1" max="99" pattern="^[0-9]*">
     </div>
     <div class="form-group">
-        <label asp-for="EquipoSelected"></label>
-        <select asp-for="EquipoSelected" asp-items="@Model.EquipoOptions" name="idEquipo" class="form-control"></select>
+        <label asp-for="EquipoSelected">Seleccione un equipo</label>
+        <select asp-for="EquipoSelected" asp-items="@Model.EquipoOptions" name="idEquipo" class="form-control"  id="EquipoJugadorEditar" required></select>
     </div>
     <div class="form-group">
-        <label asp-for="PosicionSelected"></label>
-        <select asp-for="PosicionSelected" asp-items="@Model.PosicionOptions" name="idPosicion" class="form-control"></select>
+        <label asp-for="PosicionSelected">Seleccione una Posicion</label>
+        <select asp-for="PosicionSelected" asp-items="@Model.PosicionOptions" name="idPosicion" class="form-control" id="PosicionJugadorEditar" required></select>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Editar jugador</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnJugadorEditar">Editar jugador</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>
 

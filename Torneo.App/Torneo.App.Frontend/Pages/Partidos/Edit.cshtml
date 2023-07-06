@@ -9,25 +9,29 @@
         <input asp-for="partido.Id" class="form-control" readonly/>
     </div>
     <div class="form-group">
-        <label asp-for="partido.FechaHora"></label>
-        <input asp-for="partido.FechaHora" class="form-control" />
+        <label asp-for="partido.FechaHora">Fecha y hora</label>
+        <input asp-for="partido.FechaHora" class="form-control" id="FechaPartidoEditar" required/>
     </div>
     <div class="form-group">
-        <label asp-for="EquipoLocalSelected"></label>
-        <select asp-for="EquipoLocalSelected" asp-items="@Model.equipoOptions" name="idEquipoLocal" class="form-control"></select>  
+        <label asp-for="EquipoLocalSelected">Equipo Local</label>
+        <select asp-for="EquipoLocalSelected" asp-items="@Model.equipoOptions" name="idEquipoLocal" class="form-control"
+        id="EquipoLocalPartidoEditar" required></select>  
     </div>
     <div class="form-group">
-        <label asp-for="EquipoVisitanteSelected"></label>
-        <select asp-for="EquipoVisitanteSelected" asp-items="@Model.equipoOptions" name="idEquipoVisitante" class="form-control"></select>   
+        <label asp-for="EquipoVisitanteSelected">Equipo Visitante</label>
+        <select asp-for="EquipoVisitanteSelected" asp-items="@Model.equipoOptions" name="idEquipoVisitante" class="form-control"
+        id="EquipoVisitantePartidoEditar" required></select>   
     </div>
     <div class="form-group">
-        <label asp-for="partido.MarcadorLocal"></label>
-        <input asp-for="partido.MarcadorLocal" class="form-control" type="number" min="0" max="100" pattern="^[0-9]+"/>
+        <label asp-for="partido.MarcadorLocal">Marcador Local</label>
+        <input asp-for="partido.MarcadorLocal" class="form-control" id="MarcadorPartidoEditar" required 
+        type="number" min="0" max="20" pattern="^[0-9]+" class="form-control"/>
     </div>
     <div class="form-group">
-        <label asp-for="partido.MarcadorVisitante"></label>
-        <input asp-for="partido.MarcadorVisitante" class="form-control" type="number" min="0" max="100" pattern="^[0-9]+"/>
+        <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
+        <input asp-for="partido.MarcadorVisitante" class="form-control" id="MarcadorVisitantePartidoEditar"
+         required type="number" min="0" max="20" pattern="^[0-9]+"/>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Editar equipo</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnPartidoEditar">Editar equipo</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

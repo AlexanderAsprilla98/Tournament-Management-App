@@ -6,15 +6,16 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="jugador.Nombre"></label>
-        <input asp-for="jugador.Nombre" minlength="1" maxlength="30" required class="form-control">
+        <input asp-for="jugador.Nombre" id="NombreJugadorCrear" required maxlength="30" class="form-control" pattern="[A-Za-z\s]*"
+        title="Campo Obligatorio. Solo letras">
     </div>
     <div class="form-group">
         <label asp-for="jugador.Numero"></label>
-        <input asp-for="jugador.Numero" required  type="number" min="1" max="99" pattern="^[0-9]+" class="form-control">
+        <input asp-for="jugador.Numero" class="form-control" id="NumeroJugadorCrear" required value="1" type="number" min="1" max="99" pattern="^[0-9]*">
     </div>
     <div class="form-group">
         <label for="idEquipo">Seleccione un equipo</label>
-        <select id="idEquipo" name="idEquipo" class="form-control" required>
+        <select id="EquipoJugadorCrear" name="idEquipo" class="form-control" required>
             <!--option value="">Seleccione un equipo</option-->
             @foreach (var equipo in Model.equipos)
             {
@@ -24,13 +25,13 @@
     </div>
     <div class="form-group">
         <label for="idPosicion">Seleccione una Posicion</label>
-        <select id="idPosicion" name="idPosicion" class="form-control" required>
+        <select id="PosicionJugadorCrear" name="idPosicion" class="form-control" required>
             @foreach (var posicion in Model.posiciones)
             {
                 <option value="@posicion.Id">@posicion.Nombre</option>
             }
         </select>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Crear jugador</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnJugadorCrear">Crear jugador</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

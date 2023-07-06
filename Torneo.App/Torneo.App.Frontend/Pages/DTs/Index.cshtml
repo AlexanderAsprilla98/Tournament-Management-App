@@ -5,7 +5,7 @@
 @if (Model.ErrorEliminar)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Ocurrio un error</strong> No se pudo eliminar el Equipo.
+        <strong>Ocurrio un error</strong> No se pudo eliminar el director tecnico.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
@@ -45,10 +45,17 @@
                             <button asp-page-handler="Delete" asp-route-id="@directorTecnico.Id"
                             onclick="return confirm('Esta seguro de eliminar el Director Tecnico?')"
                             class="btn btn-danger">
-                            Delete
+                            Eliminar
                             </button>
                         </form>
                     }
+                     else
+                    {                        
+                            <button asp-page-handler="Delete" 
+                            class="btn btn-outline-danger" disabled >
+                            Eliminar
+                            </button>                       
+                    }  
                 </td>
             </tr>
         }

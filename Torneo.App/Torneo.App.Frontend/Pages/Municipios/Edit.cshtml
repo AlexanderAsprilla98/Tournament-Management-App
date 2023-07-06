@@ -10,9 +10,9 @@
     </div>
     <div class="form-group">
         <label asp-for="municipio.Nombre"></label>
-        <input asp-for="municipio.Nombre" type="text" class="form-control" minlength="1" maxlength="30" pattern="[A-Za-z]+\' '"
-        title="Solo Letras. Tamaño máximo: 40">
+        <input asp-for="municipio.Nombre" id="NombreMunicipioEditar" minlength="1"  maxlength="30" required  pattern="[A-Za-z\s]*" class="form-control"
+        title="Campo Obligatorio. Solo letras."/>
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Editar municipio</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnMunicipioEditar">Editar municipio</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

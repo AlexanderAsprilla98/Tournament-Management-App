@@ -21,6 +21,9 @@ namespace Torneo.App.Persistencia
                             .Include(p => p.Local)
                             .Include(p => p.Visitante)
                             .ToList();
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();   
                             
             return partidos;
         }

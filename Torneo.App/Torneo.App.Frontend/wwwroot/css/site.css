@@ -23,13 +23,14 @@ body {
   animation: AnimationName 24s ease infinite;
 }
 
+/*
 input:valid{
     background: green;
 }
 
 input:invalid{
     background: red;
-}
+}*/
 
 input#txtBuscadorEquipo{
   background: white

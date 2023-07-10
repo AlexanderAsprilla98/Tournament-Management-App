@@ -39,7 +39,10 @@
     </div>  
 </form>
 <h1>Listado de Equipos de Fútbol
-<a class="btn btn-primary" asp-page="./Create">Crear equipos</a>
+    @if(User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-primary" asp-page="./Create">Crear equipos</a>
+    }
 </h1>
 <table class="table table-dark table-striped">
     <thead class="thead-dark">

@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioJugador : IRepositorioJugador
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private DataContext _dataContext = new DataContext();
         public Jugador AddJugador(Jugador jugador, int idEquipo, int idPosicion)
         {
             var equipoEncontrado = _dataContext.Equipos.Find(idEquipo);
@@ -21,6 +21,10 @@ namespace Torneo.App.Persistencia
                             .Include(j => j.Equipo)
                             .Include(j => j.Posicion)
                             .ToList();
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();   
+            
             return jugadores;
         }
 

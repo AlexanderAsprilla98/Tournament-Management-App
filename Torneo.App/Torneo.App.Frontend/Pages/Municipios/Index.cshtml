@@ -36,23 +36,43 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@municipio.Id">
                         Detalle
                     </a>
-                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
-                        Editar
-                    </a>
-                    @if (municipio.Equipos.Count == 0)
+                    <!-- Si el usuario esta autenticado tiene autorizacion a editar -->
+                    @if(User.Identity.IsAuthenticated)
                     {
-                        <form method="post" class="d-inline">
-                            <button asp-page-handler="Delete" asp-route-id="@municipio.Id"
-                            onclick="return confirm('Esta seguro de eliminar el municipio?')"
-                            class="btn btn-danger">
+                        <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@municipio.Id">
+                            Editar
+                        </a>
+                    }
+                    else{
+                        <a class="btn btn-outline-secondary disabled" asp-route-id="@municipio.Id" asp-page="./Edit">
+                            Editar
+                        </a>
+                    }
+                    <!-- Si el usuario esta autenticado tiene autorizacion a eliminar -->    
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        @if (municipio.Equipos.Count == 0)
+                        {
+                            <form method="post" class="d-inline">
+                                <button asp-page-handler="Delete" asp-route-id="@municipio.Id"
+                                onclick="return confirm('Esta seguro de eliminar el municipio?')"
+                                class="btn btn-danger">
+                                Eliminar
+                                </button>
+                            </form>
+                        }
+                        else
+                        {                        
+                            <button 
+                            class="btn btn-outline-danger" disabled>
                             Eliminar
-                            </button>
-                        </form>
+                            </button>                       
+                        }  
                     }
                      else
                     {                        
-                            <button asp-page-handler="Delete" 
-                            class="btn btn-outline-danger" disabled >
+                            <button 
+                            class="btn btn-outline-danger" disabled>
                             Eliminar
                             </button>                       
                     }  

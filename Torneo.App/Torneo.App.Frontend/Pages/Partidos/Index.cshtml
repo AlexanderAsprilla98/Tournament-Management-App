@@ -43,16 +43,31 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@partido.Id">
                         Detalle
                     </a>
-                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@partido.Id">
-                        Editar
-                    </a>
-                    <form method="post" class="d-inline">
-                        <button asp-page-handler="Delete" asp-route-id="@partido.Id"
-                            onclick="return confirm('Esta seguro de eliminar el Partido?')"
-                            class="btn btn-danger">
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@partido.Id">
+                            Editar
+                        </a>
+                    
+                        <form method="post" class="d-inline">
+                            <button asp-page-handler="Delete" asp-route-id="@partido.Id"
+                                onclick="return confirm('Esta seguro de eliminar el Partido?')"
+                                class="btn btn-danger">
+                                Eliminar
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                         <a class="btn btn-outline-secondary disabled">
+                            Editar
+                        </a>
+
+                        <button 
+                            class="btn btn-outline-danger" disabled>
                             Eliminar
-                        </button>
-                    </form>                    
+                        </button>  
+                    }                    
                 </td>
             </tr>
         }

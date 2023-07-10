@@ -67,27 +67,47 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@equipo.Id">
                         Detalle
                     </a>
-                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@equipo.Id">
-                        Editar
-                    </a>
-                    @if (equipo != null && equipo.Jugadores != null && equipo.PartidosLocal != null && equipo.PartidosVisitante != null && 
-                    equipo.Jugadores.Count == 0 && equipo.PartidosLocal.Count == 0 && equipo.PartidosVisitante.Count == 0) 
-                    {                
-                        <form method="post" class="d-inline">
-                            <button asp-page-handler="Delete" asp-route-id="@equipo.Id"
-                            onclick="return confirm('Esta seguro de eliminar el equipo?')"
-                            class="btn btn-danger">
-                            Eliminar
-                            </button>
-                        </form>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@equipo.Id">
+                            Editar
+                        </a>
                     }
                     else
-                    {                        
-                            <button asp-page-handler="Delete" 
-                            class="btn btn-outline-danger" disabled >
-                            Eliminar
-                            </button>                       
-                    }                                 
+                    {
+                        <a class="btn btn-outline-secondary disabled">
+                            Editar
+                        </a>
+                    }
+                    
+
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        @if (equipo != null && equipo.Jugadores != null && equipo.PartidosLocal != null && equipo.PartidosVisitante != null && 
+                        equipo.Jugadores.Count == 0 && equipo.PartidosLocal.Count == 0 && equipo.PartidosVisitante.Count == 0) 
+                        {                
+                            <form method="post" class="d-inline">
+                                <button asp-page-handler="Delete" asp-route-id="@equipo.Id"
+                                onclick="return confirm('Esta seguro de eliminar el equipo?')"
+                                class="btn btn-danger">
+                                Eliminar
+                                </button>
+                            </form>
+                        }
+                        else
+                        {                        
+                                <button asp-page-handler="Delete" 
+                                class="btn btn-outline-danger" disabled >
+                                Eliminar
+                                </button>                       
+                        }  
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-danger" disabled>
+                        Eliminar
+                        </button>
+                    }
                 </td>
                 
             </tr>

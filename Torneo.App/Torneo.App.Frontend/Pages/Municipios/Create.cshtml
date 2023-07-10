@@ -8,7 +8,7 @@
     <div class="form-group">
         <label -for="municipio.Nombre"></label>
         <!-- @Html.ValidationMessageFor(model => model.municipio, "", new{ @class = "text-danger" }) -->
-        <input asp-for="municipio.Nombre" id="NombreMunicipioCrear" class="form-control" minlength="1"  maxlength="30" required  pattern="[A-Za-z\s]*" 
+        <input asp-for="municipio.Nombre" id="NombreMunicipioCrear" class="form-control" minlength="1"  maxlength="30" required  pattern="^[a-zA-ZÀ-ÿ \.]*$" 
         title="Campo Obligatorio. Solo letras."/>
         <span class="text-danger" asp-validation-for="municipio.Nombre"></span>
     </div>

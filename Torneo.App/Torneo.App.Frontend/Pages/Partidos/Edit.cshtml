@@ -25,12 +25,12 @@
     <div class="form-group">
         <label asp-for="partido.MarcadorLocal">Marcador Local</label>
         <input asp-for="partido.MarcadorLocal" class="form-control" id="MarcadorPartidoEditar" required 
-        type="number" min="0" max="20" pattern="^[0-9]+" class="form-control"/>
+        type="number" min="0" max="99" pattern="^[0-9]$" class="form-control"/>
     </div>
     <div class="form-group">
         <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
         <input asp-for="partido.MarcadorVisitante" class="form-control" id="MarcadorVisitantePartidoEditar"
-         required type="number" min="0" max="20" pattern="^[0-9]+"/>
+         required type="number" min="0" max="99" pattern="^[0-9]$"/>
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnPartidoEditar">Editar equipo</button>
 </form>

@@ -10,7 +10,7 @@
     </div>
     <div class="form-group">
         <label asp-for="posicion.Nombre"></label>
-        <input asp-for="posicion.Nombre"  class="form-control" id="NombrePosicionEditar" minlength="3" maxlength="20" pattern="[A-Za-z\s]*" required
+        <input asp-for="posicion.Nombre"  class="form-control" id="NombrePosicionEditar" minlength="3" maxlength="20" pattern="^[a-zA-ZÀ-ÿ \.]*$" required
         title="Campo Obligatorio. Solo letras">
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnPosicionEditar">Editar posicion</button>

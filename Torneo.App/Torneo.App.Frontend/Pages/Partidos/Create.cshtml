@@ -6,7 +6,7 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="partido.FechaHora">Fecha y hora</label>
-        <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" value="2023-01-01T17:00:00"
+        <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" 
         title="Campo Obligatorio"/>
     </div>
     <div class="form-group">
@@ -106,6 +106,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     });
 
+    //Capturar Fecha actual y setear en el valor del elemento fecha Partido
+    document.addEventListener("DOMContentLoaded", function () {
+        const fechaPartidoInput = document.getElementById("FechaPartidoCrear");
+
+        // Obtener la fecha y hora actual
+        const fechaActual = new Date();
+        const year = fechaActual.getFullYear();
+        const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+        const day = String(fechaActual.getDate()).padStart(2, '0');
+        const hours = String(fechaActual.getHours()).padStart(2, '0');
+        const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+
+        // Formatear la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
+        const fechaHoraActual = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Establecer el valor del input con la fecha y hora actual
+        fechaPartidoInput.value = fechaHoraActual;
+    });
+
+    /*const fechaPartido = document.getElementById("FechaPartidoCrear");
+    const fechaActual = new Date();
+    let fechaActualCol = fechaActual.toLocaleString("es-CO")
+    fechaPartido.setAttribute(value,fechaActualCol)*/
 
 
 /*document.addEventListener("DOMContentLoaded", function () {

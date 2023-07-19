@@ -12,7 +12,7 @@ using Torneo.App.Persistencia;
 namespace Torneo.App.Persistencia.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230508051610_InitialCreate")]
+    [Migration("20230719052511_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,7 +175,7 @@ namespace Torneo.App.Persistencia.Migrations
             modelBuilder.Entity("Torneo.App.Dominio.Equipo", b =>
                 {
                     b.HasOne("Torneo.App.Dominio.DirectorTecnico", "DirectorTecnico")
-                        .WithMany()
+                        .WithMany("Equipos")
                         .HasForeignKey("DirectorTecnicoId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -200,7 +200,7 @@ namespace Torneo.App.Persistencia.Migrations
                         .IsRequired();
 
                     b.HasOne("Torneo.App.Dominio.Posicion", "Posicion")
-                        .WithMany()
+                        .WithMany("Jugadores")
                         .HasForeignKey("PosicionId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -213,13 +213,13 @@ namespace Torneo.App.Persistencia.Migrations
             modelBuilder.Entity("Torneo.App.Dominio.Partido", b =>
                 {
                     b.HasOne("Torneo.App.Dominio.Equipo", "Local")
-                        .WithMany()
+                        .WithMany("PartidosLocal")
                         .HasForeignKey("LocalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Torneo.App.Dominio.Equipo", "Visitante")
-                        .WithMany()
+                        .WithMany("PartidosVisitante")
                         .HasForeignKey("VisitanteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -229,14 +229,28 @@ namespace Torneo.App.Persistencia.Migrations
                     b.Navigation("Visitante");
                 });
 
+            modelBuilder.Entity("Torneo.App.Dominio.DirectorTecnico", b =>
+                {
+                    b.Navigation("Equipos");
+                });
+
             modelBuilder.Entity("Torneo.App.Dominio.Equipo", b =>
                 {
                     b.Navigation("Jugadores");
+
+                    b.Navigation("PartidosLocal");
+
+                    b.Navigation("PartidosVisitante");
                 });
 
             modelBuilder.Entity("Torneo.App.Dominio.Municipio", b =>
                 {
                     b.Navigation("Equipos");
+                });
+
+            modelBuilder.Entity("Torneo.App.Dominio.Posicion", b =>
+                {
+                    b.Navigation("Jugadores");
                 });
 #pragma warning restore 612, 618
         }

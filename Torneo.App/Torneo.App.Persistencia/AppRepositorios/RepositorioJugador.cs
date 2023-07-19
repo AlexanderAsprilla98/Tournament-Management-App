@@ -21,15 +21,18 @@ namespace Torneo.App.Persistencia
                             .Include(j => j.Equipo)
                             .Include(j => j.Posicion)
                             .ToList();
-            _dataContext.ChangeTracker.Clear();
-            _dataContext.Dispose();
-            _dataContext = new DataContext();   
+ 
             
             return jugadores;
         }
 
         public Jugador GetJugador(int idJugador){
-            var jugadorEncontrado =_dataContext.Jugadores.Find(idJugador);
+            var jugadorEncontrado =_dataContext.Jugadores
+                                   .Include(j => j.Equipo)
+                                   .Include(j => j.Posicion)
+                                   .FirstOrDefault(j => j.Id == idJugador);
+
+            
             return jugadorEncontrado;
         }
 

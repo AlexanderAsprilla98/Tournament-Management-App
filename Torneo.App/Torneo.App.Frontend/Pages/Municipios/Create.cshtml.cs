@@ -11,6 +11,7 @@ namespace Torneo.App.Frontend.Pages.Municipios
     {
         private readonly IRepositorioMunicipio _repoMunicipio;
         public Municipio municipio { get; set; }
+        public bool duplicate { get; set; }
         public CreateModel(IRepositorioMunicipio repoMunicipio)
         {
             _repoMunicipio = repoMunicipio;
@@ -23,8 +24,19 @@ namespace Torneo.App.Frontend.Pages.Municipios
         {
             // if(ModelState.IsValid)
             // {
-                _repoMunicipio.AddMunicipio(municipio);
-                return RedirectToPage("Index");
+               duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);
+
+                if(!duplicate)
+                {
+                    _repoMunicipio.AddMunicipio(municipio);
+                   return RedirectToPage("Index"); 
+                }
+                else
+                {
+                    return Page();
+                }
+
+                
             // }
             // else
             // {

@@ -48,5 +48,38 @@ namespace Torneo.App.Persistencia
             }
             return municipioEncontrado;
         }
+
+        public bool validateDuplicates(string nombreMunicipio)
+        {
+            try
+            {
+                IEnumerable<Municipio> allMunucipios =  GetAllMunicipios();
+                bool duplicado = false;
+                nombreMunicipio = nombreMunicipio.ToLower().Trim();
+
+
+                foreach(Municipio municipio in allMunucipios)
+                {
+                    if(municipio.Nombre.ToLower()  == nombreMunicipio)   
+                    {
+                        duplicado = true;
+                    }              
+                }               
+                Console.WriteLine("Valor duplicado " + duplicado);
+                return duplicado;
+
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+
+
+            
+        }
+    
+    
     }
+
+
+    
 }

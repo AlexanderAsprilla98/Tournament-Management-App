@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Torneo.App.Dominio;
 using Torneo.App.Persistencia;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Torneo.App.Frontend.Pages.Equipos
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly IRepositorioEquipo _repoEquipo;

@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioJugador : IRepositorioJugador
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private DataContext _dataContext = new DataContext();
         public Jugador AddJugador(Jugador jugador, int idEquipo, int idPosicion)
         {
             var equipoEncontrado = _dataContext.Equipos.Find(idEquipo);
@@ -21,15 +21,23 @@ namespace Torneo.App.Persistencia
                             .Include(j => j.Equipo)
                             .Include(j => j.Posicion)
                             .ToList();
+ 
+            
             return jugadores;
         }
 
         public Jugador GetJugador(int idJugador){
-            var jugadorEncontrado =_dataContext.Jugadores.Find(idJugador);
+            var jugadorEncontrado =_dataContext.Jugadores
+                                   .Include(j => j.Equipo)
+                                   .Include(j => j.Posicion)
+                                   .FirstOrDefault(j => j.Id == idJugador);
+
+            
             return jugadorEncontrado;
         }
 
-        public Jugador UpdateJugador(Jugador jugador, int idEquipo, int idPosicion){
+        public Jugador UpdateJugador(Jugador jugador, int idEquipo, int idPosicion)
+        {
             var jugadorEncontrado = GetJugador(jugador.Id);
             var equipoEncontrado = _dataContext.Equipos.Find(idEquipo);
             var posicionEncontrada= _dataContext.Posiciones.Find(idPosicion);
@@ -41,6 +49,20 @@ namespace Torneo.App.Persistencia
             
             return jugadorEncontrado;
         }
+
+        public Jugador DeleteJugador(int idJugador)
+        {
+            var jugadorEncontrado = _dataContext.Jugadores.Find(idJugador);
+            if (jugadorEncontrado != null)
+            {
+                _dataContext.Jugadores.Remove(jugadorEncontrado);
+                _dataContext.SaveChanges();
+            }
+            return jugadorEncontrado;
+        }
+
+
+
 
     } 
 }

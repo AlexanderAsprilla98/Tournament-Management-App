@@ -14,17 +14,25 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public SelectList MunicipioOptions { get; set; }
         public int MunicipioSelected { get; set; }
         public string BusquedaActual { get; set; }
+        public bool ErrorEliminar { get; set; }
         public IndexModel(IRepositorioEquipo repoEquipo, IRepositorioMunicipio repoMunicipio)
         {
             _repoEquipo = repoEquipo;
             _repoMunicipio = repoMunicipio;
         }
+
+      /*  public bool PartidoEncontrado(Equipo id){
+                _repoEquipo.PartidoEncontrado(id);
+        }
+        */
+
         public void OnGet()
         {
             MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
             equipos = _repoEquipo.GetAllEquipos();
             MunicipioSelected = -1;
             BusquedaActual = "";
+            ErrorEliminar = false;
         }
         public void OnPostFiltro(int idMunicipio)
         {
@@ -55,5 +63,23 @@ namespace Torneo.App.Frontend.Pages.Equipos
                 equipos = _repoEquipo.SearchEquipos(nombre);
             }
         }
+
+        public IActionResult OnPostDelete(int id)
+        {
+            try
+            {
+                _repoEquipo.DeleteEquipo(id);
+                equipos = _repoEquipo.GetAllEquipos();
+                MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+                return Page();
+            }
+            catch (Exception ex)
+            {
+                ErrorEliminar = true;
+                equipos = _repoEquipo.GetAllEquipos();
+                return Page();
+            }
+        }
+
     }
 }

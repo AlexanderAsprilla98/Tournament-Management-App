@@ -2,9 +2,21 @@
 @model Torneo.App.Frontend.Pages.Jugadores.IndexModel
 @{
 }
+@if (Model.ErrorEliminar)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error</strong> No se pudo eliminar el jugador.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 
 <h1>Listado de Jugadores
-    <a class="btn btn-primary" asp-page="./Create">Crear jugador</a>
+    @if(User.Identity.IsAuthenticated)
+    {
+        <a class="btn btn-primary" asp-page="./Create">Crear jugador</a>
+    }
 </h1>
 <table class="table table-dark table-striped">
     <thead class="thead-dark">
@@ -30,9 +42,31 @@
                     <a class="btn btn-primary" asp-page="./Details" asp-route-id="@jugador.Id">
                         Detalle
                     </a>
-                    <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@jugador.Id">
-                        Editar
-                    </a>
+                    @if(User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-secondary" asp-page="./Edit" asp-route-id="@jugador.Id">
+                            Editar
+                        </a>
+                    
+                    <form method="post" class="d-inline">
+                            <button asp-page-handler="Delete" asp-route-id="@jugador.Id"
+                            onclick="return confirm('Esta seguro de eliminar el jugador?')"
+                            class="btn btn-danger">
+                            Eliminar
+                    </button>
+                    </form>
+                    }
+                    else
+                    {
+                         <a class="btn btn-outline-secondary disabled">
+                            Editar
+                        </a>
+
+                        <button 
+                            class="btn btn-outline-danger" disabled>
+                            Eliminar
+                        </button>  
+                    }
                 </td>
             </tr>
         }

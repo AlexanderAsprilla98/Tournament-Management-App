@@ -28,7 +28,7 @@ namespace Torneo.App.Persistencia
             modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            }           
         }
 
 

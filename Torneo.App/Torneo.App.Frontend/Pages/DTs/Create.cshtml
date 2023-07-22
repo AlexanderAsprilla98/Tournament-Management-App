@@ -6,16 +6,20 @@
 <form method="post">
     <div class="form-group">
         <label asp-for="dt.Nombre"></label>
-        <input asp-for="dt.Nombre" required maxlength="20" class="form-control">
+        <input asp-for="dt.Nombre" id="NombreDTCrear" required maxlength="30" class="form-control" pattern="^[a-zA-ZÀ-ÿ ]*$"
+        title="Campo Obligatorio. Solo letras">
     </div>
     <div class="form-group">
         <label asp-for="dt.Documento"></label>
-        <input type="number" asp-for="dt.Documento" required min="1" max="999999999999" class="form-control">
+        (Sin puntos ni espacios)
+        <input asp-for="dt.Documento" id="DocumentoDTCrear" required minlength="8" maxlength="15" class="form-control" pattern="[0-9]*"
+        title="Campo Obligatorio. Solo números">
     </div>
     <div class="form-group">
         <label asp-for="dt.Telefono"></label>
-        <input asp-for="dt.Telefono" required  min="1000000" type="number" max="9999999999"  class="form-control">
+        <input asp-for="dt.Telefono" id="TelefonoDTCrear"  class="form-control" minlength="7" maxlength="12" required pattern="[0-9]*"
+        title="Campo Obligatorio. Solo números">
     </div>
-    <button type="submit" class="btn btn-primary btn-block">Crear director Tecnico</button>
+    <button type="submit" class="btn btn-primary btn-block" id="BtnDTCrear">Crear director Tecnico</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

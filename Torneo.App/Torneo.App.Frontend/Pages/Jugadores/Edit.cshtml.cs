@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Torneo.App.Dominio;
 using Torneo.App.Persistencia;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Torneo.App.Frontend.Pages.Jugadores
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         //Atributos

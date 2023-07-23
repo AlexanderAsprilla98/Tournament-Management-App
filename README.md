@@ -28,7 +28,7 @@ To use the "Torneo.App" application, follow these steps:
 
 1. **Clone the Repository:**
    ```bash
-   git clone <repository_url.git>
+   git clone https://github.com/AlexanderAsprilla98/TorneoFutbol
    ```
 
 2. **Navigate to the Console Application:**

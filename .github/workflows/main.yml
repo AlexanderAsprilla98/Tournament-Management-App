@@ -20,7 +20,7 @@ jobs:
         working-directory: Torneo.App/Torneo.App.Frontend
         run: |
           docker-compose build --env-file .env
-          docker-compose --env-file .env -d up
+          docker-compose --env-file .env up -d 
           docker-compose run --rm torneo-app dotnet test --configuration Release --no-build
         env:
           ASPNETCORE_ENVIRONMENT: Development

@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+  torneo-app:
+    build:
+      context: .
+      dockerfile: Dockerfile-Frontend
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+    ports:
+      - "3000:80"
+    depends_on:
+      - sql-server
+
+  sql-server:
+    build:
+      context: .
+      dockerfile: Dockerfile-Database
+    environment:
+      # Read from enviroment file
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWOR}
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433"
+    volumes:
+      - sql-data:/var/opt/mssql
+
+volumes:
+  sql-data:

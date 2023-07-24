@@ -1,52 +1,82 @@
-name: CI/CD Pipeline
+name: Build and Test
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build-and-test:
-    name: Build and Test
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.0.x'
+      - name: Build and Test Frontend
+        working-directory: Torneo.App.Frontend
+        run: |
+          docker-compose build
+          docker-compose up -d
+          docker-compose run --rm frontend dotnet test --configuration Release --no-build
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:80
 
-    - name: Restore dependencies
-      run: dotnet restore
+      # - name: Build and Test Backend
+      #   working-directory: Torneo.App.Backend
+      #   run: |
+      #     docker-compose build
+      #     docker-compose up -d
+      #     docker-compose run --rm backend dotnet test --configuration Release --no-build
+      #   env:
+      #     ASPNETCORE_ENVIRONMENT: Development
+      #     ASPNETCORE_URLS: http://localhost:80
 
-    - name: Build
-      run: dotnet build --configuration Release
 
-    - name: Test
-      run: dotnet test --configuration Release --no-restore
+      - name: Stop containers
+        run: docker-compose down
 
-  deploy:
-    name: Deploy to Hosting Platform
-    runs-on: ubuntu-latest
+      - name: Upload test results
+        uses: actions/upload-artifact@v2
+        with:
+          name: test-results
+          path: |
+            Torneo.App.Frontend/TestResults
+            # Torneo.App.Backend/TestResults
 
-    needs: build-and-test
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: '5.0.x'
-
-    - name: Publish Application
-      run: dotnet publish --configuration Release --output ./publish
-
-    - name: Deploy to Hosting Platform
-      uses: <deployment-action>  # Replace with the actual action for deploying to your hosting platform
-      with:
-        args: ./publish
+      - name: Upload coverage results
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-results
+          path: |
+            Torneo.App.Frontend/coverage
+            # Torneo.App.Backend/coverage
+      
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: logs
+          path: |
+            Torneo.App.Frontend/logs
+            # Torneo.App.Backend/logs
+      
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: artifacts
+          path: |
+            Torneo.App.Frontend/artifacts
+            # Torneo.App.Backend/artifacts
+      
+      - name: Upload docker-compose logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: docker-compose-logs
+          path: |
+            Torneo.App.Frontend/docker-compose-logs
+            # Torneo.App.Backend/docker-compose-logs
+            

@@ -20,8 +20,8 @@ jobs:
         working-directory: Torneo.App/Torneo.App.Frontend
         run: |
           docker-compose build --env-file .env
-          docker-compose up -d 
-          docker-compose run --rm torneofutbol_torneo-app_1 dotnet test --configuration Release --no-build
+          docker-compose up --env-file .env -d 
+          docker-compose run --rm torneo-app dotnet test --configuration Release --no-build
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:80
@@ -29,7 +29,7 @@ jobs:
       - name: Test database
         working-directory: Torneo.App/Torneo.App.Frontend
         run: |
-          docker-compose run --rm torneofutbol_torneo-app_1 dotnet ef database update --configuration Release --no-build
+          docker-compose run --rm torneo-app dotnet ef database update --configuration Release --no-build
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:80

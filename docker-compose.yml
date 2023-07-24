@@ -42,3 +42,7 @@ services:
       - torneo-network
 volumes:
   sql-data:
+
+networks:
+  torneo-network:
+    driver: bridge

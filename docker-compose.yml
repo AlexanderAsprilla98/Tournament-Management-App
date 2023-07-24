@@ -13,18 +13,32 @@ services:
     depends_on:
       - sql-server
 
+  # Backend Service
+  # torneo-api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-Backend
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #     - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+  #   ports:
+  #     - "5000:80"
+  #   depends_on:
+  #     - sql-server
+
+  # Database Service
   sql-server:
-    build:
-      context: .
-      dockerfile: Dockerfile-Database
+    image: "microsoft/mssql-server-linux:2019-latest"
     environment:
-      # Read from enviroment file
-      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWOR}
-      ACCEPT_EULA: Y
+      SA_PASSWORD: "${MSSQL_SA_PASSWOR}"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+      MSSQL_TCP_PORT: "1433"
     ports:
       - "1433:1433"
     volumes:
-      - sql-data:/var/opt/mssql
-
+      - sql-data:/var/opt/mssql/data
+    networks:
+      - torneo-network
 volumes:
   sql-data:

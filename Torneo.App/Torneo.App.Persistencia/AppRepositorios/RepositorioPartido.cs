@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioPartido : IRepositorioPartido
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Partido AddPartido(Partido partido, int idEquipoLocal, int idEquipoVisitante)
         {
             var equipoLocalEncontrado = _dataContext.Equipos.Find(idEquipoLocal);
@@ -21,6 +21,10 @@ namespace Torneo.App.Persistencia
                             .Include(p => p.Local)
                             .Include(p => p.Visitante)
                             .ToList();
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();   
+                            
             return partidos;
         }
         public Partido GetPartido(int idPartido)
@@ -45,7 +49,33 @@ namespace Torneo.App.Persistencia
                 partidoEncontrado.MarcadorVisitante = partido.MarcadorVisitante;
                 _dataContext.SaveChanges();
             }
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();
             return partidoEncontrado;
         }
+
+        public Partido DeletePartidos(int idPartido)
+        {
+            var partidoEncontrado = GetPartido(idPartido);
+            if (partidoEncontrado != null)
+            {
+                
+                _dataContext.Partidos.Remove(partidoEncontrado);
+                _dataContext.SaveChanges();
+                _dataContext.ChangeTracker.Clear();
+                _dataContext.Dispose();
+                _dataContext = new DataContext();
+                
+                
+            }
+            return partidoEncontrado;
+        }
+        
+
+
+
+
+
     }
 }

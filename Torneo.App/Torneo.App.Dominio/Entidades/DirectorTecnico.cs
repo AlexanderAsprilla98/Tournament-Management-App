@@ -6,6 +6,7 @@ namespace Torneo.App.Dominio
         public string Nombre { get; set; }
         public string Documento { get; set; }
         public string Telefono { get; set; }
+        public List<Equipo> Equipos {get; set;}
 
     }
 }

@@ -4,7 +4,7 @@ namespace Torneo.App.Persistencia
 {
     public class RepositorioEquipo : IRepositorioEquipo
     {
-        private readonly DataContext _dataContext = new DataContext();
+        private  DataContext _dataContext = new DataContext();
         public Equipo AddEquipo(Equipo equipo, int idMunicipio, int idDT)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
@@ -19,8 +19,15 @@ namespace Torneo.App.Persistencia
         {
             var equipos = _dataContext.Equipos
                             .Include(e => e.Municipio)
-                            .Include(e => e.DirectorTecnico)
+                            .Include(e => e.DirectorTecnico)                            
+                            .Include(e => e.Jugadores)
+                            .Include(e => e.PartidosLocal)                         
+                            .Include(e => e.PartidosVisitante)                         
                             .ToList();
+            _dataContext.ChangeTracker.Clear();
+            _dataContext.Dispose();
+            _dataContext = new DataContext();           
+                            
             return equipos;
         }
 
@@ -45,6 +52,20 @@ namespace Torneo.App.Persistencia
             return equipoEncontrado;
         }
 
+        public Equipo DeleteEquipo(int idEquipo)
+        {
+            var equipoEncontrado = GetEquipo(idEquipo);
+            if (equipoEncontrado != null)
+            {
+                
+                _dataContext.Equipos.Remove(equipoEncontrado);
+                _dataContext.SaveChanges();
+                
+                
+            }           
+            return equipoEncontrado;
+        }
+
         public IEnumerable<Equipo> GetEquiposMunicipio(int idMunicipio)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
@@ -52,13 +73,67 @@ namespace Torneo.App.Persistencia
             .Where(e => e.Municipio == municipioEncontrado)
             .Include(e => e.Municipio)
             .Include(e => e.DirectorTecnico)
+            .Include(e => e.Jugadores) // Carga explicita
+            .Include(e => e.PartidosLocal)       // Carga explicita                   
+            .Include(e => e.PartidosVisitante) // Carga explicita
             .ToList();
             return equipos;
         }
         public IEnumerable<Equipo> SearchEquipos(string nombre)
         {
             return _dataContext.Equipos
-            .Where(e => e.Nombre.Contains(nombre));
+            .Include(e => e.Municipio) // Carga explicita de la propiedad Municipio
+            .Include(e => e.DirectorTecnico) // Carga explicita de la propiedad DirectorTecnico
+            .Include(e => e.Jugadores) // Carga explicita
+            .Include(e => e.PartidosLocal)       // Carga explicita                   
+            .Include(e => e.PartidosVisitante) // Carga explicita
+            .Where(e => e.Nombre.Contains(nombre))
+            .ToList();
         }
+
+       /* public IEnumerable<Equipo> GetEquiposPartido(int idEquipo)
+        {
+            var PartidoEncontrado = _dataContext.Partido.Find(idEquipo);
+            var equipos = _dataContext.Equipos
+            .Where(e => e.Partido == PartidoEncontrado)
+            .Include(e => e.Partido)
+            .Include(e => e.Equipo)
+            .ToList();
+            return equipos;
+        }
+        
+
+            public bool PartidoEncontrado(Equipo id)
+            {
+            if(!_dataContext.Partidos.Any(p => p.Local == id || p.Visitante == id))
+                {
+
+                    return false;
+                }
+
+                return true;
+             }
+
+        */
+
+        /*Metodo para limpiar cache(ChatGPT) Pendiente usar y validar
+        Este método debería recibir como parámetro el objeto DataContext
+        que se está utilizando para acceder a la base de datos y realizar las operaciones necesarias para eliminar la caché.
+        */
+        /*public void ClearCache(DataContext context)
+        {
+            var cache = context.ChangeTracker.Entries()
+                                .Where(e => e.State != EntityState.Unchanged)
+                                .ToList();
+
+            foreach (var entry in cache)
+            {
+                entry.State = EntityState.Detached;
+            }
+        }*/
+
+
+
+
     }
 }

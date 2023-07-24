@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Torneo.App.Persistencia;
 using Torneo.App.Dominio;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Torneo.App.Frontend.Pages.Equipos
 {
+    [Authorize]
     public class CreateModel : PageModel
     {
         private readonly IRepositorioEquipo _repoEquipo;

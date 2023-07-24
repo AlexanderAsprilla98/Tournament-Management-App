@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Torneo.App.Dominio;
+using System;
 namespace Torneo.App.Persistencia
 {
     public class DataContext : DbContext
@@ -17,7 +18,11 @@ namespace Torneo.App.Persistencia
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Torneo");
+                // Read the SA_PASSWORD environment variable
+                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWOR");
+
+                // Use the SA_PASSWORD in the connection string
+                optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=SA;Password={saPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 
@@ -28,7 +33,7 @@ namespace Torneo.App.Persistencia
             modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }
+            }           
         }
 
 

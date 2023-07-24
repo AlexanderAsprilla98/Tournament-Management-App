@@ -30,7 +30,7 @@ services:
   sql-server:
     image: "microsoft/mssql-server-linux:2019-latest"
     environment:
-      SA_PASSWORD: "${MSSQL_SA_PASSWOR}"
+      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
       ACCEPT_EULA: "Y"
       MSSQL_PID: "${MSSQL_PID}"
       MSSQL_TCP_PORT: "${MSSQL_TCP_PORT}"

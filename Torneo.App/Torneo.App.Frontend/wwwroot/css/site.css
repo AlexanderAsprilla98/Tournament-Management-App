@@ -15,9 +15,6 @@ html {
 
 body {
   margin-bottom: 60px;
-}
-
-body {
   background: linear-gradient(268deg, #6874d9, #e46e61, #d98e6b, #8ac880);
   background-size: 800% 800%;
 
@@ -26,12 +23,17 @@ body {
   animation: AnimationName 24s ease infinite;
 }
 
+/*
 input:valid{
     background: green;
 }
 
 input:invalid{
     background: red;
+}*/
+
+input#txtBuscadorEquipo{
+  background: white
 }
 
 @-webkit-keyframes AnimationName {

@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Torneo.App.Dominio;
 using Torneo.App.Persistencia;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Torneo.App.Frontend.Pages.Partidos
 {
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly IRepositorioPartido _repoPartido;

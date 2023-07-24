@@ -28,7 +28,7 @@ services:
 
   # Database Service
   sql-server:
-    image: "microsoft/mssql-server-linux:2019-latest"
+    image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
       ACCEPT_EULA: "Y"

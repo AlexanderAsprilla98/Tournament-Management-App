@@ -19,8 +19,8 @@ jobs:
       - name: Build and Test Frontend
         working-directory: Torneo.App/Torneo.App.Frontend
         run: |
-          docker-compose build
-          docker-compose up -d --env-file .env
+          docker-compose build --env-file .env
+          docker-compose up -d 
           docker-compose run --rm torneofutbol_torneo-app_1 dotnet test --configuration Release --no-build
         env:
           ASPNETCORE_ENVIRONMENT: Development

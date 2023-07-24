@@ -54,18 +54,16 @@ namespace Torneo.App.Persistencia
             try
             {
                 IEnumerable<Municipio> allMunucipios =  GetAllMunicipios();
-                bool duplicado = false;
-                nombreMunicipio = nombreMunicipio.ToLower().Trim();
-
+                bool duplicado = false;                
 
                 foreach(Municipio municipio in allMunucipios)
                 {
-                    if(municipio.Nombre.ToLower()  == nombreMunicipio)   
+                    if(municipio.Nombre.ToLower()  == nombreMunicipio.ToLower().Trim())   
                     {
                         duplicado = true;
                     }              
                 }               
-                Console.WriteLine("Valor duplicado " + duplicado);
+                Console.WriteLine("Municipio duplicado al Crear/Editar " + nombreMunicipio  +" - "+ duplicado);
                 return duplicado;
 
             }catch(Exception e){

@@ -2,6 +2,15 @@
 @model Torneo.App.Frontend.Pages.Municipios.EditModel
 @{
 }
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al Editar</strong> - El Municipio ya existe en base de datos.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}
 <h1>Editar municipio</h1>
 <form method="post">
     <div class="form-group">

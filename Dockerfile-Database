@@ -3,13 +3,13 @@ FROM mcr.microsoft.com/mssql/server:2019-latest
 
 # Set environment variables for SQL Server
 # 1. MSSQL_PID is the Product ID (PID) or Edition that the container will run with.
-ENV MSSQL_PID=Developer
+ENV MSSQL_PID=env.MSSQL_PID
 
 # 2. MSSQL_SA_PASSWORD is the SQL Server system administrator (SA) password used to connect to SQL Server once the container is running.
 ENV MSSQL_SA_PASSWORD=env.MSSQL_SA_PASSWOR
 
 # 3. MSSQL_TCP_PORT is the TCP port the container will listen on at runtime.
-ENV MSSQL_TCP_PORT=1433
+ENV MSSQL_TCP_PORT=env.MSSQL_TCP_PORT
 
 # 4. MSSQL_DATA_DIR is the directory path inside the container where SQL Server will store data files.
 ENV MSSQL_DATA_DIR=/var/opt/mssql/data

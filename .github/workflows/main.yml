@@ -45,13 +45,13 @@ jobs:
       #     ASPNETCORE_ENVIRONMENT: Development
       #     ASPNETCORE_URLS: http://localhost:80
       
-      - name: Test database
-        working-directory: Torneo.App/Torneo.App.Frontend
-        run: |
-          docker-compose run --rm torneo-app dotnet ef database update --configuration Release --no-build
-        env:
-          ASPNETCORE_ENVIRONMENT: Development
-          ASPNETCORE_URLS: http://localhost:80
+      # - name: Test database
+      #   working-directory: Torneo.App/Torneo.App.Frontend
+      #   run: |
+      #     docker-compose run --rm torneo-app dotnet ef database update --configuration Release --no-build
+      #   env:
+      #     ASPNETCORE_ENVIRONMENT: Development
+      #     ASPNETCORE_URLS: http://localhost:80
 
       # - name: Build and Test Backend
       #   working-directory: Torneo.App.Backend

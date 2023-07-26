@@ -21,10 +21,17 @@ jobs:
           cat .env | sed 's/^/export /' > .env_export
           source .env_export
         
-      - name: Build and Test Frontend
+      - name: Build Frontend
         working-directory: .
         run: |
           docker-compose -f "docker-compose.yml" up -d --build
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:80
+
+      - name: Test Frontend
+        working-directory: .
+        run: |
           docker-compose run --rm torneo-app dotnet test --configuration Release --no-build
         env:
           ASPNETCORE_ENVIRONMENT: Development

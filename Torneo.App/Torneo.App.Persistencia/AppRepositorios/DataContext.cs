@@ -19,10 +19,10 @@ namespace Torneo.App.Persistencia
             if (!optionsBuilder.IsConfigured)
             {
                 // Read the SA_PASSWORD environment variable
-                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWOR");
+                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
 
                 // Use the SA_PASSWORD in the connection string
-                optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=SA;Password={saPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=sa;Password={saPassword};MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             }
         }
 

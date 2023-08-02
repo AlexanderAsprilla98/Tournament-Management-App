@@ -12,12 +12,16 @@ sleep 10s
 # Add EF Core tools to the path
 export PATH="${PATH}:/root/.dotnet/tools"
 
+# Build the project
 dotnet build -c Release -o out Torneo.App.Persistencia/Torneo.App.Persistencia.csproj 
+
+# Create database migrations
 dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj migrations add InitialCreate
 
 # Apply database migrations
 dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj database update
 
+# Apply database migrations
 dotnet ef --project Torneo.App.Frontend/Torneo.App.Frontend.csproj database update
 
 # Start the main application

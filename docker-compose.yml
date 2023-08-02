@@ -19,6 +19,7 @@ services:
     networks:
       - torneo-network
   
+  # Frontend Service
   torneo-app:
     build:
       context: .

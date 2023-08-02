@@ -6,34 +6,29 @@ WORKDIR /app
 
 # Copy the project files and restore dependencies
 # Copy the remaining project files and build the application
-COPY Torneo.App/ .
-
-RUN dotnet restore
-
-RUN dotnet publish Torneo.App.Frontend/Torneo.App.Frontend.csproj -c Release -o out
+COPY Torneo.App/Torneo.App.Frontend/ ./Torneo.App.Frontend/
+COPY Torneo.App/Torneo.App.Dominio/ ./Torneo.App.Dominio/
+COPY Torneo.App/Torneo.App.Persistencia/ ./Torneo.App.Persistencia/
 
 # Set the ASPNETCORE_URLS environment variable to configure the port that Kestrel listens to
-ENV ASPNETCORE_URLS=http://*:80
+ENV ASPNETCORE_URLS=http://*:5000
 
 RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
 
-# RUN dotnet ef database update --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj 
-#--startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj
+# RUN dotnet add package Microsoft.EntityFrameworkCore && \
+#     dotnet add package Microsoft.EntityFrameworkCore.Tools && \
+#     dotnet add package Microsoft.EntityFrameworkCore.Design && \
+#     dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
-# Use the official ASP.NET Core runtime image as a base image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0 AS runtime
-
-WORKDIR /app
-
-COPY --from=build-env /app/out .
-# COPY --from=build-env /app/Torneo.App.Persistencia /app/Torneo.App.Persistencia
+RUN dotnet add Torneo.App.Frontend/Torneo.App.Frontend.csproj reference Torneo.App.Dominio/Torneo.App.Dominio.csproj
+RUN dotnet add Torneo.App.Frontend/Torneo.App.Frontend.csproj reference Torneo.App.Persistencia/Torneo.App.Persistencia.csproj
+RUN dotnet publish Torneo.App.Frontend/Torneo.App.Frontend.csproj -c Release -o out
 
 # Expose the port used by the ASP.NET Core application
-EXPOSE 80
+EXPOSE 5000
 
 # Start the ASP.NET Core application when the container starts
-# ENTRYPOINT ["dotnet", "ef", "database", "update", "--project", "Torneo.App.Persistencia/Torneo.App.Persistencia.csproj", "--startup-project", "Torneo.App.Frontend/Torneo.App.Frontend.csproj"]
-# COPY entrypoint.sh entrypoint.sh
-# RUN chmod +x entrypoint.sh
-# ENTRYPOINT [ "./entrypoint.sh" ]
-ENTRYPOINT ["dotnet", "Torneo.App.Frontend.dll"]
+COPY entrypoint.sh entrypoint.sh
+RUN chmod +x entrypoint.sh
+ENTRYPOINT [ "./entrypoint.sh" ]

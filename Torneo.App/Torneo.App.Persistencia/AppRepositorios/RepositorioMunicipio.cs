@@ -26,7 +26,7 @@ namespace Torneo.App.Persistencia
         public Municipio GetMunicipio(int idMunicipio)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
-            return municipioEncontrado;
+            return municipioEncontrado == null ? null : municipioEncontrado;
         }
         public Municipio UpdateMunicipio(Municipio municipio)
         {
@@ -35,8 +35,11 @@ namespace Torneo.App.Persistencia
             {
                 municipioEncontrado.Nombre = municipio.Nombre;
                 _dataContext.SaveChanges();
+            } else
+            {
+                Console.WriteLine("No se encontró el municipio");
             }
-            return municipioEncontrado;
+            return municipioEncontrado ?? throw new Exception("Municipio not found");  // Throw an exception if municipioEncontrado is null.
         }
         public Municipio DeleteMunicipio(int idMunicipio)
         {
@@ -45,8 +48,11 @@ namespace Torneo.App.Persistencia
             {
                 _dataContext.Municipios.Remove(municipioEncontrado);
                 _dataContext.SaveChanges();
+            } else
+            {
+                Console.WriteLine("No se encontró el municipio");
             }
-            return municipioEncontrado;
+            return municipioEncontrado ?? throw new Exception("Municipio not found");  // Throw an exception if municipioEncontrado is null.
         }
 
         public bool validateDuplicates(string nombreMunicipio)

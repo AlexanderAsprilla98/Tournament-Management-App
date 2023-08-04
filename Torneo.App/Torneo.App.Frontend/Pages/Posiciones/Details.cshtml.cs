@@ -8,7 +8,7 @@ namespace Torneo.App.Frontend.Pages.Posiciones
     public class DetailsModel : PageModel
     {
         private readonly IRepositorioPosicion _repoPosicion;
-        public Posicion posicion { get; set; }
+        public Posicion posicion { get; set; } = new Posicion();
         public DetailsModel(IRepositorioPosicion repoPosicion)
         {
             _repoPosicion = repoPosicion;

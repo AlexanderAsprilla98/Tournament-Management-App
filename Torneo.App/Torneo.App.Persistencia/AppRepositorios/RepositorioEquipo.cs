@@ -9,8 +9,8 @@ namespace Torneo.App.Persistencia
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
             var DTEncontrado = _dataContext.DirectoresTecnicos.Find(idDT);
-            equipo.Municipio = municipioEncontrado;
-            equipo.DirectorTecnico = DTEncontrado;
+            equipo.Municipio = municipioEncontrado == null ? null : municipioEncontrado;
+            equipo.DirectorTecnico = DTEncontrado == null ? null : DTEncontrado;
             var equipoInsertado = _dataContext.Equipos.Add(equipo);
             _dataContext.SaveChanges();
             return equipoInsertado.Entity;
@@ -37,7 +37,7 @@ namespace Torneo.App.Persistencia
                             .Include(e => e.Municipio)
                             .Include(e => e.DirectorTecnico)
                             .FirstOrDefault(e => e.Id == idEquipo);
-            return equipo;
+            return equipo ?? throw new Exception("Equipo not found");  // Throw an exception if equipo is null.
         }
 
         public Equipo UpdateEquipo(Equipo equipo, int idMunicipio, int idDT)
@@ -46,8 +46,8 @@ namespace Torneo.App.Persistencia
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
             var DTEncontrado = _dataContext.DirectoresTecnicos.Find(idDT);
             equipoEncontrado.Nombre = equipo.Nombre;
-            equipoEncontrado.Municipio = municipioEncontrado;
-            equipoEncontrado.DirectorTecnico = DTEncontrado;
+            equipoEncontrado.Municipio = municipioEncontrado == null ? null : municipioEncontrado;
+            equipoEncontrado.DirectorTecnico = DTEncontrado == null ? null : DTEncontrado;
             _dataContext.SaveChanges();
             return equipoEncontrado;
         }
@@ -62,21 +62,24 @@ namespace Torneo.App.Persistencia
                 _dataContext.SaveChanges();
                 
                 
+            } else
+            {
+                Console.WriteLine("No se encontró el equipo");
             }           
-            return equipoEncontrado;
+            return equipoEncontrado ?? throw new Exception("Equipo not found");  // Throw an exception if equipoEncontrado is null.
         }
 
         public IEnumerable<Equipo> GetEquiposMunicipio(int idMunicipio)
         {
             var municipioEncontrado = _dataContext.Municipios.Find(idMunicipio);
             var equipos = _dataContext.Equipos
-            .Where(e => e.Municipio == municipioEncontrado)
-            .Include(e => e.Municipio)
-            .Include(e => e.DirectorTecnico)
-            .Include(e => e.Jugadores) // Carga explicita
-            .Include(e => e.PartidosLocal)       // Carga explicita                   
-            .Include(e => e.PartidosVisitante) // Carga explicita
-            .ToList();
+                        .Where(e => e.Municipio == municipioEncontrado)
+                        .Include(e => e.Municipio)
+                        .Include(e => e.DirectorTecnico)
+                        .Include(e => e.Jugadores) // Carga explicita
+                        .Include(e => e.PartidosLocal)       // Carga explicita                   
+                        .Include(e => e.PartidosVisitante) // Carga explicita
+                        .ToList();
             return equipos;
         }
         public IEnumerable<Equipo> SearchEquipos(string nombre)
@@ -132,8 +135,27 @@ namespace Torneo.App.Persistencia
             }
         }*/
 
+        public bool validateDuplicates(Equipo equipo, int idMunicipio, int idDT)
+        {
+            try
+            {
+                IEnumerable<Equipo> allEquipos =  GetAllEquipos();
+                bool duplicado = false;                
 
+                foreach(Equipo e in allEquipos)
+                {
+                    if(e.Nombre.ToLower()  == equipo.Nombre.ToLower().Trim() && e.Municipio == equipo.Municipio && e.DirectorTecnico == equipo.DirectorTecnico)   
+                    {
+                        duplicado = true;
+                    }              
+                }               
+                Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
+                return duplicado;
 
-
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+        }
     }
 }

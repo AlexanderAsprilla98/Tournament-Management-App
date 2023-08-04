@@ -8,7 +8,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
     public class DetailsModel : PageModel
     {
         private readonly IRepositorioPartido _repoPartido;
-        public Partido partido {get; set;}
+        public Partido partido {get; set;} = new Partido();
         public DetailsModel(IRepositorioPartido repoPartido)
         {
             _repoPartido = repoPartido;

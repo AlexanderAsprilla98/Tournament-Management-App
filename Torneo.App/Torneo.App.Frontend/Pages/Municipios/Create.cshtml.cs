@@ -10,7 +10,7 @@ namespace Torneo.App.Frontend.Pages.Municipios
     public class CreateModel : PageModel
     {
         private readonly IRepositorioMunicipio _repoMunicipio;
-        public Municipio municipio { get; set; }
+        public Municipio municipio { get; set; } = new Municipio();
         public bool duplicate { get; set; }
         public CreateModel(IRepositorioMunicipio repoMunicipio)
         {

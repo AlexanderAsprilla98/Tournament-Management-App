@@ -15,8 +15,8 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         {
             _repoPosicion = repoPosicion;
         }
-
-        public Posicion posicion { get; set; }
+        public bool duplicate { get; set; }
+        public Posicion posicion { get; set; } = new Posicion();
 
         public void OnGet()
         {
@@ -24,9 +24,16 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         }
 
         public IActionResult OnPost(Posicion posicion)
-        {
-            _repoPosicion.AddPosicion(posicion);
-            return RedirectToPage("Index");
+        {   
+            duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+            if(!duplicate)
+            {
+                _repoPosicion.AddPosicion(posicion);
+                return RedirectToPage("Index");
+            } else
+            {
+                return Page();
+            }
         }
 
 

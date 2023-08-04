@@ -9,8 +9,8 @@ namespace Torneo.App.Persistencia
         {
             var equipoEncontrado = _dataContext.Equipos.Find(idEquipo);
             var posicionEncontrada = _dataContext.Posiciones.Find(idPosicion);
-            jugador.Equipo = equipoEncontrado;
-            jugador.Posicion = posicionEncontrada;
+            jugador.Equipo = equipoEncontrado == null ? null : equipoEncontrado;
+            jugador.Posicion = posicionEncontrada == null ? null : posicionEncontrada;
             var jugadorInsertado = _dataContext.Jugadores.Add(jugador);
             _dataContext.SaveChanges();
             return jugadorInsertado.Entity;
@@ -43,8 +43,8 @@ namespace Torneo.App.Persistencia
             var posicionEncontrada= _dataContext.Posiciones.Find(idPosicion);
             jugadorEncontrado.Nombre = jugador.Nombre;
             jugadorEncontrado.Numero = jugador.Numero;
-            jugadorEncontrado.Equipo = equipoEncontrado;
-            jugadorEncontrado.Posicion = posicionEncontrada;
+            jugadorEncontrado.Equipo = equipoEncontrado == null ? null : equipoEncontrado;
+            jugadorEncontrado.Posicion = posicionEncontrada == null ? null : posicionEncontrada;
             _dataContext.SaveChanges();
             
             return jugadorEncontrado;
@@ -57,12 +57,33 @@ namespace Torneo.App.Persistencia
             {
                 _dataContext.Jugadores.Remove(jugadorEncontrado);
                 _dataContext.SaveChanges();
+            } else {
+                Console.WriteLine("No se encontró el Jugador");
             }
-            return jugadorEncontrado;
+            return jugadorEncontrado ?? throw new Exception("Jugador not found");  // Throw an exception if dtEncontrado is null.
         }
 
+        public bool validateDuplicates(Jugador jugador, int idEquipo, int idPosicion)
+        {
+            try
+            {
+                IEnumerable<Jugador> allJugadores =  GetAllJugadores();
+                bool duplicado = false;                
 
+                foreach(Jugador j in allJugadores)
+                {
+                    if(j.Nombre.ToLower()  == jugador.Nombre.ToLower().Trim() && j.Numero == jugador.Numero && j.Equipo.Id == idEquipo && j.Posicion.Id == idPosicion)   
+                    {
+                        duplicado = true;
+                    }              
+                }               
+                Console.WriteLine("Jugador duplicado al Crear/Editar " + jugador.Nombre  +" - "+ duplicado);
+                return duplicado;
 
-
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+        }
     } 
 }

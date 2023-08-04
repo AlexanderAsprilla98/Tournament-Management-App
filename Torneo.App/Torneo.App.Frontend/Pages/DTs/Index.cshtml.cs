@@ -31,11 +31,12 @@ namespace Torneo.App.Frontend.Pages.DTs
                 return Page();
             }
             catch (Exception ex)
-            {
+            {   
+                System.Console.WriteLine(ex.Message);
                 ErrorEliminar = true;
                 dts = _repoDT.GetAllDTs();
                 return Page();
-            }
+            }             
         }
 
     }

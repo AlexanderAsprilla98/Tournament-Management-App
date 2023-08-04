@@ -12,9 +12,9 @@ namespace Torneo.App.Frontend.Pages.Partidos
         private readonly IRepositorioPartido _repoPartido;
         private readonly IRepositorioEquipo _repoEquipo;
 
-        public Partido partido { get; set; }
+        public Partido partido { get; set; } = new Partido();
         public IEnumerable<Equipo> equipos { get; set; }
-
+        public bool duplicate { get; set; }
         public CreateModel(IRepositorioPartido repoPartido, IRepositorioEquipo repoEquipo)
         {
             _repoPartido = repoPartido;

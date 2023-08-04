@@ -9,7 +9,7 @@ namespace Torneo.App.Frontend.Pages.DTs
     {
         private readonly IRepositorioDT _repoDT;
 
-        public DirectorTecnico directorTecnico { get; set; }
+        public DirectorTecnico directorTecnico { get; set; } = new DirectorTecnico();
 
         public DetailsModel(IRepositorioDT repoDT)
         {

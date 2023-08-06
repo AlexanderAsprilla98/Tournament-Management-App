@@ -23,6 +23,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
         //Equipo y posicion que tiene asignado el jugador para que aparescan como seleccionados en los selects
         public int EquipoSelected { get; set; }
         public int PosicionSelected { get; set; }
+        public bool duplicate { get; set; }
         
 
         //Instanciar en el constructor _repoEquipo, _repoMunicipio, _repoDT
@@ -55,8 +56,16 @@ namespace Torneo.App.Frontend.Pages.Jugadores
 
         public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
         {
-            _repoJugador.UpdateJugador(jugador, idEquipo, idPosicion);
-            return RedirectToPage("Index");
+            duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
+            if (!duplicate)
+            {
+                _repoJugador.UpdateJugador(jugador, idEquipo, idPosicion);
+                return RedirectToPage("Index");
+            }
+            else
+            {
+                return Page();
+            }
         }
     }
 }

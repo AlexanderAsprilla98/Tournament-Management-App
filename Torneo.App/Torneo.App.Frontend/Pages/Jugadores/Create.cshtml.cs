@@ -34,7 +34,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
         public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
         {
             duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
-            if (ModelState.IsValid && !duplicate)
+            if (!duplicate)
             {
                 _repoJugador.AddJugador(jugador, idEquipo, idPosicion);
                 return RedirectToPage("Index");

@@ -36,4 +36,4 @@ EXPOSE 5000
 # Start the ASP.NET Core application when the database is loaded
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
-ENTRYPOINT [ "./entrypoint.sh" ]
+ENTRYPOINT ["bash", "entrypoint.sh"]

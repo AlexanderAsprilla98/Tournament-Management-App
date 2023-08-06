@@ -14,7 +14,7 @@ services:
     hostname: sql-server
     container_name: sql-server
     volumes:
-      - sql-data:/var/opt/mssql/data
+      - ./sql-data:/var/opt/mssql/data
       - ./init-script.sql:/docker-entrypoint-initdb.d/init-script.sql
     networks:
       - torneo-network

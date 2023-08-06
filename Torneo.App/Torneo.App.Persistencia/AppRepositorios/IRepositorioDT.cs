@@ -8,6 +8,6 @@ namespace Torneo.App.Persistencia
         public DirectorTecnico GetDT(int Id);
         public DirectorTecnico UpdateDT(DirectorTecnico directorTecnico);
         public DirectorTecnico DeleteDT(int idDT);
-        public bool validateDuplicates(string nombreDirectorTecnico, string documentoDirectorTecnico);
+        public bool validateDuplicates(DirectorTecnico dtIngresado);
     }
 }

@@ -11,6 +11,7 @@ namespace Torneo.App.Frontend.Pages.Dts
     {
         private readonly IRepositorioDT _repoDT;
         public DirectorTecnico DT { get; set; }
+         public bool duplicate { get; set; }   
         public EditModel(IRepositorioDT repoDT)
         {
             _repoDT = repoDT;
@@ -31,8 +32,21 @@ namespace Torneo.App.Frontend.Pages.Dts
         }
         public IActionResult OnPost(DirectorTecnico DT)
         {
-            _repoDT.UpdateDT(DT);
-            return RedirectToPage("Index");
+            //Validar duplicados por nombre
+            duplicate =  _repoDT.validateDuplicates(DT);                                     
+            
+            //Validacion si se edita pero el nombre queda igual            
+            if(!duplicate)
+            {                    
+                _repoDT.UpdateDT(DT);
+                return RedirectToPage("Index");
+            }
+            else
+            {
+                Console.WriteLine("Document DT ingresado ya existe - " +DT.Documento);
+                return Page();
+                
+            }         
         }
     }
 }

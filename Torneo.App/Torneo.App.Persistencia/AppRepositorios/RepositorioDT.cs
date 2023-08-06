@@ -61,6 +61,41 @@ namespace Torneo.App.Persistencia
             return dtEncontrado ?? throw new Exception("DT not found");  // Throw an exception if dtEncontrado is null.
         }
 
+        public bool validateDuplicates(DirectorTecnico dtIngresado)
+        {
+            try
+            {
+                IEnumerable<DirectorTecnico> allDT =  GetAllDTs();
+                bool duplicado = false;                
+
+                foreach(DirectorTecnico directoresTecnicos in allDT)
+                {     
+                    //Validacion si el documento ingresado ya existe en BD              
+                    if(directoresTecnicos.Documento  == dtIngresado.Documento.Trim())   
+                    {
+                        //Validacion para no marcarlo como duplicado si se edita otro campo del DT
+                        if(directoresTecnicos.Id == dtIngresado.Id)
+                        {
+                            duplicado = false;
+                        }
+                        else
+                        {
+                            duplicado = true;
+                        }                      
+                        
+                    }              
+                }               
+                Console.WriteLine("Documento del DT duplicado al Crear/Editar Nombre:" +dtIngresado.Nombre+" Documento: "+dtIngresado.Documento+"- "+ duplicado);
+
+                return duplicado;
+
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion duplicado " + e.Message);
+                return false;
+            }            
+        }
+
+
 
         /*Metodo para limpiar cache
         Este método debería recibir como parámetro el objeto DataContext
@@ -76,7 +111,7 @@ namespace Torneo.App.Persistencia
             {
                 entry.State = EntityState.Detached;
             }
-        }*/
+        }
 
         public bool validateDuplicates(string nombreDirectorTecnico, string documentoDirectorTecnico)
         {
@@ -99,6 +134,8 @@ namespace Torneo.App.Persistencia
                 Console.WriteLine("Error Validacion " + e.Message);
                 return false;
             }
-        }
+        }*/
+
+
     }
 }

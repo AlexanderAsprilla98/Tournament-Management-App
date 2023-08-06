@@ -23,17 +23,17 @@ namespace Torneo.App.Frontend.Pages.DTs
         }
         public IActionResult OnPost(DirectorTecnico dt)
         {
-            duplicate =  _repoDT.validateDuplicates(dt.Nombre, dt.Documento);
+            duplicate =  _repoDT.validateDuplicates(dt);
 
-                if(!duplicate)
-                {
-                    _repoDT.AddDT(dt);
-                    return RedirectToPage("Index"); 
-                }
-                else
-                {
-                    return Page();
-                }
+            if(!duplicate)
+            {
+            _repoDT.AddDT(dt);
+            return RedirectToPage("Index");
+            }
+            else
+            {
+                return Page();
+            }
         }
     }
 }

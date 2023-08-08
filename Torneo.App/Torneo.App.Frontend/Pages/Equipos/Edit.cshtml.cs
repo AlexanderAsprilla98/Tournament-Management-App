@@ -34,6 +34,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             MunicipioSelected = equipo.Municipio.Id;
             DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
             DTSelected = equipo.DirectorTecnico.Id;
+            duplicate = false;
             if (equipo == null)
             {
                 return NotFound();
@@ -44,7 +45,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             }
         }
 
-        public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT)
+        public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT, int id)
         {
             duplicate = _repoEquipo.validateDuplicates(equipo, idMunicipio, idDT);
             if (!duplicate)
@@ -54,6 +55,12 @@ namespace Torneo.App.Frontend.Pages.Equipos
             }
             else
             {
+                //Cargar municipios y Dts
+                equipo = _repoEquipo.GetEquipo(id);
+                MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+                MunicipioSelected = equipo.Municipio.Id;
+                DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
+                DTSelected = equipo.DirectorTecnico.Id;
                 return Page();
             }
         }

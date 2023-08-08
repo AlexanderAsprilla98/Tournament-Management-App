@@ -80,6 +80,35 @@ namespace Torneo.App.Persistencia
         }
 
 
+         public bool validateDuplicates(Partido partido, int idEquipoLocal, int idEquipoVisitante)
+        {
+            try
+            {
+                IEnumerable<Partido> allPartidos =  GetAllPartidos();
+                bool duplicado = false; 
+                               
+                
+                foreach(Partido p in allPartidos)
+                {                    
+                    if((p.Local.Id == idEquipoLocal) && (p.Visitante.Id == idEquipoVisitante) && (p.FechaHora == partido.FechaHora))
+                    {                   
+                        duplicado = true;
+                    }
+                    else if((p.Local.Id == idEquipoVisitante) && (p.Visitante.Id == idEquipoLocal) && (p.FechaHora == partido.FechaHora))
+                    {                   
+                        duplicado = true;
+                    }
+                    
+                           
+                }               
+                Console.WriteLine("Partido duplicado al Crear/Editar " + partido.Local  +" - "+ duplicado);
+                return duplicado;
+
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+        }
 
 
 

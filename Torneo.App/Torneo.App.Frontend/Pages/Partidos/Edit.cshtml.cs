@@ -16,6 +16,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
         public SelectList equipoOptions { get; set; }
         public int EquipoLocalSelected { get; set; }
         public int EquipoVisitanteSelected { get; set; }
+         public bool duplicate { get; set; }
         public EditModel(IRepositorioPartido repoPartido, IRepositorioEquipo repoEquipo)
         {
             _repoPartido = repoPartido;
@@ -27,6 +28,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
             equipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
             EquipoLocalSelected = partido.Local.Id;
             EquipoVisitanteSelected = partido.Visitante.Id;
+            duplicate = false;
             if (partido == null)
             {
                 return NotFound();
@@ -36,10 +38,31 @@ namespace Torneo.App.Frontend.Pages.Partidos
                 return Page();
             }
         }
-        public IActionResult OnPost(Partido partido, int idEquipoLocal, int idEquipoVisitante)
+        public IActionResult OnPost(Partido partido, int idEquipoLocal, int idEquipoVisitante,int id)
         {
+            //Validar duplicados de partidos por EquipoLocal, EquipoVisitante y fechaHora exacta
+            duplicate =  _repoPartido.validateDuplicates(partido, idEquipoLocal, idEquipoVisitante);
+
+            //Condicion para crear Parditos si no existen duplicados en BD
+            if(!duplicate)
+            {
             _repoPartido.UpdatePartido(partido, idEquipoLocal, idEquipoVisitante);
             return RedirectToPage("Index");
+            }
+
+            //Si partido ya exite retornar a la misma Page
+            else
+            {
+                //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
+                partido = _repoPartido.GetPartido(id);
+                equipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
+                EquipoLocalSelected = partido.Local.Id;
+                EquipoVisitanteSelected = partido.Visitante.Id;
+            
+                return Page();
+            }
+
+            
         }
     }
 }

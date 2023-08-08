@@ -37,7 +37,8 @@ namespace Torneo.App.Persistencia
                             .Include(e => e.Municipio)
                             .Include(e => e.DirectorTecnico)
                             .FirstOrDefault(e => e.Id == idEquipo);
-            return equipo ?? throw new Exception("Equipo not found");  // Throw an exception if equipo is null.
+            return equipo;
+            //return equipo ?? throw new Exception("Equipo not found");  // Throw an exception if equipo is null.
         }
 
         public Equipo UpdateEquipo(Equipo equipo, int idMunicipio, int idDT)
@@ -65,8 +66,9 @@ namespace Torneo.App.Persistencia
             } else
             {
                 Console.WriteLine("No se encontró el equipo");
-            }           
-            return equipoEncontrado ?? throw new Exception("Equipo not found");  // Throw an exception if equipoEncontrado is null.
+            } 
+            return equipoEncontrado;          
+            //return equipoEncontrado ?? throw new Exception("Equipo not found");  // Throw an exception if equipoEncontrado is null.
         }
 
         public IEnumerable<Equipo> GetEquiposMunicipio(int idMunicipio)
@@ -140,14 +142,18 @@ namespace Torneo.App.Persistencia
             try
             {
                 IEnumerable<Equipo> allEquipos =  GetAllEquipos();
-                bool duplicado = false;                
+                bool duplicado = false; 
+                               
 
                 foreach(Equipo e in allEquipos)
                 {
-                    if(e.Nombre.ToLower()  == equipo.Nombre.ToLower().Trim() && e.Municipio == equipo.Municipio && e.DirectorTecnico == equipo.DirectorTecnico)   
-                    {
+                
+                    if(e.Nombre.ToLower() == equipo.Nombre.ToLower().Trim())
+                    {                   
                         duplicado = true;
-                    }              
+                    }
+                    
+                           
                 }               
                 Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
                 return duplicado;

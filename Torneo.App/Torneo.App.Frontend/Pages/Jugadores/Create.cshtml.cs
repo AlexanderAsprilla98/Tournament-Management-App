@@ -29,10 +29,12 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             jugador = new Jugador();
             equipos = _repoEquipo.GetAllEquipos();
             posiciones = _repoPosicion.GetAllPosiciones();
+            duplicate = false;
         }
 
         public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
         {
+            //validar si existe un duplicado con el mismo, nombre, numero y posicione en el mismo equipo
             duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
             if (!duplicate)
             {
@@ -41,6 +43,10 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             }
             else
             {
+                //Cargar entidades refenciadas como la lista de equipos y posiciones si existen duplicados
+                 jugador = new Jugador();
+                equipos = _repoEquipo.GetAllEquipos();
+                 posiciones = _repoPosicion.GetAllPosiciones();
                 return Page();
             }
         }

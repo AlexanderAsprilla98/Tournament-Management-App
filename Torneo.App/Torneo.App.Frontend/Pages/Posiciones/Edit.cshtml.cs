@@ -23,6 +23,7 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         public IActionResult OnGet(int id)
         {
             posicion = _repoPosicion.GetPosicion(id);
+            duplicate = false;
             if (posicion == null)
             {
                 return NotFound();
@@ -35,6 +36,7 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         public IActionResult OnPost(Posicion posicion)
         {
             duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+            
             if(!duplicate)
             {
                 _repoPosicion.UpdatePosicion(posicion);

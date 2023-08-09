@@ -21,6 +21,7 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         public void OnGet()
         {
             posicion = new Posicion();
+            duplicate = false;
         }
 
         public IActionResult OnPost(Posicion posicion)

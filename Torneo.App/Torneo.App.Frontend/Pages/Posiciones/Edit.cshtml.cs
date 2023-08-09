@@ -17,11 +17,13 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         }
 
         public Posicion posicion { get; set; }
+        public bool duplicate { get; set; }
 
 
         public IActionResult OnGet(int id)
         {
             posicion = _repoPosicion.GetPosicion(id);
+            duplicate = false;
             if (posicion == null)
             {
                 return NotFound();
@@ -33,8 +35,16 @@ namespace Torneo.App.Frontend.Pages.Posiciones
         }
         public IActionResult OnPost(Posicion posicion)
         {
-            _repoPosicion.UpdatePosicion(posicion);
-            return RedirectToPage("Index");
+            duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+            
+            if(!duplicate)
+            {
+                _repoPosicion.UpdatePosicion(posicion);
+                return RedirectToPage("Index");
+            } else
+            {
+                return Page();
+            }
         }
     }
 }

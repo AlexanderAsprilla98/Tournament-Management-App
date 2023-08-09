@@ -18,6 +18,9 @@ namespace Torneo.App.Persistencia
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //DB en local    
+                //optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Torneo");
+
                 // Read the SA_PASSWORD environment variable
                 string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
 

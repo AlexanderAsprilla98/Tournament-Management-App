@@ -10,7 +10,9 @@ namespace Torneo.App.Frontend.Pages.DTs
     public class CreateModel : PageModel
     {
         private readonly IRepositorioDT _repoDT;
-        public DirectorTecnico dt { get; set; }
+        public DirectorTecnico dt { get; set; } = new DirectorTecnico();
+        public bool duplicate { get; set; }
+
         public CreateModel(IRepositorioDT repoDT)
         {
             _repoDT = repoDT;
@@ -21,8 +23,17 @@ namespace Torneo.App.Frontend.Pages.DTs
         }
         public IActionResult OnPost(DirectorTecnico dt)
         {
+            duplicate =  _repoDT.validateDuplicates(dt);
+
+            if(!duplicate)
+            {
             _repoDT.AddDT(dt);
             return RedirectToPage("Index");
+            }
+            else
+            {
+                return Page();
+            }
         }
     }
 }

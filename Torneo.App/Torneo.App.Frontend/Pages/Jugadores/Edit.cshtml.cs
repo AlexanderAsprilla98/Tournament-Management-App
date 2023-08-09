@@ -23,6 +23,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
         //Equipo y posicion que tiene asignado el jugador para que aparescan como seleccionados en los selects
         public int EquipoSelected { get; set; }
         public int PosicionSelected { get; set; }
+        public bool duplicate { get; set; }
         
 
         //Instanciar en el constructor _repoEquipo, _repoMunicipio, _repoDT
@@ -53,10 +54,25 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             }
         }
 
-        public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
+        public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion,int id)
         {
-            _repoJugador.UpdateJugador(jugador, idEquipo, idPosicion);
-            return RedirectToPage("Index");
+            //validar si existe un duplicado con el mismo, nombre, numero y posicione en el mismo equipo
+            duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
+            if (!duplicate)
+            {
+                _repoJugador.UpdateJugador(jugador, idEquipo, idPosicion);
+                return RedirectToPage("Index");
+            }
+            else
+            {
+                //Cargar entidades refenciadas como la lista de equipos, posiciones y las opciones guardadas del jugador si existen duplicados
+                jugador = _repoJugador.GetJugador(id);
+                EquipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
+                EquipoSelected = jugador.Equipo.Id;
+                PosicionOptions = new SelectList(_repoPosicion.GetAllPosiciones(), "Id", "Nombre");
+                PosicionSelected = jugador.Posicion.Id;
+                return Page();
+            }
         }
     }
 }

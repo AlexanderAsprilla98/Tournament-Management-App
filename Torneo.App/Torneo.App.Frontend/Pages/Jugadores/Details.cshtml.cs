@@ -11,7 +11,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
     {   
         //Atributo de IRepositorioJugador
         private readonly IRepositorioJugador _repoJugador;
-        public Jugador jugador { get; set; }
+        public Jugador jugador { get; set; } = new Jugador();
 
 
         //Contrucctor

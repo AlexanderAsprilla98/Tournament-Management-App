@@ -9,8 +9,8 @@ namespace Torneo.App.Dominio
         //[Required(ErrorMessage = "Este campo es obligatorio")]
         //[MaxLength(100, ErrorMessage = "El campo no puede tener más de 50 caracteres")]
         //[MinLength(3, ErrorMessage = "El campo no puede tener menos de 3 caracteres")]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } = new string("");
 
-        public List<Equipo> Equipos { get; set; }
+        public List<Equipo> Equipos { get; set; } = new List<Equipo>();
     }
 }

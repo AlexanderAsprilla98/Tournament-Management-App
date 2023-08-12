@@ -13,6 +13,7 @@ namespace Torneo.App.Dominio
         [MinLength(3, ErrorMessage = "El campo Nombre no puede tener menos de 3 caracteres.")]
         public string Nombre { get; set; } = null!;
 
-        public List<Equipo> Equipos { get; set; } = new List<Equipo>();
+        //Relacion de navegacion 0 a muchos(un municipio puede tener 0 o varios equipos, pero un equipo pertenece a un único municipio)
+        public ICollection<Equipo> Equipos { get; set; } = new List<Equipo>();
     }
 }

@@ -22,26 +22,36 @@ namespace Torneo.App.Frontend.Pages.Municipios
         }
         public IActionResult OnPost(Municipio municipio)
         {
-            // if(ModelState.IsValid)
-            // {
-               duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);
+            try
+            {
+                //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
+                if(ModelState.IsValid)
+                { 
+                    duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);
 
-                if(!duplicate)
-                {
-                    _repoMunicipio.AddMunicipio(municipio);
-                   return RedirectToPage("Index"); 
-                }
+                    if(!duplicate)
+                    {
+                        
+                        _repoMunicipio.AddMunicipio(municipio);
+                        return RedirectToPage("Index"); 
+                    }
+                    else
+                    {
+                        return Page();
+                    }                                      
+
+                }          
+          
                 else
                 {
                     return Page();
                 }
 
-                
-            // }
-            // else
-            // {
-            //     return Page();
-            // }
+            }
+            catch
+            {
+                return  Page();
+            }
         }
     }
 }

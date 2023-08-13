@@ -21,8 +21,28 @@ namespace Torneo.App.Frontend.Pages.DTs
         }
         public IActionResult OnPost(DirectorTecnico dt)
         {
-            _repoDT.AddDT(dt);
-            return RedirectToPage("Index");
+            try
+            {
+                dt.Nombre =  dt.Nombre.Trim();
+                Console.WriteLine(dt.Nombre);
+                //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
+                if(ModelState.IsValid)
+                { 
+                    Console.WriteLine("DTs es valido");
+                    _repoDT.AddDT(dt);
+                     return RedirectToPage("Index");
+
+                }
+                else
+                {
+                    return Page();
+                }
+
+            }catch
+            {
+                return  Page();
+            }            
+            
         }
     }
 }

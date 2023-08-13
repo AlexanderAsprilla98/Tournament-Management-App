@@ -31,8 +31,24 @@ namespace Torneo.App.Frontend.Pages.Dts
         }
         public IActionResult OnPost(DirectorTecnico DT)
         {
-            _repoDT.UpdateDT(DT);
-            return RedirectToPage("Index");
+            try
+            {
+                if(ModelState.IsValid)
+                { 
+                    Console.WriteLine("DTs es valido");
+                    _repoDT.UpdateDT(DT);
+                    return RedirectToPage("Index");
+
+                }
+                else
+                {
+                    return Page();
+                }
+
+            }catch
+            {
+                return NotFound();
+            }        
         }
     }
 }

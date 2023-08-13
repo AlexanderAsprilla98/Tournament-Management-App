@@ -18,11 +18,15 @@ namespace Torneo.App.Persistencia
         {
             if (!optionsBuilder.IsConfigured)
             {
+                //Conexion en local    
+                optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Torneo");
+
+                //Conexion BD en docket(Se comenta para trabajar en local)
                 // Read the SA_PASSWORD environment variable
-                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+                //string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
 
                 // Use the SA_PASSWORD in the connection string
-                optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Database=Torneo;User ID=sa;Password={saPassword};TrustServerCertificate=True;Connection Timeout=5;Initial Catalog=Torneo;Encrypt=False");
+                //optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Database=Torneo;User ID=sa;Password={saPassword};TrustServerCertificate=True;Connection Timeout=5;Initial Catalog=Torneo;Encrypt=False");
             }
         }
 
@@ -33,7 +37,12 @@ namespace Torneo.App.Persistencia
             modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }           
+            }
+
+           /* modelBuilder.Entity<Municipio>()
+                .HasIndex(x => x.Nombre)
+                .IsUnique()*/
+                
         }
 
 

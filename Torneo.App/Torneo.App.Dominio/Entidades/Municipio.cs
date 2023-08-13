@@ -7,9 +7,12 @@ namespace Torneo.App.Dominio
     {
         public int Id { get; set; }
 
-        [Display(Name = "Nombre del municipio.")]
-        [Required(ErrorMessage = "El campo Nombre es obligatorio.")]
-        [MaxLength(50, ErrorMessage = "El campo Nombre no puede tener más de 50 caracteres.")]
+        //[RegularExpression("^[a-zA-ZÀ-ÿ\.]+$", ErrorMessage = "Solo se permiten números")]
+        [RegularExpression(@"^(?!^\s)(?!.*\s$)[a-zA-ZÀ-ÿ\s\.]+$", ErrorMessage = "Solo se permiten letras")]
+        [Display(Name = "Nombre del municipio")]
+        [Required(AllowEmptyStrings=false, ErrorMessage = "El campo Nombre del municipio es obligatorio.")]       
+        [DisplayFormat(ConvertEmptyStringToNull=false)]
+        [MaxLength(80, ErrorMessage = "El campo Nombre no puede tener más de 50 caracteres.")]
         [MinLength(3, ErrorMessage = "El campo Nombre no puede tener menos de 3 caracteres.")]
         public string Nombre { get; set; } = null!;
 

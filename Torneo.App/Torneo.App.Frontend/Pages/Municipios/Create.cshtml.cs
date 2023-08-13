@@ -24,6 +24,8 @@ namespace Torneo.App.Frontend.Pages.Municipios
         {
             try
             {
+                municipio.Nombre =  municipio.Nombre.Trim();
+                Console.WriteLine(municipio.Nombre);
                 //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
                 if(ModelState.IsValid)
                 { 

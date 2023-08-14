@@ -30,7 +30,7 @@ namespace Torneo.App.Frontend.Pages.DTs
                 { 
                     Console.WriteLine("DTs es valido");
                     _repoDT.AddDT(dt);
-                     return RedirectToPage("Index");
+                    return RedirectToPage("Index");
 
                 }
                 else
@@ -40,7 +40,7 @@ namespace Torneo.App.Frontend.Pages.DTs
 
             }catch
             {
-                return  Page();
+                return NotFound();
             }            
             
         }

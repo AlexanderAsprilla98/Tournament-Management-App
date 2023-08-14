@@ -24,9 +24,9 @@ namespace Torneo.App.Dominio
         [MinLength(7, ErrorMessage = "El nombre no puede contener menos de 7 caracteres")]       
         public string Documento { get; set; }
 
-        [RegularExpression(@"^[0-9-()+\s]{7,15}$", ErrorMessage = "Valor Incorrecto. Ingrese solo letras")]
+        [RegularExpression(@"^(?!^(\d)\1+$)[\d()+\s\-]{7,12}$", ErrorMessage = "Valor Incorrecto. Ingrese solo numeros. No se permite repetir el mismo numero")]
         [Display(Name = "Telefono del D.T.")]
-        [Required(AllowEmptyStrings=false, ErrorMessage = "El nombre del D.T es obligatorio.")]        
+        [Required(ErrorMessage = "El nombre del D.T es obligatorio.")]        
         [MaxLength(12, ErrorMessage = "El teléfono no puede contener más de 12 caracteres")]
         [MinLength(7, ErrorMessage = "El teléfono no puede contener menos de 7 caracteres")]    
         [Phone]           

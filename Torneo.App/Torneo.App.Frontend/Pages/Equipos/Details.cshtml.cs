@@ -8,7 +8,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
     public class DetailsModel : PageModel
     {
         private readonly IRepositorioEquipo _repoEquipo;
-        public Equipo equipo { get; set; }
+        public Equipo equipo { get; set; } = new Equipo();
         public DetailsModel(IRepositorioEquipo repoEquipo)
         {
             _repoEquipo = repoEquipo;

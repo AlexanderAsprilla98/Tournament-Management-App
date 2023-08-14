@@ -2,6 +2,15 @@
 @model Torneo.App.Frontend.Pages.DTs.CreateModel
 @{
 }
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear</strong> El documento del director técnico ya existe en la base de datos.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
 <h1>Nuevo Director Tecnico</h1>
 @Html.ValidationSummary()
 <form method="post">

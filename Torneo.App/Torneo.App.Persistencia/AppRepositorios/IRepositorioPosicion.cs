@@ -8,5 +8,6 @@ namespace Torneo.App.Persistencia
         public Posicion GetPosicion(int idPosicion);
         public Posicion UpdatePosicion(Posicion posicion);
         public Posicion DeletePosicion(int idPosicion);
+        public bool validateDuplicates(string nombrePosicion);
     }
 }

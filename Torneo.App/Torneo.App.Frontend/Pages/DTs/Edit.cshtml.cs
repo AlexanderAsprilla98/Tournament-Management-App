@@ -11,6 +11,7 @@ namespace Torneo.App.Frontend.Pages.Dts
     {
         private readonly IRepositorioDT _repoDT;
         public DirectorTecnico DT { get; set; }
+         public bool duplicate { get; set; }   
         public EditModel(IRepositorioDT repoDT)
         {
             _repoDT = repoDT;

@@ -40,21 +40,62 @@ namespace Torneo.App.Persistencia
                 dtEncontrado.Documento = dt.Documento;
                 dtEncontrado.Telefono = dt.Telefono;
                 _dataContext.SaveChanges();
+            } else
+            {
+                Console.WriteLine("No se encontró el DT");
             }
-            return dtEncontrado;
+            return dtEncontrado ?? throw new Exception("DT not found");  // Throw an exception if dtEncontrado is null.
         }
-         public DirectorTecnico DeleteDT(int idDT)
+        public DirectorTecnico DeleteDT(int idDT)
         {
             var dtEncontrado = GetDT(idDT);
             if (dtEncontrado != null)
             {
-                
                 _dataContext.DirectoresTecnicos.Remove(dtEncontrado);
-                _dataContext.SaveChanges();                
-                
-            }           
-            return dtEncontrado;
+                _dataContext.SaveChanges();
+            }
+            else
+            {
+                Console.WriteLine("No se encontró el DT");
+            }
+            return dtEncontrado ?? throw new Exception("DT not found");  // Throw an exception if dtEncontrado is null.
         }
+
+        public bool validateDuplicates(DirectorTecnico dtIngresado)
+        {
+            try
+            {
+                IEnumerable<DirectorTecnico> allDT =  GetAllDTs();
+                bool duplicado = false;                
+
+                foreach(DirectorTecnico directoresTecnicos in allDT)
+                {     
+                    //Validacion si el documento ingresado ya existe en BD              
+                    if(directoresTecnicos.Documento  == dtIngresado.Documento.Trim())   
+                    {
+                        //Validacion para no marcarlo como duplicado si se edita otro campo del DT
+                        if(directoresTecnicos.Id == dtIngresado.Id)
+                        {
+                            duplicado = false;
+                        }
+                        else
+                        {
+                            duplicado = true;
+                        }                      
+                        
+                    }              
+                }               
+                Console.WriteLine("Documento del DT duplicado al Crear/Editar Nombre:" +dtIngresado.Nombre+" Documento: "+dtIngresado.Documento+"- "+ duplicado);
+
+                return duplicado;
+
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion duplicado " + e.Message);
+                return false;
+            }            
+        }
+
+
 
         /*Metodo para limpiar cache
         Este método debería recibir como parámetro el objeto DataContext
@@ -70,12 +111,30 @@ namespace Torneo.App.Persistencia
             {
                 entry.State = EntityState.Detached;
             }
+        }
+
+        public bool validateDuplicates(string nombreDirectorTecnico, string documentoDirectorTecnico)
+        {
+            try
+            {
+                IEnumerable<DirectorTecnico> allDTs =  GetAllDTs();
+                bool duplicado = false;                
+
+                foreach(DirectorTecnico dt in allDTs)
+                {
+                    if(dt.Nombre.ToLower()  == nombreDirectorTecnico.ToLower().Trim() && dt.Documento == documentoDirectorTecnico)   
+                    {
+                        duplicado = true;
+                    }              
+                }               
+                Console.WriteLine("DT duplicado al Crear/Editar " + nombreDirectorTecnico  +" - "+ duplicado);
+                return duplicado;
+
+            }catch(Exception e){
+                Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
         }*/
-
-
-        
-
-
 
 
     }

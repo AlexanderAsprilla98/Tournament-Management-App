@@ -8,7 +8,7 @@ namespace Torneo.App.Frontend.Pages.Municipios
     public class DetailsModel : PageModel
     {
         private readonly IRepositorioMunicipio _repoMunicipio;
-        public Municipio municipio { get; set; }
+        public Municipio municipio { get; set; } = new Municipio();
         public DetailsModel(IRepositorioMunicipio repoMunicipio)
         {
             _repoMunicipio = repoMunicipio;

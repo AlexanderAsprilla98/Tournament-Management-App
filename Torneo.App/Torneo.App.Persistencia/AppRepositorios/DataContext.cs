@@ -18,11 +18,10 @@ namespace Torneo.App.Persistencia
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //Conexion en local    
+                //DB en local    
                 //optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Torneo");
 
-                //Conexion BD en docket(Se comenta para trabajar en local)
-                Read the SA_PASSWORD environment variable
+                // Read the SA_PASSWORD environment variable
                 string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
 
                 // Use the SA_PASSWORD in the connection string

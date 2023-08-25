@@ -14,7 +14,7 @@ namespace Torneo.App.Dominio
         [DisplayFormat(ConvertEmptyStringToNull=false)]
         [MaxLength(30, ErrorMessage = "El nombre no puede contener más de 30 caracteres")]
         [MinLength(3, ErrorMessage = "El nombre no puede contener menos de 3 caracteres")]
-        public string Nombre { get; set; }
+        public string Nombre { get; set; } 
 
         [RegularExpression(@"^(?!0+$|(\d)\1+$|(\d)(?:\d\1)+$)\d{7,11}$", ErrorMessage = "Valor Incorrecto. Ingrese un documento valido(Solo números sin puntos ni espacios. Min.7 Max. 11.No se permite el mismo número repetido unicamente.)")]
         [Display(Name = "Documento del D.T.")]
@@ -29,9 +29,9 @@ namespace Torneo.App.Dominio
         [Required(AllowEmptyStrings=false, ErrorMessage = "El teléfono del D.T es obligatorio.")]        
         [MaxLength(12, ErrorMessage = "El teléfono no puede contener más de 12 caracteres")]
         [MinLength(7, ErrorMessage = "El teléfono no puede contener menos de 7 caracteres")]    
-        [Phone]           
+        //[Phone]           
         public string Telefono { get; set; }
-        public List<Equipo>? Equipos {get; set;} = new List<Equipo>();
+        public List<Equipo>? Equipos {get; set;} = new List<Equipo>(); 
 
     }
 }

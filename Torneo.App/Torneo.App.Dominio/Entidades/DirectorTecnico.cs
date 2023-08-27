@@ -31,7 +31,7 @@ namespace Torneo.App.Dominio
         [MinLength(7, ErrorMessage = "El teléfono no puede contener menos de 7 caracteres")]    
         //[Phone]           
         public string Telefono { get; set; }
-        public List<Equipo>? Equipos {get; set;} = new List<Equipo>(); 
+        public List<Equipo>? Equipos {get; set;} 
 
     }
 }

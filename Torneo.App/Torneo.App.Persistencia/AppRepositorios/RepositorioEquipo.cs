@@ -137,7 +137,7 @@ namespace Torneo.App.Persistencia
             }
         }*/
 
-        public bool validateDuplicates(Equipo equipo, int idMunicipio, int idDT)
+        public bool validateDuplicates(Equipo equipo)
         {
             try
             {

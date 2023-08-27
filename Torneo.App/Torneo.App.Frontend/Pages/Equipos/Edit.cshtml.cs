@@ -47,7 +47,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
 
         public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT, int id)
         {
-            duplicate = _repoEquipo.validateDuplicates(equipo, idMunicipio, idDT);
+            duplicate = _repoEquipo.validateDuplicates(equipo);
             if (!duplicate)
             {
                 _repoEquipo.UpdateEquipo(equipo, idMunicipio, idDT);

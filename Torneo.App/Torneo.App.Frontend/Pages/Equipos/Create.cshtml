@@ -27,9 +27,9 @@
         <!-- <select id="MunicipioEquipoCrear"  name="idMunicipio" class="form-control" required title="Campo Obligatorio" asp-for="equipo.Municipio"> -->                 
         <!--select id="MunicipioEquipoCrear" name="idMunicipio" class="form-control" asp-items="Model.municipios" asp-for="equipo.Municipio"> -->
         <select id="MunicipioEquipoCrear" name="idMunicipio" class="form-control" asp-for="equipo.Municipio.Id"> 
-            @foreach (var municipio in Model.municipios)
+            @foreach (var municipio in ViewData["Municipios"] as IEnumerable<SelectListItem>)
             {
-               <option value="@municipio.Id" >@municipio.Nombre</option>
+                <option value="@municipio.Value">@municipio.Text</option>
             }                      
         </select>
        <!-- <span class="text-danger" asp-validation-for="equipo.Municipio"></span> -->        
@@ -41,9 +41,9 @@
         <!-- <select id="DTEquipoCrear"  name="idDT" class="form-control" required title="Campo Obligatorio"  asp-for="equipo.DirectorTecnico"> -->        
         <!--select id="DTEquipoCrear"  name="idDT" class="form-control" asp-items="Model.dts" asp-for="equipo.DirectorTecnico">   -->
         <select id="DTEquipoCrear"  name="idDT" class="form-control" asp-for="equipo.DirectorTecnico.Id">
-            @foreach (var dt in Model.dts)
+            @foreach (var dt in ViewData["DTs"] as IEnumerable<SelectListItem>)
             {
-                <option value="@dt.Id">@dt.Nombre</option>
+                <option value="@dt.Value">@dt.Text</option>
             }        
         </select>        
       <!-- <span class="text-danger" asp-validation-for="equipo.DirectorTecnico"></span> -->

@@ -17,6 +17,6 @@ namespace Torneo.App.Dominio
         public string Nombre { get; set; }
 
         //Relacion de navegacion 0 a muchos(un municipio puede tener 0 o varios equipos, pero un equipo pertenece a un único municipio)
-        public List<Equipo>? Equipos { get; set; } 
+        public List<Equipo> Equipos { get; set; } = new List<Equipo>();
     }
 }

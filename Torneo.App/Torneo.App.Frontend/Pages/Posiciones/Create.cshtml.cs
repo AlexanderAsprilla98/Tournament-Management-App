@@ -26,15 +26,44 @@ namespace Torneo.App.Frontend.Pages.Posiciones
 
         public IActionResult OnPost(Posicion posicion)
         {   
-            duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
-            if(!duplicate)
+            
+            try
+            {        
+                posicion.Nombre = posicion.Nombre.Trim();
+                Console.WriteLine("EStoy dentro del try de crear posicion");
+                Console.WriteLine("Posición escogida " + posicion);                       
+
+                if(ModelState.IsValid)
+                {   
+                    Console.WriteLine("Modelo posicion valida");
+
+                    duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+                    if(!duplicate)
+                    {
+                        _repoPosicion.AddPosicion(posicion);
+                        return RedirectToPage("Index");
+                    } else
+                    {
+                        return Page();
+                    }
+
+                }
+                {
+                    //Cargar nuevamente la posicion    
+                    posicion = new Posicion();                   
+                    Console.WriteLine("Modelo posicion no valida");  
+                    return Page();
+                }
+
+
+            }catch(Exception ex)
             {
-                _repoPosicion.AddPosicion(posicion);
-                return RedirectToPage("Index");
-            } else
-            {
-                return Page();
+                //Cargar nuevamente la posicion           
+                posicion = new Posicion();  
+                Console.WriteLine("Catch error: " + ex.Message);  
+                return  Page();
             }
+
         }
 
 

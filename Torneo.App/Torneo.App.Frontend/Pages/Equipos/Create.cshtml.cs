@@ -71,8 +71,8 @@ namespace Torneo.App.Frontend.Pages.Equipos
             try
             { 
                 //this.equipo = equipo;
-                Console.WriteLine("IdMunicipio escogido " + idMunicipio);                 
-                Console.WriteLine("IdDT escogido " + idDT);                                               
+                Console.WriteLine("Crear IdMunicipio escogido " + idMunicipio);                 
+                Console.WriteLine("Crear IdDT escogido " + idDT);                                               
                 equipo.Municipio = _repoMunicipio.GetMunicipio(idMunicipio);
                 equipo.DirectorTecnico = _repoDT.GetDT(idDT);
 
@@ -96,7 +96,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
                 //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
                 if(ModelState.IsValid)
                 { 
-                     Console.WriteLine("Equipo valido "+ equipo.Nombre + " Municipcio equipo "+ equipo.Municipio.Nombre + " Dt equipo " + equipo.DirectorTecnico.Nombre);
+                    Console.WriteLine("Equipo valido "+ equipo.Nombre + " Municipcio equipo "+ equipo.Municipio.Nombre + " Dt equipo " + equipo.DirectorTecnico.Nombre);
               
                     //equipo.Nombre =  equipo.Nombre.Trim();
 
@@ -104,7 +104,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
                     Municipio municipioElegido = _repoMunicipio.GetMunicipio(idMunicipio);
                     DirectorTecnico dtElegido = _repoDT.GetDT(idDT);                   
 
-                     if (municipioElegido == null || dtElegido == null)
+                    if (municipioElegido == null || dtElegido == null)
                     {
                         // Mostrar un mensaje de error o redirigir a otra página
                         return Page();

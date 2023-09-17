@@ -17,7 +17,7 @@ namespace Torneo.App.Dominio
         public string Nombre { get; set; } 
 
         [RegularExpression(@"^(?!0+$|(\d)\1+$|(\d)(?:\d\1)+$)\d{7,11}$", ErrorMessage = "Valor Incorrecto. Ingrese un documento valido(Solo números sin puntos ni espacios. Min.7 Max. 11.No se permite el mismo número repetido unicamente.)")]
-        [Display(Name = "Documento del D.T.")]
+        [Display(Name = "Documento del D.T. (Sin puntos ni espacios)")]
         [Required(AllowEmptyStrings=false, ErrorMessage = "El documento del D.T es obligatorio.")]       
         [DisplayFormat(ConvertEmptyStringToNull=false)]
         [MaxLength(11, ErrorMessage = "El documento no puede contener más de 11 caracteres")]
@@ -25,7 +25,7 @@ namespace Torneo.App.Dominio
         public string Documento { get; set; }
 
         [RegularExpression(@"^(?!^(\d)\1+$)[\d()+\s\-]{7,12}$", ErrorMessage = "Valor Incorrecto. Ingrese un teléfono valido(Minimo 7-Maximo 12 digitos). No se permite repetir el mismo numero")]
-        [Display(Name = "Telefono del D.T.")]
+        [Display(Name = "Teléfono del D.T.")]
         [Required(AllowEmptyStrings=false, ErrorMessage = "El teléfono del D.T es obligatorio.")]        
         [MaxLength(12, ErrorMessage = "El teléfono no puede contener más de 12 caracteres")]
         [MinLength(7, ErrorMessage = "El teléfono no puede contener menos de 7 caracteres")]    

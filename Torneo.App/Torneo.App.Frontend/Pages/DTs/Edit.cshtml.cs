@@ -30,7 +30,7 @@ namespace Torneo.App.Frontend.Pages.Dts
                 return Page();
             }
         }
-        public IActionResult OnPost(DirectorTecnico DT)
+        public IActionResult OnPost(DirectorTecnico DT, int id)
         {
             try
             {
@@ -43,11 +43,15 @@ namespace Torneo.App.Frontend.Pages.Dts
                 }
                 else
                 {
+                    //Cargar datos
+                    DT = _repoDT.GetDT(id);
                     return Page();
                 }
 
             }catch
             {
+                //Cargar datos
+                DT = _repoDT.GetDT(id);
                 return NotFound();
             }        
         }

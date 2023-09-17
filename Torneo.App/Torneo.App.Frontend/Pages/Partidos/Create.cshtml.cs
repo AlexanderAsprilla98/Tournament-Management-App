@@ -47,8 +47,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
         {
             try
             {        
-                Console.WriteLine("EStoy dentro del try de crear equipo"); 
-
+                Console.WriteLine("EStoy dentro del try de crear partidos"); 
                 Console.WriteLine("Equipo local escogido " + EquipoLocalId);                 
                 Console.WriteLine("Equipo visitante escogido " + EquipoVisitanteId);                                               
                 partido.Local = _repoEquipo.GetEquipo(EquipoLocalId);
@@ -80,7 +79,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
                     //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
                     partido = new Partido();
                     equipos = _repoEquipo.GetAllEquipos();   
-                    Console.WriteLine("Modelo equipo no valido");  
+                    Console.WriteLine("Modelo equipo no valido al crear");  
                     return Page();
                 }
 

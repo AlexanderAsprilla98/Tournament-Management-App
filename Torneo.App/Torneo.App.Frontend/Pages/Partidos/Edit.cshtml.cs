@@ -38,28 +38,57 @@ namespace Torneo.App.Frontend.Pages.Partidos
                 return Page();
             }
         }
-        public IActionResult OnPost(Partido partido, int idEquipoLocal, int idEquipoVisitante,int id)
+        public IActionResult OnPost(Partido partido, int idEquipoLocal, int idEquipoVisitante, int id)
         {
-            //Validar duplicados de partidos por EquipoLocal, EquipoVisitante y fechaHora exacta
-            duplicate =  _repoPartido.validateDuplicates(partido, idEquipoLocal, idEquipoVisitante);
-
-            //Condicion para crear Parditos si no existen duplicados en BD
-            if(!duplicate)
+            try
             {
-            _repoPartido.UpdatePartido(partido, idEquipoLocal, idEquipoVisitante);
-            return RedirectToPage("Index");
-            }
+                Console.WriteLine("Estoy dentro del try de editar partidos"); 
+                Console.WriteLine("Equipo local escogido " + idEquipoLocal);                 
+                Console.WriteLine("Equipo visitante escogido " + idEquipoVisitante);                                               
+                partido.Local = _repoEquipo.GetEquipo(idEquipoLocal);
+                partido.Visitante = _repoEquipo.GetEquipo(idEquipoVisitante);
 
-            //Si partido ya exite retornar a la misma Page
-            else
+                if(ModelState.IsValid)
+                    {  
+                    //Validar duplicados de partidos por EquipoLocal, EquipoVisitante y fechaHora exacta
+                    duplicate =  _repoPartido.validateDuplicates(partido, idEquipoLocal, idEquipoVisitante);
+
+                    //Condicion para crear Parditos si no existen duplicados en BD
+                    if(!duplicate)
+                    {
+                    _repoPartido.UpdatePartido(partido, idEquipoLocal, idEquipoVisitante);
+                    return RedirectToPage("Index");
+                    }
+
+                    //Si partido ya exite retornar a la misma Page
+                    else
+                    {
+                        //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
+                        partido = _repoPartido.GetPartido(id);
+                        equipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
+                        EquipoLocalSelected = partido.Local.Id;
+                        EquipoVisitanteSelected = partido.Visitante.Id;                    
+                        return Page();
+                    }
+                }else
+                {
+                    Console.WriteLine("Modelo equipo no valido al editar");  
+                    //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
+                    partido = _repoPartido.GetPartido(id);
+                    equipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
+                    EquipoLocalSelected = partido.Local.Id;
+                    EquipoVisitanteSelected = partido.Visitante.Id;                    
+                    return Page();
+                }
+            }catch(Exception ex)
             {
-                //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
+                Console.WriteLine("Catch error en Editar Partidos: " + ex.Message);  
+               //Cargar nuevamente la lista de los equipos de partidos y Equipos seleccionados
                 partido = _repoPartido.GetPartido(id);
                 equipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");
                 EquipoLocalSelected = partido.Local.Id;
-                EquipoVisitanteSelected = partido.Visitante.Id;
-            
-                return Page();
+                EquipoVisitanteSelected = partido.Visitante.Id;                
+                return  Page();
             }
 
             

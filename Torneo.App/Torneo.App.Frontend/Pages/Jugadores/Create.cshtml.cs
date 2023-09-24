@@ -39,7 +39,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
         {
             try
             {
-                Console.WriteLine("dentro Try de Jugador"); 
+                Console.WriteLine("dentro Try  Create de Jugador"); 
                 //Quitar espacios en blanco al inicio y final
                 jugador.Nombre = jugador.Nombre.Trim();
                 //jugador.Numero =  jugador.Numero.Trim();                
@@ -50,13 +50,12 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                 Console.WriteLine("Id Posicion escogido " + idPosicion); 
 
                 //setear equipo y posicion de jugador 
-                 Equipo equipoIngresado =  _repoEquipo.GetEquipo(idEquipo);
+                Equipo equipoIngresado =  _repoEquipo.GetEquipo(idEquipo);
                 Posicion posicionIngresada =  _repoPosicion.GetPosicion(idPosicion); 
                 jugador.Equipo = _repoEquipo.GetEquipo(idEquipo);                                             
                 jugador.Posicion = _repoPosicion.GetPosicion(idPosicion);                   
                 jugador.Equipo.Nombre  = equipoIngresado.Nombre;
                 jugador.Posicion.Nombre = posicionIngresada.Nombre;
-
 
 
                 Console.WriteLine("Jugador ingresado " + jugador.Nombre);

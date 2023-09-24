@@ -33,17 +33,45 @@ namespace Torneo.App.Frontend.Pages.Posiciones
                 return Page();
             }
         }
-        public IActionResult OnPost(Posicion posicion)
+        public IActionResult OnPost(Posicion posicion,int id)
         {
-            duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
-            
-            if(!duplicate)
+            try
             {
-                _repoPosicion.UpdatePosicion(posicion);
-                return RedirectToPage("Index");
-            } else
+                posicion.Nombre = posicion.Nombre.Trim();
+                Console.WriteLine("EStoy dentro del try de edit posicion");
+                Console.WriteLine("Posición escogida " + posicion);  
+
+                if(ModelState.IsValid)
+                {  
+                    duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+                    
+                    if(!duplicate)
+                    {
+                        _repoPosicion.UpdatePosicion(posicion);
+                        return RedirectToPage("Index");
+                    }else
+                    {
+                        posicion = _repoPosicion.GetPosicion(id);
+                        duplicate = false;
+                        return Page();
+                    }
+                }
+                else        
+                {
+                    //Cargar nuevamente la posicion    
+                    posicion = _repoPosicion.GetPosicion(id);
+                    duplicate = false;                 
+                    Console.WriteLine("Modelo posicion no valida");  
+                    return Page();
+                }
+
+            }catch(Exception ex)
             {
-                return Page();
+                //Cargar nuevamente la posicion           
+                posicion = _repoPosicion.GetPosicion(id);
+                duplicate = false;  
+                Console.WriteLine("Catch error: " + ex.Message);  
+                return  Page();
             }
         }
     }

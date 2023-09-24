@@ -12,6 +12,7 @@
     </div>
 }
 <h1>Editar posicion</h1>
+@Html.ValidationSummary()
 <form method="post">
     <div class="form-group">
         <label asp-for="posicion.Id"></label>
@@ -19,8 +20,9 @@
     </div>
     <div class="form-group">
         <label asp-for="posicion.Nombre"></label>
-        <input asp-for="posicion.Nombre"  class="form-control" id="NombrePosicionEditar" minlength="3" maxlength="20" pattern="^[a-zA-ZÀ-ÿ \.]*$" required
-        title="Campo Obligatorio. Solo letras">
+        <!-- <input asp-for="posicion.Nombre"  class="form-control" id="NombrePosicionEditar" minlength="3" maxlength="20" pattern="^[a-zA-ZÀ-ÿ \.]*$" required  title="Campo Obligatorio. Solo letras"> -->
+        <input asp-for="posicion.Nombre"  class="form-control" id="NombrePosicionEditar">
+        <span class="text-danger" asp-validation-for="posicion.Nombre"></span>
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnPosicionEditar">Editar posicion</button>
 </form>

@@ -44,10 +44,12 @@ namespace Torneo.App.Frontend.Pages.Posiciones
                         return RedirectToPage("Index");
                     } else
                     {
+                        posicion = new Posicion();
                         return Page();
                     }
 
                 }
+                else
                 {
                     //Cargar nuevamente la posicion    
                     posicion = new Posicion();                   

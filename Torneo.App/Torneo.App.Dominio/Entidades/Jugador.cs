@@ -14,6 +14,7 @@ namespace Torneo.App.Dominio
         public string Nombre { get; set; }
 
         [Display(Name = "Número del Jugador")]
+        [RegularExpression(@"^(?!a-zA-Z+$)[0-9]+$", ErrorMessage = "Valor Incorrecto. Solo se permiten numeros")]
         [Required(AllowEmptyStrings=false, ErrorMessage = "El Número del Jugador es obligatorio.")]       
         [DisplayFormat(ConvertEmptyStringToNull=false)]
         [Range(1, 99, ErrorMessage = "El Número del Jugador debe estar en un rango entre 1 y 99")]

@@ -12,16 +12,17 @@
     </div>
 }
 <h1>Nuevo partido</h1>
+@Html.ValidationSummary()
 <form method="post">
     <div class="form-group">
         <label asp-for="partido.FechaHora">Fecha y hora</label>
-        <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" 
-        title="Campo Obligatorio"/>
+        <!-- <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" title="Campo Obligatorio"/> -->
+        <input asp-for="partido.FechaHora" class="form-control" id="FechaPartidoCrear"/>
+        <span class="text-danger" asp-validation-for="partido.FechaHora"></span>
     </div>
     <div class="form-group">
         <label for="EquipoLocalId">Seleccione un Equipo Local</label>
-        <select id="EquipoLocalPartidoCrear" name="EquipoLocalId" required class="form-control"
-        title="Campo Obligatorio">
+        <select id="EquipoLocalPartidoCrear" name="EquipoLocalId" required class="form-control" title="Campo Obligatorio">
             <option value="" selected disabled hidden>Seleccione un equipo</option>
             @foreach (var equipo in Model.equipos)
             {
@@ -31,7 +32,9 @@
     </div>
     <div class="form-group">
         <label asp-for="partido.MarcadorLocal">Marcador Local</label>
-        <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" required type="number" min="0" max="99" pattern="^[0-9]$" class="form-control"/>
+        <!-- <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" type="number" min="0" max="100"  class="form-control"/> -->
+        <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" type="number" class="form-control" min="0" max="99"/>
+        <span class="text-danger" asp-validation-for="partido.MarcadorLocal"></span>
     </div>
     <div class="form-group">
         <label for="EquipoVisitanteId">Seleccione un Equipo Visitante</label>
@@ -47,7 +50,9 @@
     </div>
     <div class="form-group">
         <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
-        <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" required type="number" min="0" max="99" pattern="^[0-9]$"/>
+        <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" type="number" min="0" max="99"/>
+        <!-- <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" required type="number" min="0" max="99" pattern="^[0-9]$"/> -->
+        <span class="text-danger" asp-validation-for="partido.MarcadorVisitante"></span>
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnPartidoCrear">Crear partido</button>
 </form>

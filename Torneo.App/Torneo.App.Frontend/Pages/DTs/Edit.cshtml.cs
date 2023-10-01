@@ -30,23 +30,30 @@ namespace Torneo.App.Frontend.Pages.Dts
                 return Page();
             }
         }
-        public IActionResult OnPost(DirectorTecnico DT)
+        public IActionResult OnPost(DirectorTecnico DT, int id)
         {
-            //Validar duplicados por nombre
-            duplicate =  _repoDT.validateDuplicates(DT);                                     
-            
-            //Validacion si se edita pero el nombre queda igual            
-            if(!duplicate)
-            {                    
-                _repoDT.UpdateDT(DT);
-                return RedirectToPage("Index");
-            }
-            else
+            try
             {
-                Console.WriteLine("Document DT ingresado ya existe - " +DT.Documento);
-                return Page();
-                
-            }         
+                if(ModelState.IsValid)
+                { 
+                    Console.WriteLine("DTs es valido");
+                    _repoDT.UpdateDT(DT);
+                    return RedirectToPage("Index");
+
+                }
+                else
+                {
+                    //Cargar datos
+                    DT = _repoDT.GetDT(id);
+                    return Page();
+                }
+
+            }catch
+            {
+                //Cargar datos
+                DT = _repoDT.GetDT(id);
+                return NotFound();
+            }        
         }
     }
 }

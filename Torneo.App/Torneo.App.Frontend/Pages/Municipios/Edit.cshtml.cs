@@ -30,22 +30,36 @@ namespace Torneo.App.Frontend.Pages.Municipios
         }
         public IActionResult OnPost(Municipio municipio)
         {
-            //Validar duplicados por nombre
-            duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);                      
-            //Console.WriteLine("\nMunicipio ingresado en input  - "+ municipio.Nombre);            
-            
-                //Validacion si se edita pero el nombre queda igual            
-                if(!duplicate)
-                {                    
-                    _repoMunicipio.UpdateMunicipio(municipio);
-                    return RedirectToPage("Index");
-                }
-                else
-                {
-                    Console.WriteLine("nombre ingresado ya existe");
-                    return Page();
-                    
-                }              
+            try
+            {
+                //Validar duplicados por nombre
+                duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);                      
+                Console.WriteLine("\nMunicipio ingresado en input  - "+ municipio.Nombre);            
+
+
+                    if(ModelState.IsValid)
+                    {   
+                        //Validacion si se edita pero el nombre queda igual            
+                        if(!duplicate)
+                        {                    
+                            _repoMunicipio.UpdateMunicipio(municipio);
+                            return RedirectToPage("Index");
+                        }
+                        else
+                        {
+                            Console.WriteLine("nombre ingresado ya existe");
+                            return Page();
+                            
+                        }
+                    }else
+                    {
+                        return Page();    
+                    }
+
+            }catch
+            {
+                return  Page();
+            }              
                
                     
         }       

@@ -36,7 +36,12 @@ namespace Torneo.App.Persistencia
             modelBuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
             {
                 relationship.DeleteBehavior = DeleteBehavior.Restrict;
-            }           
+            }
+
+           /* modelBuilder.Entity<Municipio>()
+                .HasIndex(x => x.Nombre)
+                .IsUnique()*/
+                
         }
 
 

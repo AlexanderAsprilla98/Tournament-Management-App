@@ -47,20 +47,68 @@ namespace Torneo.App.Frontend.Pages.Equipos
 
         public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT, int id)
         {
-            duplicate = _repoEquipo.validateDuplicates(equipo, idMunicipio, idDT);
-            if (!duplicate)
-            {
-                _repoEquipo.UpdateEquipo(equipo, idMunicipio, idDT);
-                return RedirectToPage("Index");
-            }
-            else
-            {
-                //Cargar municipios y Dts
+            try{
+                //Conocer y setear id entidades relacionadas en atributos de la entidad
+                Console.WriteLine("Editar IdMunicipio escogido " + idMunicipio);                 
+                Console.WriteLine("Crear IdDT escogido " + idDT); 
+                equipo.Municipio = _repoMunicipio.GetMunicipio(idMunicipio);
+                equipo.DirectorTecnico = _repoDT.GetDT(idDT);
+
+                if(ModelState.IsValid)
+                { 
+                    // Obtener y asignar el objeto DirectorTecnico y Municipio  por su Id
+                    Municipio municipioElegido = _repoMunicipio.GetMunicipio(idMunicipio);
+                    DirectorTecnico dtElegido = _repoDT.GetDT(idDT);                   
+
+                    if (municipioElegido == null || dtElegido == null)
+                    {
+                        // Mostrar un mensaje de error o redirigir a otra página
+                        return Page();
+                    }
+                    //Imprimir datos de equipo
+                    Console.WriteLine("Equipo valido "+ equipo.Nombre + " Municipcio equipo "+ equipo.Municipio.Nombre + " Dt equipo " + equipo.DirectorTecnico.Nombre);                                     
+
+                    duplicate = _repoEquipo.validateDuplicates(equipo);
+                    if (!duplicate)
+                    {
+                        _repoEquipo.UpdateEquipo(equipo, idMunicipio, idDT);
+                        return RedirectToPage("Index");
+                    }
+                    else
+                    {
+                        //Cargar datos de la entidad(Municipios y Dts) en caso que de duplicados
+                        equipo = _repoEquipo.GetEquipo(id);
+                        MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+                        MunicipioSelected = equipo.Municipio.Id;
+                        DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
+                        DTSelected = equipo.DirectorTecnico.Id;
+                        return Page();
+                    }
+                }else
+                {   
+                    
+                    Console.WriteLine("Equipo no valido "+ equipo.Nombre + " - Municipio " + equipo.Municipio.Nombre +" - DT " + equipo.DirectorTecnico.Nombre); 
+                    //Cargar datos de la entidad en caso que no sea valido
+                    equipo = _repoEquipo.GetEquipo(id);
+                    MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+                    MunicipioSelected = equipo.Municipio.Id;
+                    DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
+                    DTSelected = equipo.DirectorTecnico.Id;                      
+
+                    return Page();
+                } 
+            
+            }catch(Exception e)
+            {  
+              
+                Console.WriteLine("Edit equipos Catch error " + e.Message); 
+                //Cargar datos de la entidad en caso que de error      
                 equipo = _repoEquipo.GetEquipo(id);
                 MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
                 MunicipioSelected = equipo.Municipio.Id;
                 DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
-                DTSelected = equipo.DirectorTecnico.Id;
+                DTSelected = equipo.DirectorTecnico.Id;               
+
                 return Page();
             }
         }

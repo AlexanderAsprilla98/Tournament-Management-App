@@ -12,22 +12,25 @@
     </div>
 }
 <h1>Nuevo Director Tecnico</h1>
+@Html.ValidationSummary()
 <form method="post">
     <div class="form-group">
         <label asp-for="dt.Nombre"></label>
-        <input asp-for="dt.Nombre" id="NombreDTCrear" required maxlength="30" class="form-control" pattern="^[a-zA-ZÀ-ÿ ]*$"
-        title="Campo Obligatorio. Solo letras">
+        <!--input asp-for="dt.Nombre" id="NombreDTCrear" required maxlength="30" class="form-control" pattern="^[a-zA-ZÀ-ÿ ]*$" title="Campo Obligatorio. Solo letras"> -->
+        <input asp-for="dt.Nombre" id="NombreDTCrear" class="form-control">
+        <span asp-validation-for="dt.Nombre" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="dt.Documento"></label>
-        (Sin puntos ni espacios)
-        <input asp-for="dt.Documento" id="DocumentoDTCrear" required minlength="8" maxlength="15" class="form-control" pattern="[0-9]*"
-        title="Campo Obligatorio. Solo números">
+        <label asp-for="dt.Documento"></label>        
+        <!--input asp-for="dt.Documento" id="DocumentoDTCrear" required minlength="8" maxlength="15" class="form-control" pattern="[0-9]*" title="Campo Obligatorio. Solo números"> -->
+        <input asp-for="dt.Documento" id="DocumentoDTCrear" class="form-control">
+        <span asp-validation-for="dt.Documento" class="text-danger"></span>
     </div>
     <div class="form-group">
         <label asp-for="dt.Telefono"></label>
-        <input asp-for="dt.Telefono" id="TelefonoDTCrear"  class="form-control" minlength="7" maxlength="12" required pattern="[0-9]*"
-        title="Campo Obligatorio. Solo números">
+      <!-- <input asp-for="dt.Telefono" id="TelefonoDTCrear"  class="form-control" minlength="7" maxlength="12" required pattern="[0-9]*" title="Campo Obligatorio. Solo números"> -->
+      <input asp-for="dt.Telefono" id="TelefonoDTCrear"  class="form-control"> 
+     <span asp-validation-for="dt.Telefono" class="text-danger"></span> 
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnDTCrear">Crear director Tecnico</button>
 </form>

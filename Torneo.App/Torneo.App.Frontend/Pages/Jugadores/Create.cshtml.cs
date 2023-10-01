@@ -30,25 +30,77 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             equipos = _repoEquipo.GetAllEquipos();
             posiciones = _repoPosicion.GetAllPosiciones();
             duplicate = false;
+
+            jugador.Equipo = equipos.FirstOrDefault(); // Establecer el valor seleccionado por defecto
+            jugador.Posicion = posiciones.FirstOrDefault(); // Establecer el valor seleccionado por defecto
         }
 
         public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
         {
-            //validar si existe un duplicado con el mismo, nombre, numero y posicione en el mismo equipo
-            duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
-            if (!duplicate)
+            try
             {
-                _repoJugador.AddJugador(jugador, idEquipo, idPosicion);
-                return RedirectToPage("Index");
-            }
-            else
-            {
-                //Cargar entidades refenciadas como la lista de equipos y posiciones si existen duplicados
-                 jugador = new Jugador();
+                Console.WriteLine("dentro Try  Create de Jugador"); 
+                //Quitar espacios en blanco al inicio y final
+                jugador.Nombre = jugador.Nombre.Trim();
+                //jugador.Numero =  jugador.Numero.Trim();                
+               
+                Console.WriteLine("Nombre jugador " +  jugador.Nombre);    
+                Console.WriteLine("Nombre Numero " +  jugador.Numero); 
+                Console.WriteLine("Id equipo escogido " + idEquipo);                 
+                Console.WriteLine("Id Posicion escogido " + idPosicion); 
+
+                //setear equipo y posicion de jugador 
+                Equipo equipoIngresado =  _repoEquipo.GetEquipo(idEquipo);
+                Posicion posicionIngresada =  _repoPosicion.GetPosicion(idPosicion); 
+                jugador.Equipo = _repoEquipo.GetEquipo(idEquipo);                                             
+                jugador.Posicion = _repoPosicion.GetPosicion(idPosicion);                   
+                jugador.Equipo.Nombre  = equipoIngresado.Nombre;
+                jugador.Posicion.Nombre = posicionIngresada.Nombre;
+
+
+                Console.WriteLine("Jugador ingresado " + jugador.Nombre);
+                Console.WriteLine("Id Equipo ingresado " + jugador.Equipo.Nombre);
+                Console.WriteLine("Id Posicion ingresado " +   jugador.Posicion.Nombre);    
+
+                //Condicion si el modelo de datos/atributos de clase es valido
+                if(ModelState.IsValid)
+                {                     
+                    //validar si existe un duplicado con el mismo, nombre, numero y posicione en el mismo equipo
+                    duplicate = _repoJugador.validateDuplicates(jugador, idEquipo, idPosicion);
+                    if (!duplicate)
+                    {
+                        _repoJugador.AddJugador(jugador, idEquipo, idPosicion);
+                        return RedirectToPage("Index");
+                    }
+                    else
+                    {
+                        //Cargar entidades refenciadas como la lista de equipos y posiciones si existen duplicados
+                        jugador = new Jugador();
+                        equipos = _repoEquipo.GetAllEquipos();
+                        posiciones = _repoPosicion.GetAllPosiciones();
+                        return Page();
+                    }
+
+                }else
+                {   
+                    //Si no es validovolver a cargar los equipos y posiciones
+                    jugador = new Jugador();
+                    equipos = _repoEquipo.GetAllEquipos();
+                    posiciones = _repoPosicion.GetAllPosiciones();                                   
+                    Console.WriteLine("jugador  no valido "+ jugador.Nombre + " - Equipo " + jugador.Equipo.Nombre +" - Posicion" + jugador.Posicion.Nombre);                     
+                    return Page();
+                }
+
+
+            }catch(Exception  e) //Catch error
+            {  
+                Console.WriteLine("Catch error " + e.Message);  
+                jugador = new Jugador();
                 equipos = _repoEquipo.GetAllEquipos();
-                 posiciones = _repoPosicion.GetAllPosiciones();
+                posiciones = _repoPosicion.GetAllPosiciones();                 
                 return Page();
             }
+            
         }
     }
 }

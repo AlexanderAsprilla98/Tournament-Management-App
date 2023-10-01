@@ -12,6 +12,7 @@
     </div>
 }
 <h1>Editar Director Tecnico</h1>
+@Html.ValidationSummary()
 <form method="post">
     <div class="form-group">
         <label asp-for="DT.Id"></label>
@@ -19,18 +20,25 @@
     </div>
     <div class="form-group">
         <label asp-for="DT.Nombre"></label>
-        <input asp-for="DT.Nombre" id="NombreDTEditar" class="form-control" required maxlength="30"  pattern="^[a-zA-ZÀ-ÿ ]*$"
-        title="Campo Obligatorio. Solo letras">
+        <input asp-for="DT.Nombre" id="NombreDTEditar" class="form-control">
+        <span asp-validation-for="DT.Nombre" class="text-danger"></span> 
+        <!-- <input asp-for="DT.Nombre" id="NombreDTEditar" class="form-control" required maxlength="30"  pattern="^[a-zA-ZÀ-ÿ ]*$"
+        title="Campo Obligatorio. Solo letras"> -->
+        
     </div>
     <div class="form-group">
         <label asp-for="DT.Documento"></label>
-        <input asp-for="DT.Documento" class="form-control" id="DocumentoDTEditar" required minlength="8" maxlength="15"  pattern="[0-9]*"
-        title="Campo Obligatorio. Solo números">
+        <input asp-for="DT.Documento" class="form-control" id="DocumentoDTEditar">
+        <span asp-validation-for="DT.Documento" class="text-danger"></span> 
+        <!-- <input asp-for="DT.Documento" class="form-control" id="DocumentoDTEditar" required minlength="8" maxlength="15"  pattern="[0-9]*"
+        title="Campo Obligatorio. Solo números"> -->        
     </div>
     <div class="form-group">
         <label asp-for="DT.Telefono"></label>
-        <input asp-for="DT.Telefono" id="TelefonoDTEditar" class="form-control" minlength="7" maxlength="12" required pattern="[0-9]*"
-        title="Campo Obligatorio. Solo números">
+        <input asp-for="DT.Telefono" id="TelefonoDTEditar" class="form-control">
+         <span asp-validation-for="DT.Telefono" class="text-danger"></span> 
+        <!--input asp-for="DT.Telefono" id="TelefonoDTEditar" class="form-control" minlength="7" maxlength="12" required pattern="[0-9]*"
+        title="Campo Obligatorio. Solo números"-->
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnDTEditar">Editar Director Técnico</button>
 </form>

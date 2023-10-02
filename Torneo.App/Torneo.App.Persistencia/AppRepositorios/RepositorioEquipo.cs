@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Torneo.App.Dominio;
+using System.Threading;
+
 namespace Torneo.App.Persistencia
 {
     public class RepositorioEquipo : IRepositorioEquipo
@@ -55,6 +57,7 @@ namespace Torneo.App.Persistencia
 
         public Equipo DeleteEquipo(int idEquipo)
         {
+            //System.Threading.Thread.Sleep(2000);
             var equipoEncontrado = GetEquipo(idEquipo);
             if (equipoEncontrado != null)
             {

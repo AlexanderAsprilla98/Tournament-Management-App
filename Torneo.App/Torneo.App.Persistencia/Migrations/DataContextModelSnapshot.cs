@@ -32,15 +32,18 @@ namespace Torneo.App.Persistencia.Migrations
 
                     b.Property<string>("Documento")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(11)
+                        .HasColumnType("nvarchar(11)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(12)
+                        .HasColumnType("nvarchar(12)");
 
                     b.HasKey("Id");
 
@@ -55,15 +58,16 @@ namespace Torneo.App.Persistencia.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("DirectorTecnicoId")
+                    b.Property<int?>("DirectorTecnicoId")
                         .HasColumnType("int");
 
-                    b.Property<int>("MunicipioId")
+                    b.Property<int?>("MunicipioId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -82,17 +86,18 @@ namespace Torneo.App.Persistencia.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("EquipoId")
+                    b.Property<int?>("EquipoId")
                         .HasColumnType("int");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("Numero")
                         .HasColumnType("int");
 
-                    b.Property<int>("PosicionId")
+                    b.Property<int?>("PosicionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -114,7 +119,8 @@ namespace Torneo.App.Persistencia.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
@@ -132,7 +138,7 @@ namespace Torneo.App.Persistencia.Migrations
                     b.Property<DateTime>("FechaHora")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LocalId")
+                    b.Property<int?>("LocalId")
                         .HasColumnType("int");
 
                     b.Property<int>("MarcadorLocal")
@@ -141,7 +147,7 @@ namespace Torneo.App.Persistencia.Migrations
                     b.Property<int>("MarcadorVisitante")
                         .HasColumnType("int");
 
-                    b.Property<int>("VisitanteId")
+                    b.Property<int?>("VisitanteId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -163,7 +169,8 @@ namespace Torneo.App.Persistencia.Migrations
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
@@ -175,14 +182,12 @@ namespace Torneo.App.Persistencia.Migrations
                     b.HasOne("Torneo.App.Dominio.DirectorTecnico", "DirectorTecnico")
                         .WithMany("Equipos")
                         .HasForeignKey("DirectorTecnicoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Torneo.App.Dominio.Municipio", "Municipio")
                         .WithMany("Equipos")
                         .HasForeignKey("MunicipioId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("DirectorTecnico");
 
@@ -194,14 +199,12 @@ namespace Torneo.App.Persistencia.Migrations
                     b.HasOne("Torneo.App.Dominio.Equipo", "Equipo")
                         .WithMany("Jugadores")
                         .HasForeignKey("EquipoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Torneo.App.Dominio.Posicion", "Posicion")
                         .WithMany("Jugadores")
                         .HasForeignKey("PosicionId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Equipo");
 
@@ -213,14 +216,12 @@ namespace Torneo.App.Persistencia.Migrations
                     b.HasOne("Torneo.App.Dominio.Equipo", "Local")
                         .WithMany("PartidosLocal")
                         .HasForeignKey("LocalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("Torneo.App.Dominio.Equipo", "Visitante")
                         .WithMany("PartidosVisitante")
                         .HasForeignKey("VisitanteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.Navigation("Local");
 

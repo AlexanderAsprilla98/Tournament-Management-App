@@ -12,6 +12,7 @@ namespace Torneo.App.Dominio
 
         //[RegularExpression(@"^[\da-zA-Z]+$", ErrorMessage = "Valor Incorrecto. Ingrese solo letras")]
         [Display(Name = "Fecha y hora del partido")]
+        //[DisplayFormat(ConvertEmptyStringToNull=false)]
         [Required(AllowEmptyStrings=false, ErrorMessage = "La fecha del partido es obligatoria.")]       
         [DisplayFormat(ConvertEmptyStringToNull=false)]
         public DateTime FechaHora { get; set; }

@@ -27,7 +27,8 @@ jobs:
         run: dotnet build Torneo.App.sln --configuration Release
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        working-directory: ./Torneo.App
+        run: dotnet publish Torneo.App.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2

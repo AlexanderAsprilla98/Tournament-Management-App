@@ -40,7 +40,7 @@ jobs:
     runs-on: windows-latest
     needs: build
     environment:
-      name: 'Staging'
+      name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
@@ -54,6 +54,6 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name: 'torneofutbolapp-qa'
-          slot-name: 'Staging'
+          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D2586432C45E44938CA20C38F3360620 }}
           package: .

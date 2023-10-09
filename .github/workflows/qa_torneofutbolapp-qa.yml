@@ -23,7 +23,7 @@ jobs:
           include-prerelease: true
 
       - name: Build with dotnet     
-        working-directory: .
+        working-directory: ./Torneo.App
         run: dotnet build Torneo.App.sln --configuration Release
 
       - name: dotnet publish

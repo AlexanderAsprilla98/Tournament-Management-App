@@ -24,7 +24,7 @@ jobs:
 
       - name: Build with dotnet     
         working-directory: .
-        run: dotnet build --configuration Release
+        run: dotnet build Torneo.App.sln --configuration Release
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp

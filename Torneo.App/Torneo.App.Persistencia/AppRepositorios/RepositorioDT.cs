@@ -85,7 +85,7 @@ namespace Torneo.App.Persistencia
                         
                     }              
                 }               
-                Console.WriteLine("Documento del DT duplicado al Crear/Editar Nombre:" +dtIngresado.Nombre+" Documento: "+dtIngresado.Documento+"- "+ duplicado);
+                //Console.WriteLine("Documento del DT duplicado al Crear/Editar Nombre:" +dtIngresado.Nombre+" Documento: "+dtIngresado.Documento+"- "+ duplicado);
 
                 return duplicado;
 

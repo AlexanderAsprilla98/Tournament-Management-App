@@ -25,14 +25,23 @@ namespace Torneo.App.Frontend.Pages.DTs
         {
             try
             {
-                dt.Nombre =  dt.Nombre.Trim();
-                Console.WriteLine(dt.Nombre);
+                dt.Nombre = dt.Nombre.Trim();
+                //Console.WriteLine(dt.Nombre);
+                duplicate = _repoDT.validateDuplicates(dt);
+
                 //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
-                if(ModelState.IsValid)
-                { 
+                if (ModelState.IsValid)
+                {
                     Console.WriteLine("DTs es valido");
-                    _repoDT.AddDT(dt);
-                    return RedirectToPage("Index");
+                    if (!duplicate)
+                    {
+                        _repoDT.AddDT(dt);
+                        return RedirectToPage("Index");
+                    }
+                    else
+                    {
+                        return Page();
+                    }
 
                 }
                 else
@@ -40,11 +49,12 @@ namespace Torneo.App.Frontend.Pages.DTs
                     return Page();
                 }
 
-            }catch
+            }
+            catch
             {
                 return NotFound();
-            }            
-            
+            }
+
         }
     }
 }

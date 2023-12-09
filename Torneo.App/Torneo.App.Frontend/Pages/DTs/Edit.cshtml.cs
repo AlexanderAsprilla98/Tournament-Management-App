@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Torneo.App.Frontend.Pages.Dts
 {
-     [Authorize]
+    [Authorize]
     public class EditModel : PageModel
     {
         private readonly IRepositorioDT _repoDT;
         public DirectorTecnico DT { get; set; }
-         public bool duplicate { get; set; }   
+        public bool duplicate { get; set; }
         public EditModel(IRepositorioDT repoDT)
         {
             _repoDT = repoDT;
@@ -34,11 +34,24 @@ namespace Torneo.App.Frontend.Pages.Dts
         {
             try
             {
-                if(ModelState.IsValid)
-                { 
-                    Console.WriteLine("DTs es valido");
-                    _repoDT.UpdateDT(DT);
-                    return RedirectToPage("Index");
+                //Validar duplicados por nombre
+                duplicate = _repoDT.validateDuplicates(DT);
+                //Console.WriteLine("\nMunicipio ingresado en input - "+ municipio.Nombre);
+                if (ModelState.IsValid)
+                {
+                    //Console.WriteLine("DTs es valido");
+                    if (!duplicate)
+                    {
+                        _repoDT.UpdateDT(DT);
+                        return RedirectToPage("Index");
+                    }
+                    else
+                    {
+                        //Console.WriteLine("Document DT ingresado ya existe - " + DT.Documento);
+                        return Page();
+
+                    }
+                    
 
                 }
                 else
@@ -48,12 +61,14 @@ namespace Torneo.App.Frontend.Pages.Dts
                     return Page();
                 }
 
-            }catch
+
+            }
+            catch
             {
                 //Cargar datos
                 DT = _repoDT.GetDT(id);
                 return NotFound();
-            }        
+            }
         }
     }
 }

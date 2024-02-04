@@ -44,11 +44,12 @@ namespace Torneo.App.Frontend.Pages.Equipos
 
             if (municipios != null && dts != null)
              {
-                Console.WriteLine("Propiedades municipios y dts no son nulas " + equipo.Municipio.Nombre + " " + equipo.DirectorTecnico.Nombre);
+                //Console.WriteLine("Propiedades municipios y dts no son nulas " + equipo.Municipio.Nombre + " " + equipo.DirectorTecnico.Nombre);
                 ViewData["Municipios"] = municipios.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Nombre });
                 ViewData["DTs"] = dts.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Nombre });
-                foreach (var muni in ViewData["Municipios"] as IEnumerable<SelectListItem>){
-                Console.WriteLine(muni.Text);
+                foreach (var muni in ViewData["Municipios"] as IEnumerable<SelectListItem>)
+                {
+                //Console.WriteLine(muni.Text);
                 }
             }
              else
@@ -71,27 +72,20 @@ namespace Torneo.App.Frontend.Pages.Equipos
             try
             { 
                 //this.equipo = equipo;
-                Console.WriteLine("Crear IdMunicipio escogido " + idMunicipio);                 
-                Console.WriteLine("Crear IdDT escogido " + idDT);                                               
+                //Console.WriteLine("Crear IdMunicipio escogido " + idMunicipio);                 
+                //Console.WriteLine("Crear IdDT escogido " + idDT);                                               
                 equipo.Municipio = _repoMunicipio.GetMunicipio(idMunicipio);
                 equipo.DirectorTecnico = _repoDT.GetDT(idDT);
 
-                Console.WriteLine("Equipo ingresado " + equipo.Nombre);
+                /*Console.WriteLine("Equipo ingresado " + equipo.Nombre);
                 Console.WriteLine("id Municipio ingresado " + equipo.Municipio.Id);
                 Console.WriteLine("id DT ingresado " + equipo.DirectorTecnico.Id);
                 Console.WriteLine("Nombre Municipio ingresado " + equipo.Municipio.Nombre);
                 Console.WriteLine("Nombre dt ingresado " + equipo.DirectorTecnico.Nombre);
                 Console.WriteLine("documento ingresado " + equipo.DirectorTecnico.Documento);
                 Console.WriteLine("telefono ingresado " + equipo.DirectorTecnico.Telefono);
-                //Console.WriteLine("equipo ingresado " + equipo.DirectorTecnico.Equipos);                        
-
-                // Crear SelectList para municipios y DTs
-                //ViewData["Municipios"] = new SelectList(municipios, "Id", "Nombre");
-                //ViewData["DTs"] = new SelectList(dts, "Id", "Nombre");                          
-
-                // Crear SelectList para municipios y DTs
-                //ViewData["Municipios"] = municipios.Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Nombre });
-                //ViewData["DTs"] = dts.Select(d => new SelectListItem { Value = d.Id.ToString(), Text = d.Nombre });
+                */
+                //Console.WriteLine("equipo ingresado " + equipo.DirectorTecnico.Equipos);                                       
             
                 //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
                 if(ModelState.IsValid)

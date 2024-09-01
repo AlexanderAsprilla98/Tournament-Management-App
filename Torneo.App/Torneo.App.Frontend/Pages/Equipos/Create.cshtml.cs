@@ -18,6 +18,8 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public Equipo equipo { get; set; }
         public IEnumerable<Municipio> municipios { get; set; }
         public IEnumerable<DirectorTecnico> dts { get; set; }
+        public bool municipiosExits { get; set; }
+        public bool dtsExits { get; set; }
         //[BindProperty]
         //public Municipio idMunicipio { get; set; }
 
@@ -32,8 +34,14 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public void OnGet(int idMunicipio, int idDT)
         {
             equipo = new Equipo();
-            municipios = _repoMunicipio.GetAllMunicipios();
+            municipios = _repoMunicipio.GetAllMunicipios();          
             dts = _repoDT.GetAllDTs(); 
+
+            //Console.WriteLine("Existen Municipios "+municipios.Any());
+            //Console.WriteLine("Existen Dts "+dts.Any());
+            municipiosExits = municipios.Any();
+            dtsExits = dts.Any();       
+
             // Inicializar Model.duplicate en false
             duplicate = false;   
             equipo.Municipio = municipios.FirstOrDefault(); // Establecer el valor seleccionado por defecto
@@ -70,7 +78,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
         {
             
             try
-            { 
+            {                     
                 //this.equipo = equipo;
                 //Console.WriteLine("Crear IdMunicipio escogido " + idMunicipio);                 
                 //Console.WriteLine("Crear IdDT escogido " + idDT);                                               
@@ -162,6 +170,9 @@ namespace Torneo.App.Frontend.Pages.Equipos
                 Console.WriteLine("Catch error " + e.Message);       
                 ViewData["Municipios"] = _repoMunicipio.GetAllMunicipios().Select(m => new SelectListItem { Value = m.Id.ToString(), Text = m.Nombre });
                 ViewData["DTs"] = _repoDT.GetAllDTs().Select(dt => new SelectListItem { Value = dt.Id.ToString(), Text = dt.Nombre });
+
+                municipiosExits = municipios.Any();
+                dtsExits = dts.Any();  
 
                 return Page();
             }

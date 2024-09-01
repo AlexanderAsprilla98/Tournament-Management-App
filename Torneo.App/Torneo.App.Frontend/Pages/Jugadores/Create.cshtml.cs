@@ -13,6 +13,8 @@ namespace Torneo.App.Frontend.Pages.Jugadores
         private readonly IRepositorioEquipo _repoEquipo;
         private readonly IRepositorioPosicion _repoPosicion;
         public bool duplicate { get; set; }
+        public bool posicionesExits { get; set; }
+        public bool equipoExits { get; set; }
         public CreateModel(IRepositorioJugador repoJugador, IRepositorioEquipo repoEquipo, IRepositorioPosicion repoPosicion)
         {
             _repoJugador = repoJugador;
@@ -32,7 +34,13 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             duplicate = false;
 
             jugador.Equipo = equipos.FirstOrDefault(); // Establecer el valor seleccionado por defecto
-            jugador.Posicion = posiciones.FirstOrDefault(); // Establecer el valor seleccionado por defecto
+            jugador.Posicion = posiciones.FirstOrDefault(); // Establecer el valor seleccionado por defecto            
+
+            //Console.WriteLine("Existen Municipios "+equipos.Any());
+            //Console.WriteLine("Existen Dts "+posiciones.Any());
+            equipoExits = equipos.Any();
+            posicionesExits = posiciones.Any();       
+
         }
 
         public IActionResult OnPost(Jugador jugador, int idEquipo, int idPosicion)
@@ -97,7 +105,9 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                 Console.WriteLine("Catch error " + e.Message);  
                 jugador = new Jugador();
                 equipos = _repoEquipo.GetAllEquipos();
-                posiciones = _repoPosicion.GetAllPosiciones();                 
+                posiciones = _repoPosicion.GetAllPosiciones(); 
+                equipoExits = equipos.Any();
+                posicionesExits = posiciones.Any();                     
                 return Page();
             }
             

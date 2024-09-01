@@ -158,13 +158,46 @@ namespace Torneo.App.Persistencia
                     
                            
                 }               
-                Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
+                //Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
                 return duplicado;
 
             }catch(Exception e){
-                Console.WriteLine("Error Validacion " + e.Message);
+                //Console.WriteLine("Error Validacion " + e.Message);
                 return false;
             }
         }
+
+
+
+        /*public bool exitsMunicipios()
+        {
+            try
+            {
+                IEnumerable<Equipo> allEquipos =  GetAllEquipos();
+                bool exist = false; 
+                               
+
+                foreach(Equipo e in allEquipos)
+                {
+                
+                    if(e.Municipio.Count() == 0)
+                    {      
+                        Console.WriteLine("Equipo sin municipio " + equipo.Nombre  +" - "+ e.Municipio.Count);
+                        exist = true;
+                    }
+                    
+                           
+                }               
+                Console.WriteLine("Equipo sin municipio " + equipo.Nombre  +" - "+ duplicado);
+                return duplicado;
+
+            }catch(Exception e){
+                //Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+        }*/
+
+
+
     }
 }

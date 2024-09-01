@@ -11,6 +11,8 @@
         </button>
     </div>
 }
+@if (Model.municipiosExits && Model.dtsExits)
+{
 <h1>Nuevo equipo</h1>
 <!--form method="post" asp-validation-summary="All" data-val="true" data-val-async="true"> -->
 @Html.ValidationSummary()
@@ -50,7 +52,50 @@
     </div>
     <button type="submit" class="btn btn-primary btn-block" id="BtnEquipoCrear">Crear equipo</button>
 </form>
+}
+else
+{
+    @if (!Model.municipiosExits && Model.dtsExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Municipios antes de crear equipos
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Municipios ingresando en el siguiente botón o menú correspondiente</p>
+       <a class="btn btn-secondary" asp-area="" asp-page="/Municipios/Create">Crear Municipios</a>
+    }
+    else @if (!Model.dtsExits && Model.municipiosExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Directores Técnicos antes de crear equipos
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Directores Técnicos ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/DTs/Create">Crear Directores Tecnicos</a>
+
+    }
+    else{    
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Municipios y Directores Técnicos antes de crear equipos
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <p>Por favor primero cree Municipios y Directores Técnicos desde los siguientes botones o menús correspondientes</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Municipios/Create">Crear Municipios</a>
+        <a class="btn btn-secondary" asp-area="" asp-page="/DTs/Create">Crear Directores Tecnicos</a>
+    }
+
+}
+
+
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>
+
+
 
 
 

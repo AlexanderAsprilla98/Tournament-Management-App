@@ -15,6 +15,8 @@ namespace Torneo.App.Frontend.Pages.Partidos
         public Partido partido { get; set; } = new Partido();
         public IEnumerable<Equipo> equipos { get; set; }
         public bool duplicate { get; set; }
+        public bool equiposExits { get; set; }
+
         public CreateModel(IRepositorioPartido repoPartido, IRepositorioEquipo repoEquipo)
         {
             _repoPartido = repoPartido;
@@ -38,18 +40,20 @@ namespace Torneo.App.Frontend.Pages.Partidos
                  // Manejar el caso de que municipios o dts sean nulos
                 Console.WriteLine("Propiedades visitante y local son nulas");
                
-            }     
+            }
 
+            equiposExits = equipos.Count() >= 2 ? true : false;
+            Console.WriteLine("Cantidad equipos " + equipos.Count());
 
+            
         }
 
         public IActionResult OnPost(Partido partido, int EquipoLocalId, int EquipoVisitanteId)
         {
             try
-            {        
-                Console.WriteLine("EStoy dentro del try de crear partidos"); 
-                Console.WriteLine("Equipo local escogido " + EquipoLocalId);                 
-                Console.WriteLine("Equipo visitante escogido " + EquipoVisitanteId);                                               
+            {  
+                //Console.WriteLine("Equipo local escogido " + EquipoLocalId);                 
+                //Console.WriteLine("Equipo visitante escogido " + EquipoVisitanteId);                                               
                 partido.Local = _repoEquipo.GetEquipo(EquipoLocalId);
                 partido.Visitante = _repoEquipo.GetEquipo(EquipoVisitanteId);
                 if(ModelState.IsValid)
@@ -90,6 +94,7 @@ namespace Torneo.App.Frontend.Pages.Partidos
                  partido = new Partido();
                  equipos = _repoEquipo.GetAllEquipos();   
                 Console.WriteLine("Catch error: " + ex.Message);  
+                equiposExits = equipos.Any(); 
                 return  Page();
             }
 

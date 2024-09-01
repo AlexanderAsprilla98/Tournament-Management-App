@@ -11,51 +11,67 @@
         </button>
     </div>
 }
-<h1>Nuevo partido</h1>
-@Html.ValidationSummary()
-<form method="post">
-    <div class="form-group">
-        <label asp-for="partido.FechaHora">Fecha y hora</label>
-        <!-- <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" title="Campo Obligatorio"/> -->
-        <input asp-for="partido.FechaHora" class="form-control" id="FechaPartidoCrear"/>
-        <span class="text-danger" asp-validation-for="partido.FechaHora"></span>
+@if (Model.equiposExits)
+{
+    <h1>Nuevo partido</h1>
+    @Html.ValidationSummary()
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="partido.FechaHora">Fecha y hora</label>
+            <!-- <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" title="Campo Obligatorio"/> -->
+            <input asp-for="partido.FechaHora" class="form-control" id="FechaPartidoCrear"/>
+            <span class="text-danger" asp-validation-for="partido.FechaHora"></span>
+        </div>
+        <div class="form-group">
+            <label for="EquipoLocalId">Seleccione un Equipo Local</label>
+            <select id="EquipoLocalPartidoCrear" name="EquipoLocalId" required class="form-control" title="Campo Obligatorio">
+                <option value="" selected disabled hidden>Seleccione un equipo</option>
+                @foreach (var equipo in Model.equipos)
+                {
+                    <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="partido.MarcadorLocal">Marcador Local</label>
+            <!-- <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" type="number" min="0" max="100"  class="form-control"/> -->
+            <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" class="form-control"/>
+            <span class="text-danger" asp-validation-for="partido.MarcadorLocal"></span>
+        </div>
+        <div class="form-group">
+            <label for="EquipoVisitanteId">Seleccione un Equipo Visitante</label>
+            <select id="EquipoVisitantePartidoCrear" name="EquipoVisitanteId" required class="form-control">
+                <option value="" selected disabled hidden>Seleccione un equipo</option>
+                @foreach (var equipo in Model.equipos)
+                {
+                    
+                    <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
+                    
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
+            <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control"/>
+            <!-- <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" required type="number" min="0" max="99" pattern="^[0-9]$"/> -->
+            <span class="text-danger" asp-validation-for="partido.MarcadorVisitante"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block" id="BtnPartidoCrear">Crear partido</button>
+    </form>
+}
+else
+{
+   
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ocurrio un error al crear Partidos</strong> Primero se deben crear minimos 2 Equipos antes de crear Partidos
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                <span aria-hidden="true">×</span>
+            </button>
     </div>
-    <div class="form-group">
-        <label for="EquipoLocalId">Seleccione un Equipo Local</label>
-        <select id="EquipoLocalPartidoCrear" name="EquipoLocalId" required class="form-control" title="Campo Obligatorio">
-            <option value="" selected disabled hidden>Seleccione un equipo</option>
-            @foreach (var equipo in Model.equipos)
-            {
-                <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="partido.MarcadorLocal">Marcador Local</label>
-        <!-- <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" type="number" min="0" max="100"  class="form-control"/> -->
-        <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" class="form-control"/>
-        <span class="text-danger" asp-validation-for="partido.MarcadorLocal"></span>
-    </div>
-    <div class="form-group">
-        <label for="EquipoVisitanteId">Seleccione un Equipo Visitante</label>
-        <select id="EquipoVisitantePartidoCrear" name="EquipoVisitanteId" required class="form-control">
-            <option value="" selected disabled hidden>Seleccione un equipo</option>
-            @foreach (var equipo in Model.equipos)
-            {
-                
-                <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
-                
-            }
-        </select>
-    </div>
-    <div class="form-group">
-        <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
-        <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control"/>
-        <!-- <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" required type="number" min="0" max="99" pattern="^[0-9]$"/> -->
-        <span class="text-danger" asp-validation-for="partido.MarcadorVisitante"></span>
-    </div>
-    <button type="submit" class="btn btn-primary btn-block" id="BtnPartidoCrear">Crear partido</button>
-</form>
+    <p>Por favor primero cree al menos 2 Equipos ingresando en el siguiente botón o menú correspondiente</p>
+    <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+    
+}
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>
 
 

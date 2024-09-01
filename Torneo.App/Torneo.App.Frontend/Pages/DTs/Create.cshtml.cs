@@ -21,7 +21,7 @@ namespace Torneo.App.Frontend.Pages.DTs
         {
             dt = new DirectorTecnico();
         }
-        public IActionResult OnPost(DirectorTecnico dt)
+     public IActionResult OnPost(DirectorTecnico dt)
         {
             try
             {

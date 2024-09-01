@@ -25,4 +25,11 @@
     <UserSecretsId>Your_UserSecrets_Id</UserSecretsId>
   </PropertyGroup>
 
+
+  <!--ItemGroup>
+  <ProjectReference Include=".\Torneo.App.Dominio" />
+  <ProjectReference Include=".\Torneo.App.Persistencia" />
+  <ProjectReference Include=".\Torneo.App.Consola" />
+  </ItemGroup-->
+
 </Project>

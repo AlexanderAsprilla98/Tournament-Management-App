@@ -15,11 +15,12 @@ namespace Torneo.App.Persistencia
         {   
             var posiciones = _dataContext.Posiciones
                                 .Include(p => p.Jugadores)
+                                .AsNoTracking()
                                 .ToList();
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();   
+            _dataContext = new DataContext();*/
 
             return posiciones ?? throw new Exception("Posiciones not found");  // Throw an exception if posiciones is null.
         }

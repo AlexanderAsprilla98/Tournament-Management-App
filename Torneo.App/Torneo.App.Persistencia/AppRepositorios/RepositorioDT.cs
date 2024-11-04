@@ -17,11 +17,12 @@ namespace Torneo.App.Persistencia
         {
              var Dts = _dataContext.DirectoresTecnicos
                             .Include(e => e.Equipos)
+                            .AsNoTracking()
                             .ToList();
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();
+            _dataContext = new DataContext();*/
             
             return Dts;
         }

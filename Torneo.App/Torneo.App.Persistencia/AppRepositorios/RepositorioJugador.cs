@@ -20,6 +20,7 @@ namespace Torneo.App.Persistencia
             var jugadores = _dataContext.Jugadores
                             .Include(j => j.Equipo)
                             .Include(j => j.Posicion)
+                            .AsNoTracking()
                             .ToList();
  
             

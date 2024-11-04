@@ -15,11 +15,12 @@ namespace Torneo.App.Persistencia
         {
             var municipios = _dataContext.Municipios
             .Include(m => m.Equipos)
+            .AsNoTracking()
             .ToList();
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();   
+            _dataContext = new DataContext();*/
 
             return municipios;
         }

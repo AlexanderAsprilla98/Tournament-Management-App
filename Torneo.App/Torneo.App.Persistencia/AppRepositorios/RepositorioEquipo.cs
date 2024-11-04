@@ -25,10 +25,11 @@ namespace Torneo.App.Persistencia
                             .Include(e => e.Jugadores)
                             .Include(e => e.PartidosLocal)                         
                             .Include(e => e.PartidosVisitante)                         
+                            .AsNoTracking()
                             .ToList();
-            _dataContext.ChangeTracker.Clear();
+           /* _dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();           
+            _dataContext = new DataContext();*/
                             
             return equipos;
         }
@@ -84,6 +85,7 @@ namespace Torneo.App.Persistencia
                         .Include(e => e.Jugadores) // Carga explicita
                         .Include(e => e.PartidosLocal)       // Carga explicita                   
                         .Include(e => e.PartidosVisitante) // Carga explicita
+                        .AsNoTracking()
                         .ToList();
             return equipos;
         }

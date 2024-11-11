@@ -59,7 +59,6 @@ namespace Torneo.App.Frontend.Pages.Partidos
                     _repoPartido.UpdatePartido(partido, idEquipoLocal, idEquipoVisitante);
                     return RedirectToPage("Index");
                     }
-
                     //Si partido ya exite retornar a la misma Page
                     else
                     {

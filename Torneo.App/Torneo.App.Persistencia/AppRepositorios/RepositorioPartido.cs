@@ -92,14 +92,18 @@ namespace Torneo.App.Persistencia
                                
                 
                 foreach(Partido p in allPartidos)
-                {                    
-                    if((p.Local.Id == idEquipoLocal) && (p.Visitante.Id == idEquipoVisitante) && (p.FechaHora == partido.FechaHora))
-                    {                   
-                        duplicado = true;
-                    }
-                    else if((p.Local.Id == idEquipoVisitante) && (p.Visitante.Id == idEquipoLocal) && (p.FechaHora == partido.FechaHora))
-                    {                   
-                        duplicado = true;
+                {                 
+                    if(p.Id != partido.Id){   
+                        if((p.Local.Id == idEquipoLocal) && (p.Visitante.Id == idEquipoVisitante) && (p.FechaHora == partido.FechaHora))
+                        {                   
+                            duplicado = true;
+                            break;
+                        }
+                        else if((p.Local.Id == idEquipoVisitante) && (p.Visitante.Id == idEquipoLocal) && (p.FechaHora == partido.FechaHora))
+                        {                   
+                            duplicado = true;
+                            break;
+                        }
                     }
                     
                            

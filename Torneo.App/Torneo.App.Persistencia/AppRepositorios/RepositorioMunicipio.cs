@@ -56,7 +56,7 @@ namespace Torneo.App.Persistencia
             return municipioEncontrado ?? throw new Exception("Municipio not found");  // Throw an exception if municipioEncontrado is null.
         }
 
-        public bool validateDuplicates(string nombreMunicipio)
+        public bool validateDuplicates(Municipio municipioIngresado)
         {
             try
             {
@@ -65,12 +65,15 @@ namespace Torneo.App.Persistencia
 
                 foreach(Municipio municipio in allMunucipios)
                 {
-                    if(municipio.Nombre.ToLower()  == nombreMunicipio.ToLower().Trim())   
-                    {
-                        duplicado = true;
-                    }              
+                    if(municipio.Id != municipioIngresado.Id){
+                        if(municipio.Nombre.ToLower()  == municipioIngresado.Nombre.ToLower().Trim())   
+                        {
+                            duplicado = true;
+                            break;
+                        }        
+                    }      
                 }               
-                Console.WriteLine("Municipio duplicado al Crear/Editar " + nombreMunicipio  +" - "+ duplicado);
+                Console.WriteLine("Municipio duplicado al Crear/Editar " + municipioIngresado.Nombre  +" - "+ duplicado);
                 return duplicado;
 
             }catch(Exception e){

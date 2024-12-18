@@ -44,10 +44,6 @@ namespace Torneo.App.Frontend.Pages.Equipos
             }
             else
             {
-              
-                //Console.WriteLine("Equipo Original "+ equipo.Nombre);
-                
-
                 return Page();
             }
            
@@ -56,9 +52,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT, int id)
         {
             try{               
-                //Conocer y setear id entidades relacionadas en atributos de la entidad
-                Console.WriteLine("Editar IdMunicipio escogido " + idMunicipio);                 
-                Console.WriteLine("Crear IdDT escogido " + idDT); 
+                //Conocer y setear id entidades relacionadas en atributos de la entidad                
                 equipo.Municipio = _repoMunicipio.GetMunicipio(idMunicipio);
                 equipo.DirectorTecnico = _repoDT.GetDT(idDT);
  

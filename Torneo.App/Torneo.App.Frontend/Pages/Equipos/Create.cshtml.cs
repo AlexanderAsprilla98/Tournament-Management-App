@@ -62,8 +62,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
                 Console.WriteLine("Propiedades municipios y dts son nulas");
                
             }     
-            //equipo.Municipio.Id = idMunicipio;
-            //equipo.DirectorTecnico.Id = idDT;
+            
         }
 
         public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT)

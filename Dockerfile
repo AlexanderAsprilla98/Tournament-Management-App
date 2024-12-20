@@ -5,13 +5,14 @@ WORKDIR /app
 # Install the Entity Framework Core tools
 RUN dotnet tool install --global dotnet-ef --version 6.0.0
 
-RUN dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.0 --source /Torneo.App/Torneo.App.Persistencia
-RUN dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8 --source /Torneo.App/Torneo.App.Persistencia
-RUN dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0 --source /Torneo.App/Torneo.App.Persistencia
-RUN dotnet add package Microsoft.AspNetCore.Identity.UI --version 6.0.0 --source /Torneo.App/Torneo.App.Persistencia
-RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --source /Torneo.App/Torneo.App.Persistencia
+WORKDIR /app/Torneo.App/Torneo.App.Persistencia/
+RUN dotnet add package Microsoft.EntityFrameworkCore.Tools
+RUN dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
+RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.8
+RUN dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0
+RUN dotnet add package Microsoft.AspNetCore.Identity.UI --version 6.0.0
 
-WORKDIR /app/Torneo.App/Torneo.App.Dominio
+WORKDIR /app/Torneo.App/Torneo.App.Dominio/
 RUN dotnet ef migrations add InitialCreate
 RUN dotnet ef database update
 
@@ -22,6 +23,15 @@ COPY . .
 # Specify the solution file for restore and publish
 RUN dotnet restore Torneo.App/Torneo.App.sln
 RUN dotnet publish Torneo.App/Torneo.App.sln -c Release -o out
+
+# Create database migrations
+RUN dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj migrations add InitialCreate
+
+# Apply database migrations
+RUN dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj database update
+
+# Apply database migrations
+RUN dotnet ef --project Torneo.App.Frontend/Torneo.App.Frontend.csproj database update
 
 # Use the official .NET runtime image to run the application
 FROM mcr.microsoft.com/dotnet/aspnet:6.0

@@ -22,13 +22,13 @@ namespace Torneo.App.Persistencia
                 //optionsBuilder.UseSqlServer("Data Source = (localdb)\\MSSQLLocalDB; Initial Catalog = Torneo");
 
                 //DB azure
-                optionsBuilder.UseSqlServer("Server=tcp:torneo-futbol.database.windows.net,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=admin1;Password='Torneo;App.';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                //optionsBuilder.UseSqlServer("Server=tcp:torneo-futbol.database.windows.net,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=admin1;Password='Torneo;App.';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
                 // Read the SA_PASSWORD environment variable
-                //string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD") ?? throw new InvalidOperationException("Environment variable MSSQL_SA_PASSWORD is not set.");
 
                 // Use the SA_PASSWORD in the connection string
-                //optionsBuilder.UseSqlServer($"Server=tcp:sql-server,1433;Database=Torneo;User ID=sa;Password={saPassword};TrustServerCertificate=True;Connection Timeout=5;Initial Catalog=Torneo;Encrypt=False");
+                optionsBuilder.UseSqlServer($"Server=db;Database=Torneo;User Id=sa;Password={saPassword};MultipleActiveResultSets=true;Encrypt=False");
             }
         }
 

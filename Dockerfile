@@ -6,9 +6,10 @@ WORKDIR /app
 RUN dotnet tool install --global dotnet-ef --version 6.0.0
 
 WORKDIR /Torneo.App/Torneo.App.Dominio
-Run dotnet ef migrations add InitialCreate
-Run dotnet ef database update
+RUN dotnet ef migrations add InitialCreate
+RUN dotnet ef database update
 
+WORKDIR /app
 # Copy the project files and restore dependencies
 COPY . .
 

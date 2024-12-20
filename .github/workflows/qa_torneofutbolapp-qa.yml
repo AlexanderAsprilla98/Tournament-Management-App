@@ -30,7 +30,7 @@ jobs:
         run: dotnet publish Torneo.App.sln -c Release -o out
 
       - name: Build Docker image        
-        run: docker build -t torneo-app .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2

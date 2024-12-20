@@ -8,7 +8,7 @@ RUN dotnet tool install --global dotnet-ef --version 6.0.0
 COPY . .
 
 RUN dotnet restore
-RUN dotnet publish Torneo.App.Frontend/Torneo.App.Frontend.csproj -c Release -o out
+RUN dotnet publish -c Release -o out
 
 # Use the official .NET runtime image to run the application
 FROM mcr.microsoft.com/dotnet/aspnet:6.0

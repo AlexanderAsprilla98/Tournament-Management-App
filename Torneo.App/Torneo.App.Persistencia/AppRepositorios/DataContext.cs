@@ -28,7 +28,7 @@ namespace Torneo.App.Persistencia
                 //string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD") ?? throw new InvalidOperationException("Environment variable MSSQL_SA_PASSWORD is not set.");
 
                 // Use the SA_PASSWORD in the connection string
-                optionsBuilder.UseSqlServer($"Server=db;Database=Torneo;User Id=sa;Password=${{ secrets.MSSQL_SA_PASSWORD }};MultipleActiveResultSets=true;Encrypt=False");
+                optionsBuilder.UseSqlServer($"Server=sql-server;Database=Torneo;User Id=sa;Password=admin123;MultipleActiveResultSets=true;Encrypt=False");
             }
         }
 

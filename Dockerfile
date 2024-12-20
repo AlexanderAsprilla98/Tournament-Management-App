@@ -5,7 +5,7 @@ WORKDIR /app
 # Install the Entity Framework Core tools
 RUN dotnet tool install --global dotnet-ef
 # Copy the project files and restore dependencies
-COPY Torneo.App/ .
+COPY . .
 
 RUN dotnet restore
 RUN dotnet publish Torneo.App.Frontend/Torneo.App.Frontend.csproj -c Release -o out

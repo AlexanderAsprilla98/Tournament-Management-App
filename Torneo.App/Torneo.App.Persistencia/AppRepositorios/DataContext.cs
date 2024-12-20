@@ -25,10 +25,10 @@ namespace Torneo.App.Persistencia
                 //optionsBuilder.UseSqlServer("Server=tcp:torneo-futbol.database.windows.net,1433;Initial Catalog=Torneo;Persist Security Info=False;User ID=admin1;Password='Torneo;App.';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
                 // Read the SA_PASSWORD environment variable
-                string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD") ?? throw new InvalidOperationException("Environment variable MSSQL_SA_PASSWORD is not set.");
+                //string saPassword = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD") ?? throw new InvalidOperationException("Environment variable MSSQL_SA_PASSWORD is not set.");
 
                 // Use the SA_PASSWORD in the connection string
-                optionsBuilder.UseSqlServer($"Server=db;Database=Torneo;User Id=sa;Password={saPassword};MultipleActiveResultSets=true;Encrypt=False");
+                optionsBuilder.UseSqlServer($"Server=db;Database=Torneo;User Id=sa;Password=${{ secrets.MSSQL_SA_PASSWORD }};MultipleActiveResultSets=true;Encrypt=False");
             }
         }
 

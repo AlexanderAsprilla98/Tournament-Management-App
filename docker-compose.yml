@@ -1,24 +1,19 @@
-version: '3.9'
+version: '3.8'
 
 services:
   # SQL Server Service
   sql-server:
-    image: "mcr.microsoft.com/mssql/server"
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
-      SA_PASSWORD: "${MSSQL_SA_PASSWORD}"
-      ACCEPT_EULA: "Y"
-      MSSQL_PID: "${MSSQL_PID}"
-      MSSQL_TCP_PORT: "${MSSQL_TCP_PORT}"
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${MSSQL_SA_PASSWORD:-YourStrong!Passw0rd}
     ports:
       - "1433:1433"
-    hostname: sql-server
-    container_name: sql-server
-    volumes:
-      - sql-data:/var/opt/mssql/data
-      - ./init-script.sql:/docker-entrypoint-initdb.d/init-script.sql
     networks:
       - torneo-network
-  
+    volumes:
+      - sql-data:/var/opt/mssql/data
+
   # Frontend Service
   torneo-app:
     build:
@@ -31,7 +26,7 @@ services:
     networks:
       - torneo-network
     depends_on:
-      "sql-server":
+      sql-server:
         condition: service_started
 
   app:
@@ -42,14 +37,14 @@ services:
     ports:
       - "80:80"
     depends_on:
-      - db
+      - sql-server
     environment:
-      - ConnectionStrings_IdentityDataContextConnection=Server=db;Database=Torneo;User Id=sa;Password=admin123;MultipleActiveResultSets=true;Encrypt=False
+      - ConnectionStrings__IdentityDataContextConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};MultipleActiveResultSets=true;Encrypt=False
+    networks:
+      - torneo-network
 
-  db:
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    environment:
-      SA_PASSWORD: "admin123"
-      ACCEPT_EULA: "Y"
-    ports:
-      - "1433:1433"
+networks:
+  torneo-network:
+
+volumes:
+  sql-data:

@@ -13,13 +13,13 @@ RUN dotnet restore Torneo.App/Torneo.App.sln
 RUN dotnet publish Torneo.App/Torneo.App.sln -c Release -o out
 
 # Create database migrations
-RUN dotnet ef --project Torneo.App/Torneo.App.Persistencia/Torneo.App.Persistencia.csproj migrations add InitialCreate
+RUN dotnet ef migrations add InitialCreate
 
 # Apply database migrations
-RUN dotnet ef --project Torneo.App/Torneo.App.Persistencia/Torneo.App.Persistencia.csproj database update
+RUN dotnet ef update
 
 # Apply database migrations
-RUN dotnet ef --project Torneo.App/Torneo.App.Frontend/Torneo.App.Frontend.csproj database update
+RUN dotnet ef database update
 
 # Use the official .NET runtime image to run the application
 FROM mcr.microsoft.com/dotnet/aspnet:6.0

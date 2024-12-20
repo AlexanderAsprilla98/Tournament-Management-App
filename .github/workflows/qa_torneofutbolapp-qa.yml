@@ -40,6 +40,9 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
+        
+      - name: Deploy with Docker Compose
+        run: docker-compose up -d
 
   deploy:
     runs-on: ubuntu-latest
@@ -52,7 +55,7 @@ jobs:
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
           -d '{
-            "serviceId": "1c8gph6c738524e0",
+            "serviceId": "srv-ctid1c8gph6c738524e0",
             "branch": "qa"
           }' \
-          https://api.render.com/v1/services/1c8gph6c738524e0/deploys
+          https://api.render.com/v1/services/srv-ctid1c8gph6c738524e0/deploys

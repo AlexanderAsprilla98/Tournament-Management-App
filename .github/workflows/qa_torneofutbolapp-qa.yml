@@ -60,7 +60,7 @@ jobs:
           
       - name: Install EF Tools
         run: |
-          dotnet tool install --global dotnet-ef
+          dotnet tool install --global dotnet-ef --version 6.0.0
           
       - name: Build and Test
         run: |

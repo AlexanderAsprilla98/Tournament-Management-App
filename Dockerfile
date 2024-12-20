@@ -6,7 +6,7 @@ WORKDIR /app
 RUN dotnet tool install --global dotnet-ef --version 6.0.0
 
 WORKDIR /Torneo.App/Torneo.App.Persistencia
-RUN dotnet add package Microsoft EntityFrameworkCore Tools
+RUN dotnet add package Microsoft.EntityFrameworkCore.Tools
 RUN dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
 RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.8
 RUN dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0

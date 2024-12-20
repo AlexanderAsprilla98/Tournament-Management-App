@@ -1,19 +1,26 @@
 # Use the official .NET SDK image to build the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-WORKDIR /app
+WORKDIR /src
 
-# Install the Entity Framework Core tools
-RUN dotnet tool install --global dotnet-ef --version 6.0.0
+# Install EF Core tools
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="${PATH}:/root/.dotnet/tools"
 
-# Copy the project files and restore dependencies
-COPY . .
+# Copy solution and restore dependencies
+COPY ["Torneo.App/", "./"]
+RUN dotnet restore "Torneo.App.sln"
 
-# Specify the solution file for restore and publish
-RUN dotnet restore Torneo.App/Torneo.App.sln
-RUN dotnet publish Torneo.App/Torneo.App.sln -c Release -o out
+# Build the project
+RUN dotnet build "Torneo.App.sln" -c Release -o /app/build
+
+# Publish
+RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 
 # Use the official .NET runtime image to run the application
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
-COPY --from=build /app/out .
-ENTRYPOINT ["dotnet", "Torneo.App.Frontend.dll"]
+COPY --from=build /app/publish .
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]

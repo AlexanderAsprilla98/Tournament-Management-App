@@ -1,28 +1,22 @@
 #!/bin/bash
 
-# Wait for the database to become available (adjust the command based on your database type)
-# For example, for SQL Server, you might use the following:
+# Wait for SQL Server to be ready
+sleep 30s
 
-# Sleep
-sleep 10s
+# Set up environment variables
+export PATH="$PATH:/root/.dotnet/tools"
 
-# # Install EF Core tools
-# dotnet tool install --global dotnet-ef
+# Install EF Core tools
+dotnet tool install --global dotnet-ef
 
-# Add EF Core tools to the path
-export PATH="${PATH}:/root/.dotnet/tools"
+# Run migrations for Persistence project
+cd /app/Torneo.App.Persistencia
+dotnet ef database update
 
-# Build the project
-dotnet build -c Release -o out Torneo.App.Persistencia/Torneo.App.Persistencia.csproj 
+# Run migrations for Frontend project (Identity)
+cd /app/Torneo.App.Frontend
+dotnet ef database update
 
-# Create database migrations
-dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj migrations add InitialCreate
-
-# Apply database migrations
-dotnet ef --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj database update
-
-# Apply database migrations
-dotnet ef --project Torneo.App.Frontend/Torneo.App.Frontend.csproj database update
-
-# Start the main application
-cd out/ && dotnet Torneo.App.Frontend.dll
+# Start the application
+cd /app
+dotnet Torneo.App.Frontend.dll

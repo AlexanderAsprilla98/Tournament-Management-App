@@ -45,13 +45,38 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
-        
+
       - name: Deploy with Docker Compose
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-        run: docker-compose up -d
+        run: docker-compose up -d       
+  
+# migration script workflow file
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+          
+      - name: Install EF Tools
+        run: |
+          dotnet tool install --global dotnet-ef
+          
+      - name: Build and Test
+        run: |
+          dotnet restore Torneo.App/Torneo.App.sln
+          dotnet build Torneo.App/Torneo.App.sln
+          
+      - name: Create Migration Scripts
+        run: |
+          cd Torneo.App/Torneo.App.Persistencia
+          dotnet ef migrations script -o sql-script.sql
+          
+      - name: Build Docker Image
+        run: docker build -t your-registry/torneo-app .
+      
 
+# deployment steps for Render
   deploy:
     runs-on: ubuntu-latest
     needs: build

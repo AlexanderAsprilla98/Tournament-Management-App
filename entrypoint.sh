@@ -7,8 +7,7 @@ sleep 30s
 export PATH="$PATH:/root/.dotnet/tools"
 
 # Install EF Core tools
-dotnet tool install --global dotnet-ef --version 6.0.0
-dotnet tool update --global dotnet-ef
+dotnet tool install --global dotnet-ef --version 7.0.8
 
 # Run migrations for Persistence project
 cd /app/Torneo.App.Persistencia

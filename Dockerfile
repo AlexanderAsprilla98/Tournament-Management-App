@@ -11,11 +11,8 @@ RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 
 # Create wait-for-sql script
 RUN echo '#!/bin/bash\n\
-until /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P $MSSQL_SA_PASSWORD -Q "SELECT 1" > /dev/null 2>&1; do\n\
-  echo "Waiting for SQL Server..."\n\
-  sleep 5\n\
-done\n\
-echo "SQL Server is ready"\n\
+echo "Starting database migration..."\n\
+dotnet ef migrations add InitialCreate --project Torneo.App.Persistencia || exit 1\n\
 \n\
 echo "Running migrations..."\n\
 cd /app/Torneo.App.Persistencia\n\

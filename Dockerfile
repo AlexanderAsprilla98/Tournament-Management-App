@@ -1,26 +1,37 @@
-# Use the official .NET SDK image to build the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Install EF Core tools
-RUN dotnet tool install --global dotnet-ef --version 6.0.8
+RUN dotnet tool install --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-# Copy solution and restore dependencies
 COPY ["Torneo.App/", "./"]
 RUN dotnet restore "Torneo.App.sln"
-
-# Build the project
 RUN dotnet build "Torneo.App.sln" -c Release -o /app/build
-
-# Publish
 RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 
-# Use the official .NET runtime image to run the application
+# Create wait-for-sql script
+RUN echo '#!/bin/bash\n\
+until /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P $MSSQL_SA_PASSWORD -Q "SELECT 1" > /dev/null 2>&1; do\n\
+  echo "Waiting for SQL Server..."\n\
+  sleep 5\n\
+done\n\
+echo "SQL Server is ready"\n\
+\n\
+echo "Running migrations..."\n\
+cd /app/Torneo.App.Persistencia\n\
+dotnet ef database update\n\
+\n\
+echo "Starting application..."\n\
+cd /app\n\
+dotnet Torneo.App.Frontend.dll' > /app/publish/start.sh \
+&& chmod +x /app/publish/start.sh
+
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
+RUN apt-get update && apt-get install -y curl gnupg2 \
+    && curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - \
+    && curl https://packages.microsoft.com/config/debian/11/prod.list > /etc/apt/sources.list.d/mssql-release.list \
+    && apt-get update \
+    && ACCEPT_EULA=Y apt-get install -y mssql-tools unixodbc-dev
 WORKDIR /app
 COPY --from=build /app/publish .
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["./start.sh"]

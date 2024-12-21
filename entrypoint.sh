@@ -1,28 +1,21 @@
 #!/bin/bash
 
-# Wait for SQL Server to be ready
-sleep 30s
-
-# Set up environment variables
-export PATH="$PATH:/root/.dotnet/tools"
-
-# Install EF Core tools
-dotnet tool install --global dotnet-ef --version 6.0.8
-
-# Run migrations for Persistence project
-
-dotnet ef migrations add InitialCreate --project /app/Torneo.App.Persistencia
-dotnet ef database update --project /app/Torneo.App.Persistencia
-
-# Run migrations for Frontend project (Identity)
-
-dotnet ef database update --project /app/Torneo.App.Frontend
-
 # Wait for SQL Server
 echo "Waiting for SQL Server to be ready..."
-/root/.dotnet/tools/dotnet-ef database update --project /app/Torneo.App.Persistencia
+for i in {1..30}; do
+    if /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" &>/dev/null; then
+        echo "SQL Server is ready"
+        break
+    fi
+    echo "Waiting for SQL Server ($i/30)..."
+    sleep 1
+done
+
+# Run migrations
+cd /app
+dotnet ef database update --project Torneo.App.Persistencia
+dotnet ef database update --project Torneo.App.Frontend
 
 # Start the application
 echo "Starting application..."
-cd /app
 dotnet Torneo.App.Frontend.dll

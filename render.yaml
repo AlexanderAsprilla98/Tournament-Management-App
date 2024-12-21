@@ -14,19 +14,5 @@ services:
       - key: PORT
         value: 80
       - key: ConnectionStrings__DefaultConnection
-        fromDatabase:
-          name: tournament-db
-          property: connectionString
-
-  - type: pserv
-    name: tournament-db
-    env: docker
-    plan: free
-    branch: qa
-    image: 
-        url: mcr.microsoft.com/mssql/server:2019-latest
-    envVars:
-      - key: ACCEPT_EULA
-        value: Y
-      - key: MSSQL_SA_PASSWORD
-        sync: false    
+        value: "Server=${RENDER_PG_HOST};Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true"
+    healthCheckPath: /health

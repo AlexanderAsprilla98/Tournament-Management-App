@@ -9,17 +9,21 @@ services:
     volumes:
       - sqldata:/var/opt/mssql
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -Q "SELECT 1" -b -o /dev/null
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" -b -o /dev/null
       interval: 10s
+      timeout: 5s
       retries: 10
+      start_period: 10s
     networks:
       - torneo-network
 
   torneo-app:
-    image: ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${IMAGE_TAG}
+    build: .
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
+    ports:
+      - "80:80"
     depends_on:
       sql-server:
         condition: service_healthy
@@ -28,6 +32,7 @@ services:
 
 networks:
   torneo-network:
+    driver: bridge
 
 volumes:
   sqldata:

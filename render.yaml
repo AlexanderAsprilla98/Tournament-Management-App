@@ -21,10 +21,6 @@ services:
     region: ohio
     image:
       url: docker.io/microsoft/mssql-server-linux:2019-latest
-    disk:
-      name: data
-      mountPath: /var/opt/mssql
-      sizeGB: 1
     envVars:
       - key: ACCEPT_EULA
         value: Y

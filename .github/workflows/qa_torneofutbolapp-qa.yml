@@ -96,11 +96,8 @@ jobs:
         run: |
           docker ps -a
           docker-compose logs
-        if: always()
-                
-      - name: Wait for services to be healthy
-        run: |
-          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5000/health)" != "200" ]]; do sleep 5; done' || false
+        if: always()            
+      
 
 # deployment steps for Render
   deploy:

@@ -3,22 +3,27 @@ services:
     name: tournament-management-app
     env: docker
     plan: free
+    region: ohio
     dockerfilePath: ./Dockerfile
+    buildCommand: docker build -t tournament-app .
+    startCommand: docker run tournament-app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: MSSQL_SA_PASSWORD
-        sync: true
-      - fromGroup: sql-server
+        sync: false
+      - fromGroup: sql-server-config
   
   - type: pserv
     name: sql-server
     env: docker
+    plan: free
+    region: ohio
     image:
         url: mcr.microsoft.com/mssql/server:2019-latest    
     envVars:
       - key: ACCEPT_EULA
         value: Y
       - key: SA_PASSWORD
-        generateValue: true
+        sync: false
       - fromGroup: sql-server

@@ -3,7 +3,6 @@ services:
     name: tournament-management-app
     env: docker
     plan: free
-    region: ohio
     branch: qa
     dockerfilePath: ./Dockerfile
     dockerCommand: sh /app/publish/startup.sh

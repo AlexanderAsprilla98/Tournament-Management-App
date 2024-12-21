@@ -4,11 +4,6 @@ WORKDIR /src
 
 # Install EF Core tools
 RUN dotnet tool install --global dotnet-ef --version 7.0.8
-RUN dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.0
-RUN dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
-RUN dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0
-RUN dotnet add package Microsoft.AspNetCore.Identity.UI --version 6.0.0
-RUN dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Copy solution and restore dependencies

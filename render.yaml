@@ -6,11 +6,3 @@ services:
     region: ohio
     dockerfilePath: ./Dockerfile
     dockerCommand: docker-compose -f docker-compose.prod.yml up
-  
-  - type: pserv
-    name: sql-server
-    env: docker
-    plan: free
-    region: ohio
-    image:
-      url: mcr.microsoft.com/mssql/server:2019-latest

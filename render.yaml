@@ -20,7 +20,7 @@ services:
     plan: starter
     region: ohio
     image:
-      name: registry.hub.docker.com/microsoft/mssql-server-linux:2019-latest
+      name: mcr.microsoft.com/mssql/server:2019-latest
     disk:
       name: data
       mountPath: /var/opt/mssql

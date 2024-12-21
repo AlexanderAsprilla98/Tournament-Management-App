@@ -9,7 +9,7 @@ services:
     dockerCommand: sh /app/publish/startup.sh
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Production
+        value: Development
       - key: MSSQL_SA_PASSWORD
         sync: false
       - key: ConnectionStrings__DefaultConnection

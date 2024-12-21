@@ -8,10 +8,6 @@ export PATH="$PATH:/root/.dotnet/tools"
 
 # Install EF Core tools
 dotnet tool install --global dotnet-ef --version 6.0.8
-dotnet add package Microsoft.EntityFrameworkCore --version 6.0.8
-dotnet add package Microsoft.EntityFrameworkCore.Tools
-dotnet add package Microsoft.EntityFrameworkCore.Design
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
 
 # Run migrations for Persistence project
 cd /app/Torneo.App.Persistencia

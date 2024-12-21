@@ -33,7 +33,9 @@ jobs:
           
       - name: Create Migration Script
         working-directory: ./Torneo.App/Torneo.App.Persistencia
-        run: dotnet ef migrations script -o init.sql --idempotent cat init.sql
+        run: | 
+          dotnet ef migrations script -o init.sql --idempotent
+          cat init.sql
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
      

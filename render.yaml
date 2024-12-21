@@ -5,7 +5,7 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Production
+        value: Development
       - key: MSSQL_SA_PASSWORD
         sync: false
       - key: ConnectionStrings__DefaultConnection
@@ -16,3 +16,8 @@ services:
     env: docker    
     image:
         url: mcr.microsoft.com/mssql/server:2019-latest
+    envVars:
+      - key: ACCEPT_EULA
+        value: Y
+      - key: SA_PASSWORD
+        sync: false

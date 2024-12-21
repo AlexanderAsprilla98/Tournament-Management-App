@@ -12,8 +12,7 @@ services:
         value: Production
       - key: MSSQL_SA_PASSWORD
         sync: false
-      - key: ConnectionStrings__DefaultConnection
-        value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
+      - fromGroup: sql-server
     
   - type: pserv
     name: sql-server
@@ -21,8 +20,12 @@ services:
     plan: starter
     region: ohio
     image: mcr.microsoft.com/mssql/server:2019-latest
+    disk:
+      name: data
+      mountPath: /var/opt/mssql
+      sizeGB: 10
     envVars:
       - key: ACCEPT_EULA
-        value: "Y"
+        value: Y
       - key: SA_PASSWORD
-        sync: false
+        generateValue: true

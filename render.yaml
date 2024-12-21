@@ -2,7 +2,7 @@ services:
   - type: web
     name: tournament-management-app
     env: docker
-    plan: starter
+    plan: free
     region: ohio
     dockerfilePath: ./Dockerfile
     envVars:
@@ -17,7 +17,7 @@ services:
   - type: pserv
     name: sql-server
     env: docker
-    plan: starter
+    plan: free
     region: ohio
     image:
       url: docker.io/microsoft/mssql-server-linux:2019-latest

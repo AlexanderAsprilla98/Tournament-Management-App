@@ -31,12 +31,12 @@ jobs:
           dotnet restore
           dotnet build --configuration Release
           
-      - name: Create Migration Script
-        working-directory: ./Torneo.App/Torneo.App.Persistencia
-        run: | 
-          dotnet ef migrations add InitialCreate
-        env:
-          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
+      #- name: Create Migration Script
+      #  working-directory: ./Torneo.App/Torneo.App.Persistencia
+      #  run: | 
+      #    dotnet ef migrations add InitialCreate
+      #  env:
+      #    ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
      
       - name: Install Docker Compose
         run: |

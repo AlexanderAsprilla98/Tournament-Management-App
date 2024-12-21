@@ -5,7 +5,7 @@ services:
     plan: free
     branch: qa
     dockerfilePath: ./Dockerfile
-    dockerCommand: sh /app/publish/startup.sh
+    dockerCommand: docker-compose -f docker-compose.prod.yml up
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production

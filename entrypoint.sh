@@ -10,13 +10,13 @@ export PATH="$PATH:/root/.dotnet/tools"
 dotnet tool install --global dotnet-ef --version 6.0.8
 
 # Run migrations for Persistence project
-cd /app/Torneo.App.Persistencia
-dotnet ef migrations add InitialCreate
-dotnet ef database update
+
+dotnet ef migrations add InitialCreate --project /app/Torneo.App.Persistencia
+dotnet ef database update --project /app/Torneo.App.Persistencia
 
 # Run migrations for Frontend project (Identity)
-cd /app/Torneo.App.Frontend
-dotnet ef database update
+
+dotnet ef database update --project /app/Torneo.App.Frontend
 
 # Wait for SQL Server
 echo "Waiting for SQL Server to be ready..."

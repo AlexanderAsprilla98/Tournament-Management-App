@@ -4,7 +4,7 @@ services:
     env: docker
     plan: free
     region: ohio
-    branch: main
+    branch: qa
     dockerfilePath: ./Dockerfile
     dockerCommand: sh /app/publish/startup.sh
     envVars:

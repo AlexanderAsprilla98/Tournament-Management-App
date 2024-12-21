@@ -96,17 +96,8 @@ jobs:
         run: |
           docker ps -a
           docker-compose logs
-        if: always()
-  
-      services:
-      - type: web
-        name: torneo-app
-        env: docker
-        dockerCommand: docker-compose -f docker-compose.prod.yml up
-        envVars:
-          - key: MSSQL_SA_PASSWORD
-            sync: false
-        
+        if: always()            
+      
 
 # deployment steps for Render
   deploy:

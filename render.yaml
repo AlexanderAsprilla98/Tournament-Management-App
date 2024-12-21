@@ -12,7 +12,6 @@ services:
         sync: false
       - key: ConnectionStrings__DefaultConnection
         value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
-      - fromGroup: sql-server-config
     
   - type: pserv
     name: sql-server
@@ -21,9 +20,6 @@ services:
     region: ohio
     image:
       url: docker.io/microsoft/mssql-server-linux:2019-latest
-    disk:
-      name: data
-      mountPath: /var/opt/mssql
     envVars:
       - key: ACCEPT_EULA
         value: Y

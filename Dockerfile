@@ -2,7 +2,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # Install EF Tools
-RUN dotnet tool install --global dotnet-ef
+RUN dotnet tool install --global dotnet-ef --version 6.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 COPY ["Torneo.App/", "./"]

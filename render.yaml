@@ -19,8 +19,8 @@ services:
     env: docker
     plan: starter
     region: ohio
-    dockerRepository: mcr.microsoft.com/mssql/server
-    dockerTag: 2019-latest
+    image:
+      url: mcr.microsoft.com/mssql/server:2019-latest
     disk:
       name: data
       mountPath: /var/opt/mssql

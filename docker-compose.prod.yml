@@ -1,4 +1,4 @@
-# Production configuration for Render
+# CI configuration for GitHub Actions
 version: '3.8'
 services:
   sql-server:
@@ -8,20 +8,26 @@ services:
       - SA_PASSWORD=${MSSQL_SA_PASSWORD}
     volumes:
       - sqldata:/var/opt/mssql
+    healthcheck:
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P ${MSSQL_SA_PASSWORD} -Q "SELECT 1" -b -o /dev/null
+      interval: 10s
+      retries: 10
     networks:
       - torneo-network
 
   torneo-app:
-    build: .
+    image: ${DOCKER_REGISTRY_URL}/${DOCKER_IMAGE_NAME}:${IMAGE_TAG}
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
     depends_on:
-      - sql-server
+      sql-server:
+        condition: service_healthy
     networks:
       - torneo-network
 
 networks:
   torneo-network:
+
 volumes:
   sqldata:

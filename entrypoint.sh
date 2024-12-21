@@ -7,7 +7,7 @@ sleep 30s
 export PATH="$PATH:/root/.dotnet/tools"
 
 # Install EF Core tools
-dotnet tool install --global dotnet-ef --version 7.0.8
+dotnet tool install --global dotnet-ef --version 6.0.8
 dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.0.0
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0

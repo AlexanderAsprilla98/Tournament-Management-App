@@ -3,7 +3,7 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
 # Install EF Core tools
-RUN dotnet tool install --global dotnet-ef --version 7.0.8
+RUN dotnet tool install --global dotnet-ef --version 6.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Copy solution and restore dependencies

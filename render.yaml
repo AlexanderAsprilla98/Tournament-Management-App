@@ -6,7 +6,7 @@ services:
     region: ohio
     dockerfilePath: ./Dockerfile
     dockerCommand: docker build -t tournament-app .
-    dockerCommand: docker run tournament-app
+    dockerCommand2: docker run tournament-app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production

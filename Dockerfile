@@ -4,7 +4,7 @@ WORKDIR /src
 
 # Install EF Core tools
 RUN dotnet tool install --global dotnet-ef --version 6.0.0
-RUN dotnet tool update global dotnet ef
+RUN dotnet tool update --global dotnet-ef
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Copy solution and restore dependencies

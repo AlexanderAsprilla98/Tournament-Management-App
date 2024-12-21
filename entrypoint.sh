@@ -8,7 +8,7 @@ export PATH="$PATH:/root/.dotnet/tools"
 
 # Install EF Core tools
 dotnet tool install --global dotnet-ef --version 6.0.0
-dotnet tool update global dotnet ef
+dotnet tool update --global dotnet-ef
 
 # Run migrations for Persistence project
 cd /app/Torneo.App.Persistencia

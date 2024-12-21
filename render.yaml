@@ -1,9 +1,7 @@
 services:
   - type: web
     name: tournament-management-app
-    env: docker
-    plan: free
-    region: ohio
+    env: docker   
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
@@ -15,9 +13,7 @@ services:
 
   - type: pserv
     name: sql-server
-    env: docker
-    plan: free
-    region: ohio
+    env: docker    
     image:
         url: mcr.microsoft.com/mssql/server:2019-latest
     envVars:

@@ -1,4 +1,5 @@
 using Torneo.App.Persistencia;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Torneo.App.Frontend.Areas.Identity.Data;
@@ -45,7 +46,11 @@ if (string.IsNullOrEmpty(defaultConnectionString))
 }
 
 builder.Services.AddHealthChecks()
-    .AddSqlServer(defaultConnectionString);
+    .AddSqlServer(
+        defaultConnectionString,
+        name: "database",
+        failureStatus: HealthStatus.Unhealthy,
+        tags: new[] { "db" });
 
 /* Configurar para siguiente sprint
 builder.Services.AddAuthentication()

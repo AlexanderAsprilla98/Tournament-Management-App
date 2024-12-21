@@ -1,7 +1,6 @@
 services:
   - type: web
-    name: tournament-management-app
-    env: docker   
+    name: tournament-management-app      
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
@@ -12,8 +11,7 @@ services:
         value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
 
   - type: pserv
-    name: sql-server
-    env: docker    
+    name: sql-server       
     image:
         url: mcr.microsoft.com/mssql/server:2019-latest
     envVars:

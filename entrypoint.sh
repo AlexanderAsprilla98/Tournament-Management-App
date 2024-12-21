@@ -17,6 +17,11 @@ dotnet ef database update
 cd /app/Torneo.App.Frontend
 dotnet ef database update
 
+# Wait for SQL Server
+echo "Waiting for SQL Server to be ready..."
+/root/.dotnet/tools/dotnet-ef database update --project /app/Torneo.App.Persistencia
+
 # Start the application
+echo "Starting application..."
 cd /app
 dotnet Torneo.App.Frontend.dll

@@ -44,20 +44,8 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
-
-      - name: Deploy with Docker Compose
-        env:
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-        run: docker-compose up -d       
-  
-# migration script workflow file
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: 6.0.x
-          
+        run: docker push ${{ secrets.DOCKER_USERNAM }}/torneo-app:latest      
+      
       - name: Install EF Tools
         run: |
           dotnet tool install --global dotnet-ef --version 6.0.0
@@ -67,13 +55,38 @@ jobs:
           dotnet restore Torneo.App/Torneo.App.sln
           dotnet build Torneo.App/Torneo.App.sln
           
-      - name: Create Migration Scripts
+      - name: Create Migration Script
         run: |
           cd Torneo.App/Torneo.App.Persistencia
-          dotnet ef migrations script -o sql-script.sql
+          dotnet ef migrations script -o init.sql --idempotent
+        env:
+          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
           
-      - name: Build Docker Image
-        run: docker build -t your-registry/torneo-app .
+      - name: Build Docker images
+        run: |
+          docker-compose build
+        env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+      
+      - name: Run Docker Compose
+        run: |
+          docker-compose up -d sql-server
+          sleep 30
+          docker-compose up -d torneo-app
+        env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+          
+      - name: Wait for services to be healthy
+        run: |
+          timeout 300 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' localhost:5000/health)" != "200" ]]; do sleep 5; done' || false
+
+      - name: Deploy with Docker Compose
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+        run: docker-compose up -d       
+  
+
       
 
 # deployment steps for Render

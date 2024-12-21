@@ -37,6 +37,16 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredUniqueChars = 1;
 });
 
+// Add health checks
+var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(defaultConnectionString))
+{
+    throw new InvalidOperationException("Default connection string is not configured.");
+}
+
+builder.Services.AddHealthChecks()
+    .AddSqlServer(defaultConnectionString);
+
 /* Configurar para siguiente sprint
 builder.Services.AddAuthentication()
    .AddGoogle(options =>
@@ -79,5 +89,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHealthChecks("/health");
 
 app.Run();

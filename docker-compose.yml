@@ -15,7 +15,7 @@ services:
       interval: 10s
       timeout: 3s
       retries: 10
-      start_period: 10s
+      start_period: 30s
 
   torneo-app:
     build: .
@@ -23,6 +23,12 @@ services:
       - ASPNETCORE_ENVIRONMENT=Production
       - ConnectionStrings__DefaultConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};MultipleActiveResultSets=true;TrustServerCertificate=true
       - ConnectionStrings__IdentityDataContextConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};MultipleActiveResultSets=true;TrustServerCertificate=true
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
     ports:
       - "5000:80"
     depends_on:
@@ -33,3 +39,4 @@ services:
 
 networks:
   torneo-network:
+    driver: bridge

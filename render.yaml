@@ -18,7 +18,8 @@ services:
     env: docker
     plan: free
     region: ohio
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    image:
+        url: mcr.microsoft.com/mssql/server:2019-latest
     envVars:
       - key: ACCEPT_EULA
         value: Y

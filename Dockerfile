@@ -1,26 +1,26 @@
+# Use the official .NET SDK image to build the application
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 
-# Install EF Tools
+# Install EF Core tools
 RUN dotnet tool install --global dotnet-ef --version 6.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
+# Copy solution and restore dependencies
 COPY ["Torneo.App/", "./"]
 RUN dotnet restore "Torneo.App.sln"
+
+# Build the project
 RUN dotnet build "Torneo.App.sln" -c Release -o /app/build
+
+# Publish
 RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 
-# Create startup script with logging
-RUN echo '#!/bin/bash\n\
-echo "Starting database migration..."\n\
-dotnet ef migrations add InitialCreate --project Torneo.App.Persistencia || exit 1\n\
-echo "Updating database..."\n\
-dotnet ef database update --project Torneo.App.Persistencia || exit 1\n\
-echo "Starting application..."\n\
-dotnet Torneo.App.Frontend.dll' > /app/publish/startup.sh \
-&& chmod +x /app/publish/startup.sh
-
+# Use the official .NET runtime image to run the application
 FROM mcr.microsoft.com/dotnet/aspnet:6.0
 WORKDIR /app
 COPY --from=build /app/publish .
-ENTRYPOINT ["./startup.sh"]
+COPY entrypoint.sh .
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]

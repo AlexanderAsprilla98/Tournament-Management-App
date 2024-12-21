@@ -19,12 +19,11 @@ services:
     env: docker
     plan: starter
     region: ohio
-    repo: https://hub.docker.com/_/microsoft-mssql-server
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    repo: https://hub.docker.com/_/microsoft-mssql-server    
     disk:
       name: data
       mountPath: /var/opt/mssql
-      sizeGB: 10
+      sizeGB: 5
     envVars:
       - key: ACCEPT_EULA
         value: Y

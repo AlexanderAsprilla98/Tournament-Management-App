@@ -5,13 +5,13 @@ services:
     plan: starter
     region: ohio
     dockerfilePath: ./Dockerfile
-    buildCommand: docker build -t tournament-app .
-    startCommand: docker run tournament-app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: MSSQL_SA_PASSWORD
         sync: false
+      - key: ConnectionStrings__DefaultConnection
+        value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
       - fromGroup: sql-server-config
     
   - type: pserv
@@ -19,13 +19,13 @@ services:
     env: docker
     plan: starter
     region: ohio
-    repo: https://hub.docker.com/_/microsoft-mssql-server    
+    image: registry.hub.docker.com/microsoft/mssql-server-linux:2019-latest
     disk:
       name: data
       mountPath: /var/opt/mssql
-      sizeGB: 5
+      sizeGB: 10
     envVars:
       - key: ACCEPT_EULA
         value: Y
       - key: SA_PASSWORD
-        generateValue: true
+        sync: false

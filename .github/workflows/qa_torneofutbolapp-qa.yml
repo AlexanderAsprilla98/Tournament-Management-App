@@ -34,7 +34,7 @@ jobs:
       - name: Create Migration Script
         working-directory: ./Torneo.App/Torneo.App.Persistencia
         run: | 
-          dotnet ef migrations script -o init.sql --idempotent
+          dotnet ef migrations add InitialCreate script -o init.sql --idempotent
           cat init.sql
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
@@ -57,6 +57,8 @@ jobs:
           echo "Waiting for SQL Server to start..."
           sleep 30
           docker-compose logs sql-server
+        env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }} 
   
       - name: Deploy Application
         run: |
@@ -89,21 +91,7 @@ jobs:
         run: |
           docker-compose build
         env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}   
-
-      - name: Start SQL Server
-        run: |
-          docker-compose up -d sql-server
-          sleep 30
-          docker-compose logs sql-server
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}  
-        
-      - name: Start Application
-        run: |
-          docker-compose up -d torneo-app
-          sleep 30
-          docker-compose logs torneo-app
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }} 
           
       - name: Check Container Health
         run: |

@@ -78,6 +78,8 @@ jobs:
           docker-compose up -d sql-server
           sleep 30
           docker-compose logs sql-server
+      env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}  
           
       - name: Start Application
         run: |

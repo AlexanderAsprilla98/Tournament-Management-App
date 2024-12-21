@@ -44,7 +44,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAM }}/torneo-app:latest      
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest      
       
       - name: Install EF Tools
         run: |

@@ -7,7 +7,7 @@ services:
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Production
+        value: Development
       - key: MSSQL_SA_PASSWORD
         sync: true
       - key: ConnectionStrings__DefaultConnection

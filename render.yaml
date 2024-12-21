@@ -4,21 +4,22 @@ services:
     env: docker
     plan: starter
     region: ohio
-    branch: main
     dockerfilePath: ./Dockerfile
-    dockerCommand: sh /app/publish/startup.sh
+    buildCommand: docker build -t tournament-app .
+    startCommand: docker run tournament-app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: MSSQL_SA_PASSWORD
         sync: false
-      - fromGroup: sql-server
+      - fromGroup: sql-server-config
     
   - type: pserv
     name: sql-server
     env: docker
     plan: starter
     region: ohio
+    repo: https://hub.docker.com/_/microsoft-mssql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
     disk:
       name: data

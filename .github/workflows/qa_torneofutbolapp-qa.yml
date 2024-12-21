@@ -45,14 +45,14 @@ jobs:
 
       - name: Build Docker Compose
         run: |
-          docker-compose build --no-cache
+          docker-compose -f docker-compose.ci.yml build --no-cache
         env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
     
       - name: Start SQL Server
         run: |
           docker volume create sqldata
-          docker-compose up -d sql-server
+          docker-compose -f docker-compose.ci.yml up -d sql-server
           echo "Waiting for SQL Server to start..."
           sleep 30
           docker-compose logs sql-server
@@ -61,7 +61,7 @@ jobs:
   
       - name: Deploy Application
         run: |
-          docker-compose up -d torneo-app
+          docker-compose -f docker-compose.ci.yml up -d torneo-app
           echo "Waiting for application to start..."
           sleep 30
           docker-compose ps
@@ -88,7 +88,7 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker-compose build
+          docker-compose -f docker-compose.ci.yml build
         env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }} 
           
@@ -96,8 +96,17 @@ jobs:
         run: |
           docker ps -a
           docker-compose logs
-        if: always()            
-      
+        if: always()
+  
+      services:
+      - type: web
+        name: torneo-app
+        env: docker
+        dockerCommand: docker-compose -f docker-compose.prod.yml up
+        envVars:
+          - key: MSSQL_SA_PASSWORD
+            sync: false
+        
 
 # deployment steps for Render
   deploy:

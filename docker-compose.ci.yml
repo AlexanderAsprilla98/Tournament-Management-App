@@ -1,27 +1,19 @@
+# CI configuration for GitHub Actions
 version: '3.8'
-
 services:
   sql-server:
-    container_name: sql-server
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       - ACCEPT_EULA=Y
       - SA_PASSWORD=${MSSQL_SA_PASSWORD}
-    volumes:
-      - sqldata:/var/opt/mssql
-    ports:
-      - "1433:1433"
     networks:
       - torneo-network
 
   torneo-app:
-    container_name: torneo-app
     build: .
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Testing
       - ConnectionStrings__DefaultConnection=Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
-    ports:
-      - "5000:80"
     depends_on:
       - sql-server
     networks:
@@ -29,7 +21,3 @@ services:
 
 networks:
   torneo-network:
-    driver: bridge
-
-volumes:
-  sqldata:

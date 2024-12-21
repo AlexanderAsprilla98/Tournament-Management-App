@@ -78,9 +78,9 @@ jobs:
           docker-compose up -d sql-server
           sleep 30
           docker-compose logs sql-server
-      env:
+        env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}  
-          
+        
       - name: Start Application
         run: |
           docker-compose up -d torneo-app

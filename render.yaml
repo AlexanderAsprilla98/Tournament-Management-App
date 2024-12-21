@@ -20,11 +20,11 @@ services:
     plan: starter
     region: ohio
     image:
-      url: mcr.microsoft.com/mssql/server:2019-latest
+      url: registry.hub.docker.com/microsoft/mssql-server-linux:2019-latest
     disk:
       name: data
       mountPath: /var/opt/mssql
-      sizeGB: 10
+      sizeGB: 1
     envVars:
       - key: ACCEPT_EULA
         value: Y

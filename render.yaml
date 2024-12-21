@@ -6,13 +6,6 @@ services:
     region: ohio
     dockerfilePath: ./Dockerfile
     dockerCommand: docker-compose -f docker-compose.prod.yml up
-    envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: MSSQL_SA_PASSWORD
-        sync: false
-      - key: ConnectionStrings__DefaultConnection
-        value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
   
   - type: pserv
     name: sql-server
@@ -20,10 +13,4 @@ services:
     plan: free
     region: ohio
     image:
-      url: mcr.microsoft.com/mssql/server:2019-latest    
-    envVars:
-      - key: ACCEPT_EULA
-        value: Y
-      - key: SA_PASSWORD
-        sync: false
-      - fromGroup: sql-server
+      url: mcr.microsoft.com/mssql/server:2019-latest

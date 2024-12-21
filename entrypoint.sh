@@ -12,7 +12,7 @@ dotnet add package Microsoft.VisualStudio.Web.CodeGeneration.Design --version 6.
 dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
 dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0
 dotnet add package Microsoft.AspNetCore.Identity.UI --version 6.0.0
-dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.8
 
 # Run migrations for Persistence project
 cd /app/Torneo.App.Persistencia

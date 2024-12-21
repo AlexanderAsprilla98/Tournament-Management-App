@@ -54,7 +54,7 @@ jobs:
           dotnet add package Microsoft.EntityFrameworkCore.Design --version 7.0.8
           dotnet add package Microsoft.AspNetCore.Identity.EntityFrameworkCore --version 6.0.0
           dotnet add package Microsoft.AspNetCore.Identity.UI --version 6.0.0
-          dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+          dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 7.0.8
           
       - name: Build and Test
         run: |

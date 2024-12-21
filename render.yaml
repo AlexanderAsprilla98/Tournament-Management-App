@@ -2,7 +2,7 @@ services:
   - type: web
     name: tournament-management-app
     env: docker
-    plan: starter
+    plan: free
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
@@ -14,11 +14,8 @@ services:
   - type: pserv
     name: sql-server
     env: docker
-    image: mcr.microsoft.com/mssql/server:2019-latest
-    disk:
-      name: data
-      mountPath: /var/opt/mssql
-      sizeGB: 10
+    image:
+        url: mcr.microsoft.com/mssql/server:2019-latest    
     envVars:
       - key: ACCEPT_EULA
         value: Y

@@ -1,8 +1,26 @@
 services:
   - type: web
-    name: torneo-app
+    name: tournament-management-app
     env: docker
-    dockerCommand: docker-compose -f docker-compose.prod.yml up
+    plan: starter
+    dockerfilePath: ./Dockerfile
     envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
       - key: MSSQL_SA_PASSWORD
         sync: false
+      - fromGroup: sql-server
+  
+  - type: pserv
+    name: sql-server
+    env: docker
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    disk:
+      name: data
+      mountPath: /var/opt/mssql
+      sizeGB: 10
+    envVars:
+      - key: ACCEPT_EULA
+        value: Y
+      - key: SA_PASSWORD
+        generateValue: true

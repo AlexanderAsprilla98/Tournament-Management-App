@@ -21,3 +21,4 @@ services:
         value: Y
       - key: SA_PASSWORD
         generateValue: true
+      - fromGroup: sql-server

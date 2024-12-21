@@ -1,19 +1,23 @@
 services:
   - type: web
     name: tournament-management-app
-    env: docker   
+    env: docker
+    plan: free
+    region: ohio
     dockerfilePath: ./Dockerfile
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Development
+        value: Production
       - key: MSSQL_SA_PASSWORD
-        sync: false
+        sync: true
       - key: ConnectionStrings__DefaultConnection
         value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
 
   - type: pserv
     name: sql-server
-    env: docker    
+    env: docker
+    plan: free
+    region: ohio
     image:
         url: mcr.microsoft.com/mssql/server:2019-latest
     disk:

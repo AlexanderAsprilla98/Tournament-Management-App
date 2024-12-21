@@ -5,11 +5,28 @@ services:
     plan: free
     branch: qa
     dockerfilePath: ./Dockerfile
-    dockerCommand: docker-compose -f docker-compose.prod.yml up
+    dockerCommand: ./entrypoint.sh
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production
       - key: MSSQL_SA_PASSWORD
         sync: false
+      - key: PORT
+        value: 80
       - key: ConnectionStrings__DefaultConnection
-        value: Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true
+        fromDatabase:
+          name: tournament-db
+          property: connectionString
+
+  - type: pserv
+    name: tournament-db
+    env: docker
+    plan: free
+    branch: qa
+    image: 
+        url: mcr.microsoft.com/mssql/server:2019-latest
+    envVars:
+      - key: ACCEPT_EULA
+        value: Y
+      - key: MSSQL_SA_PASSWORD
+        sync: false    

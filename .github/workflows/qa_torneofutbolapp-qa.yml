@@ -51,9 +51,9 @@ jobs:
           dotnet tool install --global dotnet-ef --version 6.0.8
           cd Torneo.App/Torneo.App.Persistencia
           dotnet add package Microsoft.EntityFrameworkCore --version 6.0.8
-          dotnet add package Microsoft.EntityFrameworkCore.Tools
-          dotnet add package Microsoft.EntityFrameworkCore.Design
-          dotnet add package Microsoft.EntityFrameworkCore.SqlServer
+          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 6.0.8
+          dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.8
+          dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 6.0.8
           
       - name: Build and Test
         run: |

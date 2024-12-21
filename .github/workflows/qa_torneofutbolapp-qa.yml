@@ -23,12 +23,7 @@ jobs:
 
       - name: Install EF Tools
         run: |
-          dotnet tool install --global dotnet-ef --version 6.0.8
-          cd Torneo.App/Torneo.App.Persistencia
-          dotnet add package Microsoft.EntityFrameworkCore --version 6.0.8
-          dotnet add package Microsoft.EntityFrameworkCore.Tools --version 6.0.8
-          dotnet add package Microsoft.EntityFrameworkCore.Design --version 6.0.8
-          dotnet add package Microsoft.EntityFrameworkCore.SqlServer --version 6.0.8
+          dotnet tool install --global dotnet-ef --version 6.0.8          
           
       - name: Build and Test
         working-directory: ./Torneo.App
@@ -38,13 +33,39 @@ jobs:
           
       - name: Create Migration Script
         working-directory: ./Torneo.App/Torneo.App.Persistencia
-        run: dotnet ef migrations script -o init.sql --idempotent
+        run: dotnet ef migrations script -o init.sql --idempotent cat init.sql
         env:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
+     
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Build with dotnet
-        working-directory: ./Torneo.App
-        run: dotnet build Torneo.App.sln --configuration Release
+      - name: Build Docker Compose
+        run: |
+          docker-compose build --no-cache
+        env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+    
+      - name: Start SQL Server
+        run: |
+          docker volume create sqldata
+          docker-compose up -d sql-server
+          echo "Waiting for SQL Server to start..."
+          sleep 30
+          docker-compose logs sql-server
+  
+      - name: Deploy Application
+        run: |
+          docker-compose up -d torneo-app
+          echo "Waiting for application to start..."
+          sleep 30
+          docker-compose ps
+          docker-compose logs torneo-app
+        env:
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}     
 
       - name: Publish with dotnet
         working-directory: ./Torneo.App
@@ -60,12 +81,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
-      
-      - name: Install Docker Compose
-        run: |
-          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-          sudo chmod +x /usr/local/bin/docker-compose
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest   
 
       - name: Build Docker images
         run: |

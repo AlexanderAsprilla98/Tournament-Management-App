@@ -5,7 +5,7 @@ services:
     plan: free
     region: ohio
     dockerfilePath: ./Dockerfile
-    dockerCommand: docker-compose -f docker-compose.prod.yml up sh /app/publish/startup.sh docker build -t tournament-app .  
+    dockerCommand: docker-compose -f docker-compose.prod.yml up
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Production

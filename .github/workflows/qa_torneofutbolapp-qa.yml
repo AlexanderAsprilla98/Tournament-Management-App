@@ -22,15 +22,14 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Install EF Tools
-        run: |
-          dotnet tool install --global dotnet-ef --version 6.0.8          
+        run: dotnet tool install --global dotnet-ef --version 6.0.8
           
       - name: Build and Test
         working-directory: ./Torneo.App
         run: |
           dotnet restore
           dotnet build --configuration Release
-          
+
       #- name: Create Migration Script
       #  working-directory: ./Torneo.App/Torneo.App.Persistencia
       #  run: | 
@@ -44,8 +43,7 @@ jobs:
           sudo chmod +x /usr/local/bin/docker-compose
 
       - name: Build Docker Compose
-        run: |
-          docker-compose -f docker-compose.ci.yml build --no-cache
+        run: docker-compose -f docker-compose.ci.yml build --no-cache
         env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
     
@@ -68,7 +66,7 @@ jobs:
           docker-compose logs torneo-app
         env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}     
+          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Publish with dotnet
         working-directory: ./Torneo.App
@@ -87,19 +85,16 @@ jobs:
         run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest   
 
       - name: Build Docker images
-        run: |
-          docker-compose -f docker-compose.ci.yml build
+        run: docker-compose -f docker-compose.ci.yml build
         env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }} 
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
           
       - name: Check Container Health
         run: |
           docker ps -a
           docker-compose logs
-        if: always()            
-      
+        if: always()
 
-# deployment steps for Render
   deploy:
     runs-on: ubuntu-latest
     needs: build

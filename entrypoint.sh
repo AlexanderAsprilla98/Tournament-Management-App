@@ -11,11 +11,6 @@ for i in {1..30}; do
     sleep 1
 done
 
-# Run migrations
-cd /app
-dotnet ef database update --project Torneo.App.Persistencia
-dotnet ef database update --project Torneo.App.Frontend
-
 # Start the application
 echo "Starting application..."
 dotnet Torneo.App.Frontend.dll

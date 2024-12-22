@@ -110,8 +110,8 @@ jobs:
           curl -X POST \
           -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
           -H "Content-Type: application/json" \
-          -d '{
-            "serviceId": "srv-ctid1c8gph6c738524e0",
-            "branch": "qa"
-          }' \
-          https://api.render.com/v1/services/srv-ctid1c8gph6c738524e0/deploys
+          -d "{
+            \"serviceId\": \"${{ secrets.RENDER_SERVICE_ID }}\",
+            \"branch\": \"qa\"
+          }" \
+          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"

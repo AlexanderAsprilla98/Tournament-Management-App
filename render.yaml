@@ -14,5 +14,5 @@ services:
       - key: PORT
         value: 80
       - key: ConnectionStrings__DefaultConnection
-        value: "Server=${RENDER_PG_HOST};Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true"
+        value: "Server=sql-server;Database=Torneo;User Id=sa;Password=${MSSQL_SA_PASSWORD};TrustServerCertificate=true"
     healthCheckPath: /health

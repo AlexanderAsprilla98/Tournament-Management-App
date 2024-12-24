@@ -15,5 +15,3 @@ services:
       - key: PORT
         value: 80
     healthCheckPath: /health
-    # Add this to ensure the service starts properly
-    startCommand: dotnet Torneo.App.Frontend.dll --urls "http://0.0.0.0:${PORT}"

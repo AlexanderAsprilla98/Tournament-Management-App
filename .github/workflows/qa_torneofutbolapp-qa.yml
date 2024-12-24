@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Render.com
+name: Build and Deploy ASP.NET Core App to Render.com
 
 on:
   push:
@@ -23,30 +23,25 @@ jobs:
 
       - name: Install EF Tools
         run: dotnet tool install --global dotnet-ef --version 6.0.8
-          
-      - name: Build and Test
+
+      - name: Restore and Build
         working-directory: ./app/Torneo.App
         run: |
           dotnet restore
           dotnet build --configuration Release
 
-      #- name: Create Migration Script
-      #  working-directory: ./app/Torneo.App/Torneo.App.Persistencia
-      #  run: | 
-      #    dotnet ef migrations add InitialCreate
-      #  env:
-      #    ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
-     
       - name: Install Docker Compose
         run: |
           sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
           sudo chmod +x /usr/local/bin/docker-compose
 
-      - name: Build Docker Compose
+      # Build Docker images once
+      - name: Build Docker Images
         run: docker-compose -f docker-compose.ci.yml build --no-cache
         env:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-    
+
+      # Start SQL Server
       - name: Start SQL Server
         run: |
           docker volume create sqldata
@@ -55,8 +50,9 @@ jobs:
           sleep 30
           docker-compose logs sql-server
         env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }} 
-  
+          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
+
+      # Deploy and run the application
       - name: Deploy Application
         run: |
           docker-compose -f docker-compose.ci.yml up -d torneo-app
@@ -68,12 +64,14 @@ jobs:
           MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
+      # Publish artifacts using dotnet
       - name: Publish with dotnet
         working-directory: ./app/Torneo.App
         run: dotnet publish Torneo.App.sln -c Release -o out
 
-      - name: Build Docker image
-        working-directory: ./app        
+      # Build and push final Docker image to Docker Hub
+      - name: Build Docker Image for Hub
+        working-directory: ./app
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app .
 
       - name: Log in to Docker Hub
@@ -82,14 +80,10 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: Push Docker image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest   
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
 
-      - name: Build Docker images
-        run: docker-compose -f docker-compose.ci.yml build
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-          
+      # Optional log checks
       - name: Check Container Health
         run: |
           docker ps -a

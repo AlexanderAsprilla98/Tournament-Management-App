@@ -1,18 +1,4 @@
 #!/bin/bash
-# Check running containers
-docker ps
-
-# If needed, start SQL Server container
-if [ ! "$(docker ps -q -f name=sql-server)" ]; then
-    if [ "$(docker ps -aq -f status=exited -f name=sql-server)" ]; then
-        # cleanup
-        docker rm sql-server
-    fi
-    # run your container
-    docker-compose up -d sql-server
-fi
-
-
 echo "Waiting for SQL Server to be ready..."
 for i in {1..30}; do
     if /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" &>/dev/null; then

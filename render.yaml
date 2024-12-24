@@ -5,13 +5,26 @@ services:
     plan: free
     region: oregon
     branch: qa
-    dockerfilePath: ./Dockerfile
+    dockerfilePath: ./app/Dockerfile
     dockerCommand: ./entrypoint.sh
     envVars:
-      - key: ASPNETCORE_ENVIRONMENT
-        value: Production
-      - key: MSSQL_SA_PASSWORD
+      ASPNETCORE_ENVIRONMENT: Production
+      MSSQL_SA_PASSWORD:
         sync: false
-      - key: PORT
-        value: 80
+      PORT: 80
     healthCheckPath: /health
+    autoDeploy: true
+
+  - name: mssql-db
+    type: web_service
+    env: docker
+    dockerfilePath: ./db/Dockerfile
+    region: oregon
+    plan: free
+    branch: qa
+    envVars:
+      ACCEPT_EULA: Y
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: Developer
+    healthCheckPath: /
+    autoDeploy: true

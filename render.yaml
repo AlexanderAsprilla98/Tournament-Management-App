@@ -15,3 +15,9 @@ services:
       - key: PORT
         value: 80
     healthCheckPath: /health
+    networks:
+      - torneo-network
+
+networks:
+  torneo-network:
+    driver: bridge

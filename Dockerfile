@@ -15,7 +15,7 @@ RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 RUN dotnet nuget locals all --clear
 
 # Final runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:6.0
+FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
 
 # Install SQL Server tools
 RUN apt-get update && apt-get install -y curl gnupg2 \
@@ -27,9 +27,12 @@ RUN apt-get update && apt-get install -y curl gnupg2 \
 
 WORKDIR /app
 COPY --from=build /app/publish .
+COPY Torneo.App Torneo.App
 COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
+# Install EF Tools
+RUN dotnet tool install --global dotnet-ef --version 6.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
 ENV PORT=80

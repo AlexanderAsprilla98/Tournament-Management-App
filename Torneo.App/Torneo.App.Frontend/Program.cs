@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Torneo.App.Frontend.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("IdentityDataContextConnection");
+var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+var connectionString = $"Server=sql-server;Database=Torneo;User Id=sa;Password={password};TrustServerCertificate=true";
+// var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<IdentityDataContext>(options => options.UseSqlServer(connectionString));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
 
@@ -39,7 +41,8 @@ builder.Services.Configure<IdentityOptions>(options =>
 });
 
 // Add health checks
-var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+// var defaultConnectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var defaultConnectionString = connectionString;
 if (string.IsNullOrEmpty(defaultConnectionString))
 {
     throw new InvalidOperationException("Default connection string is not configured.");

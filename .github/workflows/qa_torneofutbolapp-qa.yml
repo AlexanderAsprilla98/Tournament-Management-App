@@ -25,13 +25,13 @@ jobs:
         run: dotnet tool install --global dotnet-ef --version 6.0.8
           
       - name: Build and Test
-        working-directory: ./Torneo.App
+        working-directory: ./app/Torneo.App
         run: |
           dotnet restore
           dotnet build --configuration Release
 
       #- name: Create Migration Script
-      #  working-directory: ./Torneo.App/Torneo.App.Persistencia
+      #  working-directory: ./app/Torneo.App/Torneo.App.Persistencia
       #  run: | 
       #    dotnet ef migrations add InitialCreate
       #  env:
@@ -69,10 +69,11 @@ jobs:
           ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
       - name: Publish with dotnet
-        working-directory: ./Torneo.App
+        working-directory: ./app/Torneo.App
         run: dotnet publish Torneo.App.sln -c Release -o out
 
-      - name: Build Docker image        
+      - name: Build Docker image
+        working-directory: ./app        
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app .
 
       - name: Log in to Docker Hub

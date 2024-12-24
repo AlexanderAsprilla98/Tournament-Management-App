@@ -3,11 +3,12 @@ version: '3.8'
 services:
   sql-server:
     container_name: sql-server
-    image: mcr.microsoft.com/mssql/server:2019-latest
+    build:
+      context: ./db
     environment:
-      - ACCEPT_EULA=Y
-      - SA_PASSWORD=${MSSQL_SA_PASSWORD}
-      - MSSQL_PID=Developer
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
+      MSSQL_PID: Developer
     volumes:
       - sqldata:/var/opt/mssql
     ports:
@@ -15,18 +16,19 @@ services:
     healthcheck:
       test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" &>/dev/null
       interval: 10s
-      timeout: 5s
-      retries: 10
+      timeout: 10s
+      retries: 3
       start_period: 10s
     networks:
       - torneo-network
 
   torneo-app:
     container_name: torneo-app
-    build: .
+    build:
+      context: ./app
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - MSSQL_SA_PASSWORD=${MSSQL_SA_PASSWORD}
+      ASPNETCORE_ENVIRONMENT: Development
+      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
     ports:
       - "5000:80"
     depends_on:

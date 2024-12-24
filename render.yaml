@@ -15,16 +15,3 @@ services:
       - key: PORT
         value: 80
     healthCheckPath: /health
-
-# Exported from Render on 2024-12-24T10:39:42Z
-databases:
-- name: DB-Tournament-Management-App
-  databaseName: torneo_w6fq
-  user: sa
-  plan: free
-  region: oregon
-  ipAllowList:
-  - source: 0.0.0.0/0
-    description: everywhere
-  postgresMajorVersion: "16"
-version: "1"

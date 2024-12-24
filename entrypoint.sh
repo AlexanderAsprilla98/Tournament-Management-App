@@ -1,4 +1,9 @@
 #!/bin/bash
+# Check running containers
+docker ps
+
+# If needed, start SQL Server container
+docker-compose up -d sql-server
 
 echo "Waiting for SQL Server to be ready..."
 for i in {1..30}; do

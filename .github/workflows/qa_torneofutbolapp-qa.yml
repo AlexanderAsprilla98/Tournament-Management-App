@@ -72,7 +72,8 @@ jobs:
         working-directory: ./app/Torneo.App
         run: dotnet publish Torneo.App.sln -c Release -o out
 
-      - name: Build Docker image        
+      - name: Build Docker image
+        working-directory: ./app        
         run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app .
 
       - name: Log in to Docker Hub

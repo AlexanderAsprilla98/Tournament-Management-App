@@ -34,3 +34,6 @@ services:
     healthCheckPath: /healthz
     healthCheckTimeout: 180
     autoDeploy: true
+    resources:
+  limits:
+    memory: 512MB

@@ -15,8 +15,8 @@ services:
     healthCheckPath: /health
     autoDeploy: true
 
-  - name: mssql-db
-    type: web_service
+  - type: web
+    name: mssql-db
     env: docker
     dockerfilePath: ./db/Dockerfile
     region: oregon

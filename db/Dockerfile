@@ -25,14 +25,14 @@ RUN chmod +x /usr/local/bin/entrypoint.sh
 
 USER mssql
 
-ENV MSSQL_MEMORY_LIMIT_MB=256
-ENV MSSQL_MIN_MEMORY_LIMIT_MB=64
+ENV MSSQL_MEMORY_LIMIT_MB=400
+ENV MSSQL_MIN_MEMORY_LIMIT_MB=100
 ENV ACCEPT_EULA=Y
 ENV MSSQL_PID=Developer
 
 EXPOSE 1433
 
 HEALTHCHECK --interval=30s --timeout=3s \
-    CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "SELECT 1" || exit 1
+    CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $MSSQL_SA_PASSWORD -Q "SELECT 1" || exit 1
 
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

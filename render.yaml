@@ -21,17 +21,7 @@ services:
     dockerfilePath: ./db/Dockerfile
     dockerContext: ./db
     region: oregon
-    plan: free
-    # Add these lines
-    scaling:
-      minInstances: 1
-      maxInstances: 1
-      targetMemoryPercent: 70
-    envVars:
-      - key: MSSQL_MEMORY_LIMIT_MB
-        value: "512"
-      - key: MSSQL_MIN_MEMORY_LIMIT_MB
-        value: "128"
+    plan: free  
     branch: qa
     envVars:
       - key: ACCEPT_EULA
@@ -42,5 +32,13 @@ services:
         value: Developer
       - key: PORT
         value: "1433"
+      - key: MSSQL_MEMORY_LIMIT_MB
+        value: "512"
+      - key: MSSQL_MIN_MEMORY_LIMIT_MB
+        value: "128"
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 70
     healthCheckPath: /health
     autoDeploy: true

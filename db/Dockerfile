@@ -20,9 +20,9 @@ ENV MSSQL_MEMORY_LIMIT=512MB
 # Deshabilitar características de SQL Server que consumen memoria
 # Ajuste de configuraciones de SQL Server
 # Establece el uso de memoria máxima y desactiva características no necesarias
-RUN /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "${SA_PASSWORD}" \
+RUN /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "${MSSQL_SA_PASSWORD}" \
     -Q "EXEC sp_configure 'max server memory (MB)', 512; RECONFIGURE;" && \
-    /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "${SA_PASSWORD}" \
+    /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "${MSSQL_SA_PASSWORD}" \
     -Q "EXEC sp_configure 'lightweight pooling', 1; RECONFIGURE;"
 
 EXPOSE 1433

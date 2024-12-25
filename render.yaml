@@ -32,7 +32,5 @@ services:
         value: Developer
       - key: PORT
         value: "1433"
-      - key: MSSQL_MEMORY_LIMIT_MB
-        value: "512"
     healthCheckPath: /health
     autoDeploy: true

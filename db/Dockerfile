@@ -25,7 +25,7 @@ RUN chown -R mssql:root /opt/mssql/bin/sqlservr && \
 
 USER mssql
 
-#ENV MSSQL_MEMORY_LIMIT_MB=400
+ENV MSSQL_MEMORY_LIMIT_MB=512
 #ENV MSSQL_MIN_MEMORY_LIMIT_MB=100
 ENV ACCEPT_EULA=Y
 ENV MSSQL_PID=Developer

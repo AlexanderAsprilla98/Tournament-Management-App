@@ -10,8 +10,6 @@ services:
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Staging 
-      - key: MSSQL_SA_PASSWORD
-        generateValue: true
       - key: PORT
         value: "80"
     healthCheckPath: /health
@@ -31,5 +29,7 @@ services:
         value: "${MSSQL_SA_PASSWORD}"
       - key: MSSQL_PID
         value: Developer
+      - key: PORT
+        value: "1433"
     healthCheckPath: /
     autoDeploy: true

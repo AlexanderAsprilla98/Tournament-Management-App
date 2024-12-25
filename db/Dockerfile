@@ -19,9 +19,9 @@ RUN chown -R mssql:root /opt/mssql/bin/sqlservr && \
     chmod u+x /opt/mssql/bin/sqlservr
 
 # Copy initialization files
-COPY init-script.sql /docker-entrypoint-initdb.d/
-COPY entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
+#COPY init-script.sql /docker-entrypoint-initdb.d/
+#COPY entrypoint.sh /usr/local/bin/
+#RUN chmod +x /usr/local/bin/entrypoint.sh
 
 USER mssql
 

@@ -34,7 +34,5 @@ services:
         value: "1433"
       - key: MSSQL_MEMORY_LIMIT_MB
         value: "512"
-      - key: MSSQL_MIN_MEMORY_LIMIT_MB
-        value: "128"
     healthCheckPath: /health
     autoDeploy: true

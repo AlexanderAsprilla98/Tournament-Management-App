@@ -2,27 +2,28 @@ FROM mcr.microsoft.com/mssql/server:2019-latest
 
 USER root
 
-# Create SQL directories
+# Create directories and set permissions
 RUN mkdir -p /var/opt/mssql/data && \
     mkdir -p /var/opt/mssql/log && \
-    mkdir -p /var/opt/mssql/backup && \
-    chown -R mssql:root /var/opt/mssql && \
-    chmod -R 775 /var/opt/mssql
+    mkdir -p /docker-entrypoint-initdb.d && \
+    chown -R mssql:root /var/opt/mssql /docker-entrypoint-initdb.d && \
+    chmod -R 775 /var/opt/mssql /docker-entrypoint-initdb.d
 
-# Add init script
+# Copy initialization files
 COPY init-script.sql /docker-entrypoint-initdb.d/
-RUN chown mssql:root /docker-entrypoint-initdb.d/init-script.sql
+COPY entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/entrypoint.sh
 
 USER mssql
 
-# Configure SQL Server
-ENV MSSQL_MEMORY_LIMIT_MB=400
-ENV MSSQL_MIN_MEMORY_LIMIT_MB=100
-ENV MSSQL_TCP_PORT=1433
+ENV MSSQL_MEMORY_LIMIT_MB=256
+ENV MSSQL_MIN_MEMORY_LIMIT_MB=64
+ENV ACCEPT_EULA=Y
+ENV MSSQL_PID=Developer
 
 EXPOSE 1433
 
-HEALTHCHECK --interval=10s --timeout=3s \
+HEALTHCHECK --interval=30s --timeout=3s \
     CMD /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -Q "SELECT 1" || exit 1
 
-CMD ["/opt/mssql/bin/sqlservr"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

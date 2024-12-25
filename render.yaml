@@ -36,7 +36,5 @@ services:
         value: "512"
       - key: MSSQL_MIN_MEMORY_LIMIT_MB
         value: "128"
-    scaling:
-      targetMemoryPercent: 70
     healthCheckPath: /health
     autoDeploy: true

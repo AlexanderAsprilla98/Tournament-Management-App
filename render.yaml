@@ -31,5 +31,6 @@ services:
         value: Developer
       - key: PORT
         value: "1433"
-    healthCheckPath: /
+    healthCheckPath: /healthz
+    healthCheckTimeout: 180
     autoDeploy: true

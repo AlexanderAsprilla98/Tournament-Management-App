@@ -35,5 +35,5 @@ services:
     healthCheckTimeout: 180
     autoDeploy: true
     resources:
-  limits:
-    memory: 512MB
+      limits:
+        memory: 512MB

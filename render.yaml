@@ -22,6 +22,16 @@ services:
     dockerContext: ./db
     region: oregon
     plan: free
+    # Add these lines
+    scaling:
+      minInstances: 1
+      maxInstances: 1
+      targetMemoryPercent: 70
+    envVars:
+      - key: MSSQL_MEMORY_LIMIT_MB
+        value: "512"
+      - key: MSSQL_MIN_MEMORY_LIMIT_MB
+        value: "128"
     branch: qa
     envVars:
       - key: ACCEPT_EULA

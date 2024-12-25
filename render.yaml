@@ -6,7 +6,6 @@ services:
     region: oregon
     branch: qa
     dockerfilePath: ./app/Dockerfile
-    dockerCommand: ./entrypoint.sh
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Staging 

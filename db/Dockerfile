@@ -20,11 +20,17 @@ RUN chown mssql:root /docker-entrypoint-initdb.d/init-script.sql
 USER mssql
 
 # Configure SQL Server
-ENV ACCEPT_EULA=Y
-ENV MSSQL_PID=Developer
-ENV MSSQL_MEMORY_LIMIT_MB=400
-ENV MSSQL_MIN_MEMORY_MB=128
-ENV MSSQL_TCP_PORT=1433
+ENV ACCEPT_EULA=Y \
+    MSSQL_PID=Developer \
+    MSSQL_TCP_PORT=1433 \
+    MSSQL_MEMORY_LIMIT_MB=256 \
+    MSSQL_AGENT_ENABLED=false \
+    MSSQL_ENABLE_HADR=0 \
+    MSSQL_ENABLE_CLR=0 \
+    MSSQL_COLLATION=SQL_Latin1_General_CP1_CI_AS \
+    MSSQL_BACKUP_DIR=/var/opt/mssql/backup \
+    MSSQL_DATA_DIR=/var/opt/mssql/data \
+    MSSQL_LOG_DIR=/var/opt/mssql/log
 
 # Disable unused features
 ENV MSSQL_AGENT_ENABLED=false 

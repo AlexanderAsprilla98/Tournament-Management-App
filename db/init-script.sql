@@ -37,9 +37,11 @@ EXEC sp_configure 'Ole Automation Procedures', 0;
 GO
 EXEC sp_configure 'remote access', 0;
 GO
-EXEC sp_configure 'max server memory (MB)', 400;
+EXEC sp_configure 'max server memory (MB)', 256;
 GO
 EXEC sp_configure 'min server memory (MB)', 128;
+GO
+EXEC sp_configure 'optimize for ad hoc workloads', 1;
 GO
 RECONFIGURE;
 GO

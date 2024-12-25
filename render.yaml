@@ -38,7 +38,7 @@ services:
         value: "128"
     scaling:
       minInstances: 1
-      maxInstances: 1
+      maxInstances: 2
       targetMemoryPercent: 70
     healthCheckPath: /health
     autoDeploy: true

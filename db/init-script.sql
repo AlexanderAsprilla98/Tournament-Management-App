@@ -28,20 +28,18 @@ GO
 RECONFIGURE;
 GO
 
---- Disable xp_cmdshell
-EXEC sp_configure 'xp_cmdshell', 1;
+-- Disable memory-intensive features
+EXEC sp_configure 'clr enabled', 0;
 GO
-RECONFIGURE;
+EXEC sp_configure 'xp_cmdshell', 0;
+GO 
+EXEC sp_configure 'Ole Automation Procedures', 0;
 GO
-
---- Show advanced options
-EXEC sp_configure 'show advanced options', 0;
+EXEC sp_configure 'remote access', 0;
 GO
-RECONFIGURE;
+EXEC sp_configure 'max server memory (MB)', 400;
 GO
-
---- Disable CLR
-EXEC sp_configure 'clr enabled', 1;
+EXEC sp_configure 'min server memory (MB)', 128;
 GO
 RECONFIGURE;
 GO

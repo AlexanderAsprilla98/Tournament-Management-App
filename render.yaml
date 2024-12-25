@@ -13,7 +13,7 @@ services:
       - key: PORT
         value: "80"
     healthCheckPath: /health
-    autoDeploy: true
+    autoDeploy: false
 
   - type: web
     name: mssql-db

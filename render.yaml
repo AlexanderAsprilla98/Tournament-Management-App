@@ -9,11 +9,11 @@ services:
     dockerCommand: ./entrypoint.sh
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: qa
+        value: Staging 
       - key: MSSQL_SA_PASSWORD
-        valueFromSecret: mssql-sa-password
+        generateValue: true
       - key: PORT
-        value: 80
+        value: "80"
     healthCheckPath: /health
     autoDeploy: true
 
@@ -28,7 +28,7 @@ services:
       - key: ACCEPT_EULA
         value: "Y"
       - key: SA_PASSWORD
-        valueFromSecret: mssql-sa-password
+        value: "${MSSQL_SA_PASSWORD}"
       - key: MSSQL_PID
         value: Developer
     healthCheckPath: /

@@ -11,13 +11,14 @@ RUN mkdir -p /var/opt/mssql && \
 RUN chown -R mssql:root /opt/mssql/bin/sqlservr && \
     chmod u+x /opt/mssql/bin/sqlservr
 
-# Install mssql-tools
+# Install curl and other dependencies
 RUN apt-get update && \
-    apt-get install -y curl apt-transport-https gnupg && \
-    curl https://packages.microsoft.com/keys/microsoft.asc | apt-key add - && \
-    curl https://packages.microsoft.com/mssql-tools/debian/apt.repo | tee /etc/apt/sources.list.d/mssql-tools.list && \
-    apt-get update && \
-    apt-get install -y mssql-tools
+    apt-get install -y curl apt-transport-https gnupg
+
+# Download and install SQL Server command-line tools
+RUN curl -o /tmp/mssql-tools.deb https://packages.microsoft.com/debian/10/prod/pool/main/m/mssql-tools/mssql-tools_17.9.1-1_amd64.deb && \
+    dpkg -i /tmp/mssql-tools.deb && \
+    apt-get install -f -y
 
 # Switch back to mssql user
 USER mssql

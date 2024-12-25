@@ -6,6 +6,7 @@ services:
     region: oregon
     branch: qa
     dockerfilePath: ./app/Dockerfile
+    dockerContext: ./app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Staging 
@@ -18,6 +19,7 @@ services:
     name: mssql-db
     env: docker
     dockerfilePath: ./db/Dockerfile
+    dockerContext: ./db
     region: oregon
     plan: free
     branch: qa

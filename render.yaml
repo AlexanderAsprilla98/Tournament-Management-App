@@ -8,10 +8,12 @@ services:
     dockerfilePath: ./app/Dockerfile
     dockerCommand: ./entrypoint.sh
     envVars:
-      ASPNETCORE_ENVIRONMENT: Production
-      MSSQL_SA_PASSWORD:
-        sync: false
-      PORT: 80
+      - key: ASPNETCORE_ENVIRONMENT
+        value: qa
+      - key: MSSQL_SA_PASSWORD
+        valueFromSecret: mssql-sa-password
+      - key: PORT
+        value: 80
     healthCheckPath: /health
     autoDeploy: true
 
@@ -23,8 +25,11 @@ services:
     plan: free
     branch: qa
     envVars:
-      ACCEPT_EULA: Y
-      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
-      MSSQL_PID: Developer
+      - key: ACCEPT_EULA
+        value: "Y"
+      - key: SA_PASSWORD
+        valueFromSecret: mssql-sa-password
+      - key: MSSQL_PID
+        value: Developer
     healthCheckPath: /
     autoDeploy: true

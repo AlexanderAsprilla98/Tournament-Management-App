@@ -1,10 +1,10 @@
-version: '3.8'
-
 services:
   torneo-app:
     container_name: torneo-app
     build:
       context: ./app
+      dockerfile: Dockerfile
+    entrypoint: /app/entrypoint.sh
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     ports:

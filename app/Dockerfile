@@ -7,7 +7,7 @@ RUN dotnet restore "Torneo.App.sln"
 RUN dotnet build "Torneo.App.sln" -c Release -o /app/build
 
 # Install EF Tools
-RUN dotnet tool install --global dotnet-ef --version 6.0.8
+RUN dotnet tool install --global dotnet-ef --version 7.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 # Publish and clear NuGet cache
@@ -24,7 +24,7 @@ COPY entrypoint.sh .
 RUN chmod +x entrypoint.sh
 
 # Install EF Tools
-RUN dotnet tool install --global dotnet-ef --version 6.0.8
+RUN dotnet tool install --global dotnet-ef --version 7.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
 ENV PORT=80

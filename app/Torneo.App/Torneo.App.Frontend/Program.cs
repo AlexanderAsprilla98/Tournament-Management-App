@@ -8,8 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 //var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
 //var connectionString = $"Server=sql-server;Database=Torneo;User Id=sa;Password={password};TrustServerCertificate=true";
 // var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-var connectionString = "Data Source=Torneo.db";
+var connectionString = "Data Source=/app/Torneo.db";
 builder.Services.AddDbContext<IdentityDataContext>(options => options.UseSqlite(connectionString));
+//builder.Services.AddDbContext<DataContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
 
 // Add services to the container.

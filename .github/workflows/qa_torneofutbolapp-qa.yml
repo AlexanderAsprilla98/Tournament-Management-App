@@ -38,19 +38,6 @@ jobs:
       # Build Docker images once
       - name: Build Docker Images
         run: docker-compose -f docker-compose.ci.yml build --no-cache
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-
-      # Start SQL Server
-      - name: Start SQL Server
-        run: |
-          docker volume create sqldata
-          docker-compose -f docker-compose.ci.yml up -d sql-server
-          echo "Waiting for SQL Server to start..."
-          sleep 30
-          docker-compose logs sql-server
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
 
       # Deploy and run the application
       - name: Deploy Application
@@ -60,9 +47,6 @@ jobs:
           sleep 30
           docker-compose ps
           docker-compose logs torneo-app
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
       # Publish artifacts using dotnet
       - name: Publish with dotnet

@@ -4,7 +4,7 @@ services:
     env: docker
     plan: free
     region: oregon
-    branch: qa
+    branch: qa-sqllite-optimization
     dockerfilePath: ./app/Dockerfile
     dockerContext: ./app
     envVars:

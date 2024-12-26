@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: tournament-management-app
+    name: tournament-management-app-sqlite
     env: docker
     plan: free
     region: oregon
@@ -9,8 +9,8 @@ services:
     dockerContext: ./app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Staging 
+        value: Staging
       - key: PORT
         value: "80"
     healthCheckPath: /health
-    autoDeploy: false  
+    autoDeploy: true  

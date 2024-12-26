@@ -13,24 +13,4 @@ services:
       - key: PORT
         value: "80"
     healthCheckPath: /health
-    autoDeploy: false
-
-  - type: web
-    name: mssql-db
-    env: docker
-    dockerfilePath: ./db/Dockerfile
-    dockerContext: ./db
-    region: oregon
-    plan: free  
-    branch: qa
-    envVars:
-      - key: ACCEPT_EULA
-        value: "Y"
-      - key: SA_PASSWORD
-        value: "${MSSQL_SA_PASSWORD}"
-      - key: MSSQL_PID
-        value: Developer
-      - key: PORT
-        value: "1433"
-    healthCheckPath: /health
-    autoDeploy: true
+    autoDeploy: false  

@@ -1,33 +1,26 @@
 #!/bin/bash
 
-set -e
+#echo "Creating database if it does not exist..."
+#if [ ! -f "./Torneo.db" ]; then
+#    sqlite3 Torneo.db "VACUUM;"
+#    echo "Database 'Torneo.db' created."
+#else
+#    echo "Database 'Torneo.db' already exists."
+#fi
 
-echo "Waiting for SQL Server to be ready..."
-
-for i in {1..30}; do
-    if /opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" &>/dev/null; then
-        echo "SQL Server is ready"
-        break
-    fi
-    echo "Waiting for SQL Server ($i/30)..."
-    sleep 1
-done
-
-if [ $i -eq 30 ]; then
-    echo "SQL Server did not become ready in time"
-    exit 1
-fi
-
-echo "Creating database if it does not exist..."
-/opt/mssql-tools/bin/sqlcmd -S sql-server -U sa -P "${MSSQL_SA_PASSWORD}" -Q "IF NOT EXISTS (SELECT * FROM sys.databases WHERE name = 'Torneo') CREATE DATABASE Torneo;"
 
 cd /app/Torneo.App/Torneo.App.Persistencia
+echo "Remove migrations for Persistencia..."
+dotnet ef migrations remove --context Torneo.App.Persistencia.DataContext || true
 echo "Applying migrations for Persistencia..."
 dotnet ef migrations add InitialCreate --context Torneo.App.Persistencia.DataContext || true
 dotnet ef database update
 
 cd /app/Torneo.App/Torneo.App.Frontend
+echo "Remove migrations for Frontend..."
+dotnet ef migrations remove --context Torneo.App.Frontend.DataContext || true
 echo "Applying migrations for Frontend..."
+dotnet ef migrations add CreateIdentitySchema --context Torneo.App.Frontend.DataContext || true
 dotnet ef database update
 
 cd /app

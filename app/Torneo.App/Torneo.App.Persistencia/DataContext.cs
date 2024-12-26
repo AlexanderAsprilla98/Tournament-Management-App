@@ -17,10 +17,12 @@ namespace Torneo.App.Persistencia
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+                optionsBuilder.UseSqlite("Data Source=Torneo.db");
+
+                /*var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
                 optionsBuilder.UseSqlServer(
                     $"Server=sql-server;Database=Torneo;User Id=sa;Password={password};TrustServerCertificate=true"
-                );
+                );*/
             }
         }
 

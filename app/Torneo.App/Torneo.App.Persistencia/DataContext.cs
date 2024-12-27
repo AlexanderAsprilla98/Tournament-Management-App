@@ -13,14 +13,20 @@ namespace Torneo.App.Persistencia
         public DbSet<Posicion> Posiciones { get; set; }
         public DbSet<Jugador> Jugadores { get; set; }
 
+        /*public DataContext(DbContextOptions<DataContext> options) : base(options)
+        {
+        }*/        
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
+                optionsBuilder.UseSqlite("Data Source=/app/Torneo.db");
+
+                /*var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
                 optionsBuilder.UseSqlServer(
                     $"Server=sql-server;Database=Torneo;User Id=sa;Password={password};TrustServerCertificate=true"
-                );
+                );*/
             }
         }
 

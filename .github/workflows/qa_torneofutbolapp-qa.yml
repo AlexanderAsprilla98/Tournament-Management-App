@@ -3,7 +3,9 @@ name: Build and Deploy ASP.NET Core App to Render.com
 on:
   push:
     branches:
-      - qa
+      - qa-sqllite-optimization
+    paths:
+      - 'app/**'
   pull_request:
     branches:
       - qa
@@ -21,14 +23,31 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Install EF Tools
-        run: dotnet tool install --global dotnet-ef --version 6.0.8
+      # - name: Cache NuGet packages
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.nuget/packages
+      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nuget-
 
-      - name: Restore and Build
-        working-directory: ./app/Torneo.App
-        run: |
-          dotnet restore
-          dotnet build --configuration Release
+      # - name: Create new solution
+      #   working-directory: ./app
+      #   run: dotnet new sln -n Torneo.App
+
+      # - name: Add projects to solution
+      #   working-directory: ./app
+      #   run: dotnet sln Torneo.App.sln add \
+      #     Torneo.App/Torneo.App.Dominio/Torneo.App.Dominio.csproj \
+      #     Torneo.App/Torneo.App.Consola/Torneo.App.Consola.csproj \
+      #     Torneo.App/Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+      #     Torneo.App/Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+
+      # - name: Restore and Build
+      #   working-directory: ./app/Torneo.App
+      #   run: |
+      #     dotnet restore
+      #     dotnet build --configuration Release
 
       - name: Install Docker Compose
         run: |
@@ -38,41 +57,23 @@ jobs:
       # Build Docker images once
       - name: Build Docker Images
         run: docker-compose -f docker-compose.ci.yml build --no-cache
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-
-      # Start SQL Server
-      - name: Start SQL Server
-        run: |
-          docker volume create sqldata
-          docker-compose -f docker-compose.ci.yml up -d sql-server
-          echo "Waiting for SQL Server to start..."
-          sleep 30
-          docker-compose logs sql-server
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
 
       # Deploy and run the application
       - name: Deploy Application
         run: |
           docker-compose -f docker-compose.ci.yml up -d torneo-app
           echo "Waiting for application to start..."
-          sleep 30
-          docker-compose ps
           docker-compose logs torneo-app
-        env:
-          MSSQL_SA_PASSWORD: ${{ secrets.MSSQL_SA_PASSWORD }}
-          ConnectionStrings__DefaultConnection: ${{ secrets.DB_CONNECTION_STRING }}
 
       # Publish artifacts using dotnet
-      - name: Publish with dotnet
-        working-directory: ./app/Torneo.App
-        run: dotnet publish Torneo.App.sln -c Release -o out
+      # - name: Publish with dotnet
+      #   working-directory: ./app/Torneo.App
+      #   run: dotnet publish Torneo.App.sln -c Release -o out
 
       # Build and push final Docker image to Docker Hub
       - name: Build Docker Image for Hub
         working-directory: ./app
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app .
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app -f ../Dockerfile .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2
@@ -90,18 +91,18 @@ jobs:
           docker-compose logs
         if: always()
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Deploy to Render.com
-        run: |
-          curl -X POST \
-          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
-          -H "Content-Type: application/json" \
-          -d "{
-            \"serviceId\": \"${{ secrets.RENDER_SERVICE_ID }}\",
-            \"branch\": \"qa\"
-          }" \
-          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: build
+#
+#    steps:
+#      - name: Deploy to Render.com
+#        run: |
+#          curl -X POST \
+#          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+#          -H "Content-Type: application/json" \
+#          -d "{
+#            \"serviceId\": \"${{ secrets.RENDER_SERVICE_ID }}\",
+#            \"branch\": \"qa\"
+#          }" \
+#          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"

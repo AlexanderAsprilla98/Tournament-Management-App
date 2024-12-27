@@ -1,45 +1,18 @@
 version: '3.8'
 
-services:
-  sql-server:
-    container_name: sql-server
-    build:
-      context: ./db
-    environment:
-      ACCEPT_EULA: "Y"
-      SA_PASSWORD: ${MSSQL_SA_PASSWORD}
-      MSSQL_PID: Developer
-    volumes:
-      - sqldata:/var/opt/mssql
-    ports:
-      - "1433:1433"
-    healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P "${MSSQL_SA_PASSWORD}" -Q "SELECT 1" &>/dev/null
-      interval: 10s
-      timeout: 10s
-      retries: 3
-      start_period: 10s
-    networks:
-      - torneo-network
-
+services:  
   torneo-app:
     container_name: torneo-app
     build:
       context: ./app
+      dockerfile: ../Dockerfile
     environment:
       ASPNETCORE_ENVIRONMENT: Testing
-      MSSQL_SA_PASSWORD: ${MSSQL_SA_PASSWORD}
     ports:
       - "80:80"
-    depends_on:
-      sql-server:
-        condition: service_healthy
     networks:
       - torneo-network
 
 networks:
   torneo-network:
     driver: bridge
-
-volumes:
-  sqldata:

@@ -1,36 +1,20 @@
 services:
   - type: web
-    name: tournament-management-app
+    name: tournament-management-app-sqlite
     env: docker
     plan: free
     region: oregon
-    branch: qa
+    branch: qa-sqllite-optimization
     dockerfilePath: ./app/Dockerfile
     dockerContext: ./app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
-        value: Staging 
+        value: Staging
       - key: PORT
         value: "80"
-    healthCheckPath: /health
-    autoDeploy: false
-
-  - type: web
-    name: mssql-db
-    env: docker
-    dockerfilePath: ./db/Dockerfile
-    dockerContext: ./db
-    region: oregon
-    plan: free  
-    branch: qa
-    envVars:
-      - key: ACCEPT_EULA
-        value: "Y"
-      - key: SA_PASSWORD
-        value: "${MSSQL_SA_PASSWORD}"
-      - key: MSSQL_PID
-        value: Developer
-      - key: PORT
-        value: "1433"
+      - key: SQLiteConnectionString
+        value: "Data Source=/app/Torneo.db;"
+      - key: DataProtectionKeysLocation
+        value: "/app/.aspnet/DataProtection-Keys"
     healthCheckPath: /health
     autoDeploy: true

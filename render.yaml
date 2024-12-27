@@ -14,7 +14,7 @@ services:
         value: "80"
     healthCheckPath: /health
     autoDeploy: true
-    mounts:
+    volumes:
       - type: volume
         target: /app/Torneo.db
       - type: volume

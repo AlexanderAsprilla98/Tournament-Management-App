@@ -73,7 +73,7 @@ jobs:
       # Build and push final Docker image to Docker Hub
       - name: Build Docker Image for Hub
         working-directory: ./app
-        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app -f ../Dockerfile ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app -f Dockerfile .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v2

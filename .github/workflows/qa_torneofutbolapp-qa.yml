@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - qa-sqllite-optimization
+    paths:
+      - 'app/**'
   pull_request:
     branches:
       - qa
@@ -21,8 +23,13 @@ jobs:
         with:
           dotnet-version: 6.0.x
 
-      - name: Install EF Tools
-        run: dotnet tool install --global dotnet-ef --version 6.0.8
+      - name: Cache NuGet packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.nuget/packages
+          key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            ${{ runner.os }}-nuget-
 
       - name: Restore and Build
         working-directory: ./app/Torneo.App
@@ -44,8 +51,6 @@ jobs:
         run: |
           docker-compose -f docker-compose.ci.yml up -d torneo-app
           echo "Waiting for application to start..."
-          sleep 30
-          docker-compose ps
           docker-compose logs torneo-app
 
       # Publish artifacts using dotnet

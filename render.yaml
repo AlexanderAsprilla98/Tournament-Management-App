@@ -14,8 +14,8 @@ services:
         value: "80"
     healthCheckPath: /health
     autoDeploy: true
-    volumes:
-      - type: volume
+    mounts:
+      - source: torneo-db-volume
         target: /app/Torneo.db
-      - type: volume
+      - source: data-protection-keys-volume
         target: /root/.aspnet/DataProtection-Keys

@@ -17,17 +17,17 @@ if [ ! -f "/app/Torneo.db" ]; then
     fi   
     echo "Checking for existing migrations..."
     # Lista las migraciones y verifica si 'InitialCreate' ya existe
-    existing_migrations_Persintencia=$(dotnet ef migrations list --context Torneo.App.Persistencia.DataContext)
-    if echo "$existing_migrations_Persintencia" | grep -q "InitialCreate"; then
-        echo "Migration 'InitialCreate' already exists, skipping migration creation."
-    else
-        echo "Applying migrations for Persistencia..."
-        dotnet ef migrations add InitialCreate --context Torneo.App.Persistencia.DataContext
-        if [ $? -ne 0 ]; then
-            echo "Failed to add migrations for Persistencia."
-            exit 1
-        fi
-    fi
+    #existing_migrations_Persintencia=$(dotnet ef migrations list --context Torneo.App.Persistencia.DataContext)
+    #if echo "$existing_migrations_Persintencia" | grep -q "InitialCreate"; then
+    #    echo "Migration 'InitialCreate' already exists, skipping migration creation."
+    #else
+    #    echo "Applying migrations for Persistencia..."
+    #    dotnet ef migrations add InitialCreate --context Torneo.App.Persistencia.DataContext
+    #    if [ $? -ne 0 ]; then
+    #        echo "Failed to add migrations for Persistencia."
+    #        exit 1
+    #    fi
+    #fi
     echo "Checking if migrations need to be applied for Persistencia..."
     if [ "$(dotnet ef database update --context Torneo.App.Persistencia.DataContext --dry-run)" ]; then
         echo "Applying migrations for Persistencia..."
@@ -45,19 +45,19 @@ if [ ! -f "/app/Torneo.db" ]; then
         echo "Directory /app/Torneo.App/Torneo.App.Frontend does not exist."
         exit 1
     fi
-    echo "Checking for existing migrations..."
-    # Lista las migraciones y verifica si 'InitialCreate' ya existe
-    existing_migrations_Fronted=$(dotnet ef migrations list --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext)
-    if echo "$existing_migrations_Fronted" | grep -q "CreateIdentitySchema"; then
-        echo "Migration 'CreateIdentitySchema' already exists, skipping migration creation."
-    else
-        echo "Applying migrations for Frontend..."
-        dotnet ef migrations add CreateIdentitySchema --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext
-        if [ $? -ne 0 ]; then
-            echo "Failed to add migrations for Frontend."
-            exit 1
-        fi
-    fi
+    #echo "Checking for existing migrations..."
+    ## Lista las migraciones y verifica si 'CreateIdentitySchema' ya existe
+    #existing_migrations_Fronted=$(dotnet ef migrations list --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext)
+    #if echo "$existing_migrations_Fronted" | grep -q "CreateIdentitySchema"; then
+    #    echo "Migration 'CreateIdentitySchema' already exists, skipping migration creation."
+    #else
+    #    echo "Applying migrations for Frontend..."
+    #    dotnet ef migrations add CreateIdentitySchema --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext
+    #    if [ $? -ne 0 ]; then
+    #        echo "Failed to add migrations for Frontend."
+    #        exit 1
+    #    fi
+    #fi
     echo "Checking if migrations need to be applied for Frontend..."
     if [ "$(dotnet ef database update --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext --dry-run)" ]; then
         echo "Applying migrations for Frontend..."

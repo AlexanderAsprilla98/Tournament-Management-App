@@ -3,6 +3,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Torneo.App.Frontend.Areas.Identity.Data;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
 //var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
@@ -45,6 +46,12 @@ builder.Services.Configure<IdentityOptions>(options =>
 // Add health checks
 builder.Services.AddHealthChecks()
     .AddSqlite(connectionString, name: "database", failureStatus: HealthStatus.Unhealthy, tags: new[] { "db" });
+
+//Configure Data Protection to persist keys to a specific directory
+builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/root/.aspnet/DataProtection-Keys"))
+    .SetApplicationName("TournamentManagementApp");
+
 
 /* Configurar para siguiente sprint
 builder.Services.AddAuthentication()

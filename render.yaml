@@ -13,4 +13,9 @@ services:
       - key: PORT
         value: "80"
     healthCheckPath: /health
-    autoDeploy: true  
+    autoDeploy: true
+    mounts:
+      - type: volume
+        target: /app/Torneo.db
+      - type: volume
+        target: /root/.aspnet/DataProtection-Keys

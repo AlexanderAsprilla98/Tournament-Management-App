@@ -82,7 +82,7 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker Image
-        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:${{ github.sha }}
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
 
       # Optional log checks
       - name: Check Container Health

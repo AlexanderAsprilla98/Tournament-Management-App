@@ -1,11 +1,11 @@
 services:
   - type: web
-    name: tournament-management-app-sqlite
+    name: tournament-management-app
     env: docker
     plan: free
     region: oregon
-    branch: qa-sqllite-optimization
-    dockerfilePath: ./app/Dockerfile
+    branch: qa
+    dockerfilePath: ./Dockerfile
     dockerContext: ./app
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
@@ -15,6 +15,6 @@ services:
       - key: SQLiteConnectionString
         value: "Data Source=/app/Torneo.db;"
       - key: DataProtectionKeysLocation
-        value: "/app/.aspnet/DataProtection-Keys"
+        value: "/root/.aspnet/DataProtection-Keys"
     healthCheckPath: /health
     autoDeploy: true

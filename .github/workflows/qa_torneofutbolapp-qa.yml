@@ -3,7 +3,7 @@ name: Build and Deploy ASP.NET Core App to Render.com
 on:
   push:
     branches:
-      - qa-sqllite-optimization
+      - qa
     paths:
       - 'app/**'
   pull_request:

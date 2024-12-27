@@ -12,10 +12,9 @@ services:
         value: Staging
       - key: PORT
         value: "80"
+      - key: SQLiteConnectionString
+        value: "Data Source=/app/Torneo.db;"
+      - key: DataProtectionKeysLocation
+        value: "/app/.aspnet/DataProtection-Keys"
     healthCheckPath: /health
     autoDeploy: true
-    mounts:
-      - source: torneo-db-volume
-        target: /app/Torneo.db
-      - source: data-protection-keys-volume
-        target: /root/.aspnet/DataProtection-Keys

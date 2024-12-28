@@ -43,11 +43,15 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddHealthChecks()
     .AddSqlite(connectionString, name: "database", failureStatus: HealthStatus.Unhealthy, tags: new[] { "db" });
 
-//Configure Data Protection to persist keys to a specific directory
+//Configure Data Protection to persist keys to a specific database
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"/root/.aspnet/DataProtection-Keys"))
-    .SetApplicationName("TournamentManagementApp");
+    .PersistKeysToDbContext<IdentityDataContext>()
+    .SetApplicationName("TorneoApp");
 
+//Configure Data Protection to persist keys to a specific directory
+/*builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/root/.aspnet/DataProtection-Keys"))
+    .SetApplicationName("TournamentManagementApp");*/
 
 /* Configurar para siguiente sprint
 builder.Services.AddAuthentication()

@@ -45,7 +45,7 @@ builder.Services.AddHealthChecks()
 
 //Configure Data Protection to persist keys to a specific directory
 builder.Services.AddDataProtection()
-    .PersistKeysToFileSystem(new DirectoryInfo(@"/app/.aspnet/DataProtection-Keys"))
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/root/.aspnet/DataProtection-Keys"))
     .SetApplicationName("TournamentManagementApp");
 
 

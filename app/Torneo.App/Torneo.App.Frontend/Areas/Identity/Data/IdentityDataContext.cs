@@ -11,7 +11,6 @@ public class IdentityDataContext : IdentityDbContext<IdentityUser>, IDataProtect
         : base(options)
     {
     }
-
     
     //DbSet to store data protection keys
       public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }

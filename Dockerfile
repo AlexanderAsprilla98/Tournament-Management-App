@@ -43,15 +43,6 @@ RUN dotnet ef database update \
     --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
     --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext
 
-RUN dotnet ef migrations add DataProtectionKeys \
-    --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
-    --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext \
-    --no-build --configuration Release
-
-RUN dotnet ef database update \
-    --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
-    --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext
-
 
 # Publish and clear NuGet cache
 RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish

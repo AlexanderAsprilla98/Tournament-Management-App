@@ -1,12 +1,11 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
-
-name: Build and deploy ASP.Net Core app to Azure Web App - torneofutbolapp-qa
+name: Build and Deploy ASP.NET Core App to Render.com
 
 on:
   push:
     branches:
       - qa
+    paths:
+      - 'app/**'
   pull_request:
     branches:
       - qa
@@ -14,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
@@ -22,41 +21,88 @@ jobs:
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v1
         with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
+          dotnet-version: 6.0.x
 
-      - name: Build with dotnet     
-        working-directory: ./Torneo.App
-        run: dotnet build Torneo.App.sln --configuration Release
+      # - name: Cache NuGet packages
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.nuget/packages
+      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nuget-
 
-      - name: dotnet publish
-        working-directory: ./Torneo.App
-        run: dotnet publish Torneo.App.sln -c Release -o ${{env.DOTNET_ROOT}}/myapp
+      # - name: Create new solution
+      #   working-directory: ./app
+      #   run: dotnet new sln -n Torneo.App
 
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v4
+      # - name: Add projects to solution
+      #   working-directory: ./app
+      #   run: dotnet sln Torneo.App.sln add \
+      #     Torneo.App/Torneo.App.Dominio/Torneo.App.Dominio.csproj \
+      #     Torneo.App/Torneo.App.Consola/Torneo.App.Consola.csproj \
+      #     Torneo.App/Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+      #     Torneo.App/Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+
+      # - name: Restore and Build
+      #   working-directory: ./app/Torneo.App
+      #   run: |
+      #     dotnet restore
+      #     dotnet build --configuration Release
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      # Build Docker images once
+      - name: Build Docker Images
+        run: docker-compose -f docker-compose.ci.yml build --no-cache
+
+      # Deploy and run the application
+      - name: Deploy Application
+        run: |
+          docker-compose -f docker-compose.ci.yml up -d torneo-app
+          echo "Waiting for application to start..."
+          docker-compose logs torneo-app
+
+      # Publish artifacts using dotnet
+      # - name: Publish with dotnet
+      #   working-directory: ./app/Torneo.App
+      #   run: dotnet publish Torneo.App.sln -c Release -o out
+
+      # Build and push final Docker image to Docker Hub
+      - name: Build Docker Image for Hub
+        working-directory: ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app -f ../Dockerfile .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
-  deploy:
-    runs-on: windows-latest
-    needs: build
-    environment:
-      name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
 
-    steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: .net-app
+      # Optional log checks
+      - name: Check Container Health
+        run: |
+          docker ps -a
+          docker-compose logs
+        if: always()
 
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'torneofutbolapp-qa'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D2586432C45E44938CA20C38F3360620 }}
-          package: .
+#  deploy:
+#    runs-on: ubuntu-latest
+#    needs: build
+#
+#    steps:
+#      - name: Deploy to Render.com
+#        run: |
+#          curl -X POST \
+#          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+#          -H "Content-Type: application/json" \
+#          -d "{
+#            \"serviceId\": \"${{ secrets.RENDER_SERVICE_ID }}\",
+#            \"branch\": \"qa\"
+#          }" \
+#          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"

@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: tournament-management-app
+    env: docker
+    plan: free
+    region: oregon
+    branch: qa
+    dockerfilePath: ./Dockerfile
+    dockerContext: ./app
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Staging
+      - key: PORT
+        value: "80"
+      - key: SQLiteConnectionString
+        value: "Data Source=/app/Torneo.db;"
+      - key: DataProtectionKeysLocation
+        value: "/root/.aspnet/DataProtection-Keys"
+    healthCheckPath: /health
+    autoDeploy: true

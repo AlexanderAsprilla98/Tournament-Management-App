@@ -14,25 +14,15 @@ html {
 body {
   margin-bottom: 60px;
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(268deg, #2196f3, #00bcd4, #4dd0e1, #80deea);
-  background-size: 800% 800%;
-  animation: AnimationName 24s ease infinite;
-}
-
-/* Container */
-.container {
-  max-width: 1200px;
-}
-
-main {
-  min-height: calc(100vh - 16.25rem); /* 260px equivalent */
-  padding: 2rem 0;
+  background: #0a1128 !important; /* Azul muy oscuro */
+  color: #f5f5f5; /* Texto claro para mejor contraste */
 }
 
 /* Navbar */
 .navbar {
-  background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%) !important;
+  background: linear-gradient(135deg, #1a237e 0%, #283593 100%) !important; /* Azul más claro */
   padding: 1rem;
+  color: #ffffff;
 }
 
 .navbar-brand {
@@ -41,25 +31,111 @@ main {
   word-break: break-all;
   font-weight: 600;
   font-size: 1.5rem;
+  color: #ffffff !important;
 }
 
-.navbar-nav .nav-item {
-  margin-right: 0.5rem;
+.nav-link {
+  font-weight: 500;
+  transition: all 0.3s ease;
+  color: #b3e5fc !important; /* Azul claro */
 }
 
-.navbar-toggler {
-  border: none;
+.nav-link:hover {
+  transform: translateY(-2px);
+  color: #ffffff !important;
 }
 
-.navbar-toggler:focus {
-  box-shadow: none;
+/* Container */
+.container {
+  max-width: 1200px;
+  background: transparent !important;
+}
+
+main {
+  min-height: calc(100vh - 16.25rem); /* 260px equivalent */
+  padding: 2rem 0;
+  background: transparent !important;
+  color: #f5f5f5; /* Texto claro */
+}
+
+/* Card */
+.card {
+  background-color: #162447; /* Azul oscuro intermedio */
+  color: #ffffff; /* Texto claro */
+}
+
+.card-header {
+  background-color: #1f4068; /* Azul ligeramente más claro */
+  color: #ffffff;
+}
+
+/* Form Fields */
+input,
+button,
+textarea {
+  background: #1f4068; /* Azul oscuro */
+  color: #ffffff; /* Texto claro */
+  border: 1px solid #80d8ff; /* Azul claro */
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+
+input:focus,
+button:focus,
+textarea:focus {
   outline: none;
+  border-color: #80d8ff; /* Resaltar con azul claro */
+  box-shadow: 0 0 5px #80d8ff;
 }
 
-.navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.85%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+.btn-primary {
+  background-color: #3949ab;
+  border-color: #3949ab;
+  color: #ffffff;
 }
 
+.btn-primary:hover {
+  background-color: #5c6bc0;
+  border-color: #5c6bc0;
+}
+
+/* Footer */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: linear-gradient(135deg, #283593 0%, #3949ab 100%) !important; /* Azul intermedio */
+  color: #ffffff !important;
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+/* Links */
+a {
+  color: #80d8ff !important; /* Azul claro */
+  text-decoration: none;
+}
+
+a:hover {
+  color: #ffffff !important;
+  text-decoration: underline;
+}
+
+/* Borders */
+.border-top {
+  border-top: 1px solid #3f51b5;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #3f51b5;
+}
+
+/* Shadow */
+.box-shadow {
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments */
 @media (max-width: 991.98px) {
   .navbar-collapse {
     padding-top: 0.5rem;
@@ -68,82 +144,4 @@ main {
   .nav-item {
     padding: 0.25rem 0;
   }
-}
-
-/* Links */
-a {
-  color: #0077cc;
-}
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
-
-.nav-link {
-  font-weight: 500;
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  transform: translateY(-2px);
-  color: #fff !important;
-}
-
-/* Buttons */
-.btn-primary {
-  color: #fff;
-  background-color: #2196f3;
-  border-color: #1976d2;
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Nav Pills */
-.nav-pills .nav-link.active,
-.nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Inputs */
-input#txtBuscadorEquipo {
-  background: #fff;
-}
-
-/* Borders */
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-/* Shadow */
-.box-shadow {
-  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
-}
-
-/* Footer */
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
-  background: linear-gradient(135deg, #3f51b5 0%, #2196f3 100%) !important;
-  color: white !important;
-}
-
-/* Keyframes */
-@keyframes AnimationName {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 51%; }
-  100% { background-position: 0% 50%; }
 }

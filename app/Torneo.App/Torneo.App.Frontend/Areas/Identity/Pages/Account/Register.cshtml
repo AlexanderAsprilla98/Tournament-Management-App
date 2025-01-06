@@ -1,13 +1,13 @@
 ﻿@page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = "Registrarse";
 }
 
 <h1>@ViewData["Title"]</h1> <div class="row">
     <div class="col-md-6 offset-md-3">
         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="needs-validation" novalidate>
-            <h2>Create a new account</h2>
+            <h2>Crear una nueva cuenta</h2>
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -29,7 +29,7 @@
                 <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
             </div>
 
-            <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
+            <button id="registerSubmit" type="submit" class="btn btn-primary">Registrarse</button>
         </form>
     </div>
  </div>
@@ -37,7 +37,7 @@
 <div class="row mt-3">
     <div class="col-md-6 offset-md-3">
         <section>
-            <h3>Or use another service to register</h3>
+            <h3>O usa otro servicio para registrarte</h3>
             <hr />
             @if ((Model.ExternalLogins?.Count ?? 0) > 0)
             {
@@ -56,8 +56,8 @@
             {
                 <div>
                     <p>
-                        There are no external authentication services configured. See this <a href="https://go.microsoft.com/fwlink/?LinkID=532715">article
-                        about setting up this ASP.NET application to support logging in via external services</a>.
+                        No hay servicios de autenticación externos configurados. Consulta este <a href="https://go.microsoft.com/fwlink/?LinkID=532715">artículo
+                        sobre cómo configurar esta aplicación ASP.NET para admitir el inicio de sesión a través de servicios externos</a>.
                     </p>
                 </div>
             }
@@ -68,12 +68,12 @@
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
-        // Example of adding Bootstrap validation styles
+        // Ejemplo de agregar estilos de validación de Bootstrap
         (function () {
             'use strict'
-            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            // Obtener todos los formularios a los que queremos aplicar estilos de validación de Bootstrap personalizados
             var forms = document.querySelectorAll('.needs-validation')
-            // Loop over them and prevent submission
+            // Recorrerlos y evitar el envío
             Array.prototype.slice.call(forms)
                 .forEach(function (form) {
                     form.addEventListener('submit', function (event) {

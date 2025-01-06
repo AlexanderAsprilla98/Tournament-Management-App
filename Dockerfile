@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 # Install EF Tools
 RUN dotnet tool install --global dotnet-ef --version 7.0.8
@@ -48,7 +48,7 @@ RUN dotnet publish "Torneo.App.sln" -c Release -o /app/publish
 RUN dotnet nuget locals all --clear
 
 # Final runtime image
-FROM mcr.microsoft.com/dotnet/sdk:6.0 AS runtime
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime
 
 WORKDIR /app
 COPY --from=build /app/publish .

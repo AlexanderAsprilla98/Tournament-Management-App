@@ -4,8 +4,7 @@ WORKDIR /app
 RUN dotnet tool install --global dotnet-ef --version 7.0.8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
-# Create Database
-RUN touch /app/Torneo.db
+ENV DATABASE_CONNECTION_STRING="Data Source=/app/Torneo.db"
 
 # Copy solution files and restore
 COPY ["Torneo.App/", "./"]

@@ -458,3 +458,8 @@ $RECYCLE.BIN/
 
 # .bin files
 *.bin
+
+*.sln
+
+# Migration files
+**/Migrations/*.cs

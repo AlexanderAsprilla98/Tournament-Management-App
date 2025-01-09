@@ -6,7 +6,7 @@ using Torneo.App.Frontend.Areas.Identity.Data;
 using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = "Data Source=/app/Torneo.db";
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING") ?? "Data Source=/app/Torneo.db";
 builder.Services.AddDbContext<IdentityDataContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
 

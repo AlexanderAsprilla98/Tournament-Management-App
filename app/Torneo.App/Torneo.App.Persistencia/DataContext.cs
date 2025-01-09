@@ -20,8 +20,9 @@ namespace Torneo.App.Persistencia
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlite("Data Source=/app/Torneo.db");
+            {   
+                var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING") ?? "Data Source=/app/Torneo.db";
+                optionsBuilder.UseSqlite(connectionString);
 
                 /*var password = Environment.GetEnvironmentVariable("MSSQL_SA_PASSWORD");
                 optionsBuilder.UseSqlServer(

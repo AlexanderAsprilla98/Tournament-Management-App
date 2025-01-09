@@ -1,8 +1,38 @@
-﻿@page
-@model PrivacyModel
+﻿@page "/Privacy"
 @{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<main class="container mt-4">
+    <h1 class="display-4 text-center">@ViewData["Title"]</h1>
+    <p class="lead text-center">This page outlines the privacy policy for our tournament management application.  Please read this carefully.</p>
+
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <section>
+                <h2>Introduction</h2>
+                <p>This privacy policy explains how we collect, use, and protect your personal information when you use our application.</p>
+            </section>
+            <section>
+                <h2>Information Collection</h2>
+                <p>We collect information necessary for account management and tournament participation. This may include your name, email address, and other relevant details.  We do not collect sensitive personal information unless explicitly required and with your consent.</p>
+            </section>
+            <section>
+                <h2>Use of Information</h2>
+                <p>We use your information to provide and improve our services, manage your account, and communicate with you regarding tournaments. We may also use aggregated, anonymized data for analytical purposes.</p>
+            </section>
+            <section>
+                <h2>Data Security</h2>
+                <p>We employ industry-standard security measures to protect your data from unauthorized access, use, or disclosure.  However, no method of transmission over the Internet or electronic storage is 100% secure.</p>
+            </section>
+            <section>
+                <h2>Contact Information</h2>
+                <p>If you have any questions or concerns about this privacy policy, please contact us at [Insert Contact Email Address or Link Here].</p>
+            </section>
+            <section>
+                <h2>Changes to this Policy</h2>
+                <p>We may update this privacy policy from time to time.  We will post any changes on this page.</p>
+            </section>
+        </div>
+    </div>
+</main>

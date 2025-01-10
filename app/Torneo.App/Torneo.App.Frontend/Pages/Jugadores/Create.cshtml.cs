@@ -31,15 +31,15 @@ namespace Torneo.App.Frontend.Pages.Jugadores
             jugador = new Jugador();
             equipos = _repoEquipo.GetAllEquipos();
             posiciones = _repoPosicion.GetAllPosiciones();
+            equipoExits = equipos.Any();
+            posicionesExits = posiciones.Any(); 
             duplicate = false;
 
             jugador.Equipo = equipos.FirstOrDefault(); // Establecer el valor seleccionado por defecto
             jugador.Posicion = posiciones.FirstOrDefault(); // Establecer el valor seleccionado por defecto            
 
             //Console.WriteLine("Existen Municipios "+equipos.Any());
-            //Console.WriteLine("Existen Dts "+posiciones.Any());
-            equipoExits = equipos.Any();
-            posicionesExits = posiciones.Any();       
+            //Console.WriteLine("Existen Dts "+posiciones.Any());                 
 
         }
 
@@ -50,7 +50,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                 Console.WriteLine("dentro Try  Create de Jugador"); 
                 //Quitar espacios en blanco al inicio y final
                 jugador.Nombre = jugador.Nombre.Trim();
-                //jugador.Numero =  jugador.Numero.Trim();                
+                //jugador.Numero =  jugador.Numero.Trim();               
                
                 Console.WriteLine("Nombre jugador " +  jugador.Nombre);    
                 Console.WriteLine("Nombre Numero " +  jugador.Numero); 
@@ -64,7 +64,6 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                 jugador.Posicion = _repoPosicion.GetPosicion(idPosicion);                   
                 jugador.Equipo.Nombre  = equipoIngresado.Nombre;
                 jugador.Posicion.Nombre = posicionIngresada.Nombre;
-
 
                 Console.WriteLine("Jugador ingresado " + jugador.Nombre);
                 Console.WriteLine("Id Equipo ingresado " + jugador.Equipo.Nombre);
@@ -86,6 +85,8 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                         jugador = new Jugador();
                         equipos = _repoEquipo.GetAllEquipos();
                         posiciones = _repoPosicion.GetAllPosiciones();
+                        equipoExits = equipos.Any();
+                        posicionesExits = posiciones.Any();     
                         return Page();
                     }
 
@@ -96,6 +97,8 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                     equipos = _repoEquipo.GetAllEquipos();
                     posiciones = _repoPosicion.GetAllPosiciones();                                   
                     Console.WriteLine("jugador  no valido "+ jugador.Nombre + " - Equipo " + jugador.Equipo.Nombre +" - Posicion" + jugador.Posicion.Nombre);                     
+                    equipoExits = equipos.Any();
+                    posicionesExits = posiciones.Any();
                     return Page();
                 }
 

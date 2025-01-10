@@ -43,16 +43,14 @@ namespace Torneo.App.Frontend.Pages.Posiciones
 
                 if(ModelState.IsValid)
                 {  
-                    duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+                    duplicate = _repoPosicion.validateDuplicates(posicion);
                     
                     if(!duplicate)
                     {
                         _repoPosicion.UpdatePosicion(posicion);
                         return RedirectToPage("Index");
                     }else
-                    {
-                        posicion = _repoPosicion.GetPosicion(id);
-                        duplicate = false;
+                    {                                              
                         return Page();
                     }
                 }

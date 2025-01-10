@@ -8,6 +8,6 @@ namespace Torneo.App.Persistencia
         public Municipio GetMunicipio(int idMunicipio);
         public Municipio UpdateMunicipio(Municipio municipio);
         public Municipio DeleteMunicipio(int idMunicipio);
-        public bool validateDuplicates(string nombreMunicipio);
+        public bool validateDuplicates(Municipio nombreMunicipio);
     }
 }

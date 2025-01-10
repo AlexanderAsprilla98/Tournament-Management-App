@@ -73,10 +73,12 @@ namespace Torneo.App.Persistencia
 
                 foreach(Jugador j in allJugadores)
                 {
-                    if(j.Nombre.ToLower()  == jugador.Nombre.ToLower().Trim() && j.Numero == jugador.Numero && j.Equipo.Id == idEquipo && j.Posicion.Id == idPosicion)   
-                    {
-                        duplicado = true;
-                    }              
+                    if(jugador.Id != j.Id){
+                        if(j.Nombre.ToLower()  == jugador.Nombre.ToLower().Trim() && j.Numero == jugador.Numero && j.Equipo.Id == idEquipo && j.Posicion.Id == idPosicion)   
+                        {
+                            duplicado = true;
+                        }              
+                    }
                 }               
                 Console.WriteLine("Jugador duplicado al Crear/Editar " + jugador.Nombre  +" - "+ duplicado);
                 return duplicado;

@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 # Install EF Tools
-RUN dotnet tool install --global dotnet-ef --version 7.0.8
+RUN dotnet tool install --global dotnet-ef --version 8
 ENV PATH="${PATH}:/root/.dotnet/tools"
 
 ENV DATABASE_CONNECTION_STRING="Data Source=/app/Torneo.db"
@@ -31,7 +31,7 @@ RUN dotnet ef migrations add InitialCreate \
 RUN dotnet ef database update \
     --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
     --startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
-    --context Torneo.App.Persistencia.DataContext
+    --context Torneo.App.Persistencia.DataContext --no-build
 
 RUN dotnet ef migrations add CreateIdentitySchema \
     --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
@@ -40,7 +40,7 @@ RUN dotnet ef migrations add CreateIdentitySchema \
 
 RUN dotnet ef database update \
     --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
-    --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext
+    --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext --no-build
 
 
 # Publish and clear NuGet cache

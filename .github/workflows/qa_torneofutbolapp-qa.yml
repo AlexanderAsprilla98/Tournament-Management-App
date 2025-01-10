@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - qa
-    paths:
-      - 'app/**'
   pull_request:
     branches:
       - qa

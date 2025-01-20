@@ -1,0 +1,47 @@
+﻿@page
+@model LoginModel
+
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+
+<h2>@ViewData["Title"]</h2>
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form id="account" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="mb-3">
+                <label asp-for="Input.Email" class="form-label"></label>
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Input.Password" class="form-label"></label>
+                <input asp-for="Input.Password" class="form-control" autocomplete="current-password" aria-required="true" />
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
+            </div>
+            <div class="mb-3 form-check">
+                <input asp-for="Input.RememberMe" class="form-check-input" />
+                <label asp-for="Input.RememberMe" class="form-check-label"></label>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+            </div>
+            <div>
+                <p>
+                    <a id="forgot-password" asp-page="./ForgotPassword">¿Olvidó su contraseña?</a>
+                </p>
+                <p>
+                    <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Registrarse como usuario nuevo</a>
+                </p>
+                <p>
+                    <a id="resend-confirmation" asp-page="./ResendEmailConfirmation">Reenviar correo de confirmación</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

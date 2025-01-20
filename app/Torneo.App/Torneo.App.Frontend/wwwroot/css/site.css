@@ -1,0 +1,187 @@
+/* =====================
+  Color Variables
+  ===================== */
+:root {
+  --font-family: 'Poppins', sans-serif;
+  --font-size-sm: 0.875rem; /* 14px  */
+  --font-size-base: 1rem;   /* 16px  */
+  --color-darkest-blue: #0a1128;
+  --color-white: #f5f5f5;
+  --color-lighter-blue: #80d8ff;
+  --color-mid-blue: #162447;
+  --color-mid-blue2: #1f4068;
+  --color-mid-blue3: #283593;
+  --color-mid-blue4: #3949ab;
+  --color-mid-blue5: #5c6bc0;
+  --color-gradient-light: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+  --color-gradient-mid: linear-gradient(135deg, #283593 0%, #3949ab 100%);
+}
+
+/* =====================
+  Base Elements
+  ===================== */
+html {
+  font-size: var(--font-size-sm);
+  position: relative;
+  min-height: 100%;
+}
+
+@media (min-width: 768px) {
+  html {
+   font-size: var(--font-size-base);
+  }
+}
+
+body {
+  margin-bottom: 60px;
+  font-family: var(--font-family);
+  background-color: var(--color-darkest-blue) !important;
+  color: var(--color-white) !important;
+}
+
+a {
+  color: var(--color-lighter-blue);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--color-white);
+  text-decoration: underline;
+}
+
+/* =====================
+  Navbar
+  ===================== */
+.navbar {
+  background: var(--color-gradient-light);
+  padding: 1rem;
+  color: var(--color-white);
+}
+.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--color-white);
+}
+.nav-link {
+  font-weight: 500;
+  transition: transform 0.3s ease;
+  color: var(--color-lighter-blue);
+}
+.nav-link:hover {
+  transform: translateY(-2px);
+  color: var(--color-white);
+}
+
+/* =====================
+  Layout
+  ===================== */
+.container {
+  max-width: 1200px;
+  background: transparent;
+}
+
+main {
+  min-height: calc(100vh - 16.25rem); /* ~260px */
+  padding: 2rem 0;
+  background: transparent;
+  color: var(--color-white) !important;
+}
+
+/* =====================
+  Card
+  ===================== */
+.card {
+  background-color: var(--color-mid-blue);
+  color: var(--color-white);
+}
+.card-header {
+  background-color: var(--color-mid-blue2);
+  color: var(--color-white);
+}
+
+/* =====================
+  Form Fields
+  ===================== */
+input,
+button,
+textarea {
+  background: var(--color-mid-blue2);
+  color: var(--color-white);
+  border: 1px solid var(--color-lighter-blue);
+  border-radius: 5px;
+  padding: 0.5rem;
+}
+input:focus,
+button:focus,
+textarea:focus {
+  outline: none;
+  border-color: var(--color-lighter-blue);
+  box-shadow: 0 0 5px var(--color-lighter-blue);
+  text-decoration: none;
+}
+
+/* =====================
+  Buttons
+  ===================== */
+.btn-primary {
+  background-color: var(--color-mid-blue4);
+  border-color: var(--color-mid-blue4);
+  color: var(--color-white);
+}
+.btn-primary:hover {
+  background-color: var(--color-mid-blue5);
+  border-color: var(--color-mid-blue5);
+  color: var(--color-white);
+  text-decoration: none;
+}
+.btn-secondary {
+  background-color: var(--color-mid-blue2);
+  border-color: var(--color-mid-blue2);
+  color: var(--color-white);
+}
+.btn-secondary:hover {
+  background-color: var(--color-mid-blue3);
+  border-color: var(--color-mid-blue3);
+  color: var(--color-white);
+  text-decoration: none;
+}
+
+/* =====================
+  Footer
+  ===================== */
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background: var(--color-gradient-mid);
+  color: var(--color-white);
+  white-space: nowrap;
+  line-height: 60px;
+}
+
+/* =====================
+  Utilities
+  ===================== */
+.border-top {
+  border-top: 1px solid var(--color-mid-blue4);
+}
+.border-bottom {
+  border-bottom: 1px solid var(--color-mid-blue4);
+}
+.box-shadow {
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.15);
+}
+
+/* =====================
+  Responsive
+  ===================== */
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+   padding-top: 0.5rem;
+  }
+  .nav-item {
+   padding: 0.25rem 0;
+  }
+}

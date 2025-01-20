@@ -1,0 +1,28 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Municipios.CreateModel
+@Html.AntiForgeryToken()
+@{
+}
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear</strong> Municipio ya existe en base de datos.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+<h1>Nuevo municipio</h1>
+@Html.ValidationSummary()
+<form method="post">
+    <div class="form-group">
+        <label asp-for="municipio.Nombre"></label>
+        <!-- @Html.ValidationMessageFor(model => model.municipio, "", new{ @class = "text-danger" }) -->
+       <!-- <input asp-for="municipio.Nombre" id="NombreMunicipioCrear" class="form-control" minlength="1"  maxlength="30" required  pattern="^\S[a-zA-ZÀ-ÿ \.]+\S$" 
+        title="Campo Obligatorio. Solo letras."/> -->        
+        <input asp-for="municipio.Nombre" id="NombreMunicipioCrear" class="form-control"/>
+        <span class="text-danger" asp-validation-for="municipio.Nombre"></span>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnMunicipioCrear">Crear municipio</button>
+</form>
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

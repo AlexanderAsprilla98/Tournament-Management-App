@@ -1,0 +1,210 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Partidos.CreateModel
+@{
+}
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear</strong> El partido con la fecha y los equipos ingresados ya existe.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+@if (Model.equiposExits)
+{
+    <h1>Nuevo partido</h1>
+    @Html.ValidationSummary()
+    <form method="post">
+        <div class="form-group">
+            <label asp-for="partido.FechaHora">Fecha y hora</label>
+            <!-- <input asp-for="partido.FechaHora" id="FechaPartidoCrear" required class="form-control" title="Campo Obligatorio"/> -->
+            <input asp-for="partido.FechaHora" class="form-control" id="FechaPartidoCrear"/>
+            <span class="text-danger" asp-validation-for="partido.FechaHora"></span>
+        </div>
+        <div class="form-group">
+            <label for="EquipoLocalId">Seleccione un Equipo Local</label>
+            <select id="EquipoLocalPartidoCrear" name="EquipoLocalId" required class="form-control" title="Campo Obligatorio">
+                <option value="" selected disabled hidden>Seleccione un equipo</option>
+                @foreach (var equipo in Model.equipos)
+                {
+                    <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="partido.MarcadorLocal">Marcador Local</label>
+            <!-- <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" type="number" min="0" max="100"  class="form-control"/> -->
+            <input asp-for="partido.MarcadorLocal" id="MarcadorPartidoCrear" class="form-control"/>
+            <span class="text-danger" asp-validation-for="partido.MarcadorLocal"></span>
+        </div>
+        <div class="form-group">
+            <label for="EquipoVisitanteId">Seleccione un Equipo Visitante</label>
+            <select id="EquipoVisitantePartidoCrear" name="EquipoVisitanteId" required class="form-control">
+                <option value="" selected disabled hidden>Seleccione un equipo</option>
+                @foreach (var equipo in Model.equipos)
+                {
+                    
+                    <option value="@equipo.Id" data-id="@equipo.Id" >@equipo.Nombre</option>
+                    
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label asp-for="partido.MarcadorVisitante">Marcador Visitante</label>
+            <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control"/>
+            <!-- <input asp-for="partido.MarcadorVisitante" id="MarcadorVisitantePartidoCrear" class="form-control" required type="number" min="0" max="99" pattern="^[0-9]$"/> -->
+            <span class="text-danger" asp-validation-for="partido.MarcadorVisitante"></span>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnPartidoCrear">Crear partido</button>
+    </form>
+}
+else
+{
+   
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ocurrio un error al crear Partidos</strong> Primero se deben crear minimos 2 Equipos antes de crear Partidos
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                <span aria-hidden="true">×</span>
+            </button>
+    </div>
+    <p>Por favor primero cree al menos 2 Equipos ingresando en el siguiente botón o menú correspondiente</p>
+    <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+    
+}
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+        const equipoLocalSelect = document.getElementById("EquipoLocalPartidoCrear");
+        const equipoVisitanteSelect = document.getElementById("EquipoVisitantePartidoCrear");
+
+        // Función para ocultar opciones en el otro select
+        function ocultarOpciones(select, id) {
+            for (let i = 0; i < select.options.length; i++) {
+                const option = select.options[i];
+                const optionId = option.getAttribute("data-id");
+
+                if (optionId === id) {
+                    option.style.display = "none";
+                } else {
+                    option.style.display = "block";
+                }
+            }
+        }
+        
+         // Registros de opciones ocultas
+        const opcionesOcultasEquipoLocal = {};
+        const opcionesOcultasEquipoVisitante = {};
+        
+        equipoLocalSelect.addEventListener("change", function () {
+            const selectedOptionId = equipoLocalSelect.value;
+
+            // Mostrar opciones ocultas previamente en el select de visitante
+            for (const id in opcionesOcultasEquipoVisitante) {
+                equipoVisitanteSelect.querySelector(`[value="${id}"]`).style.display = "block";
+            }
+
+            // Ocultar opciones en el select de visitante
+            ocultarOpciones(equipoVisitanteSelect, selectedOptionId);
+
+            // Actualizar el registro de opciones ocultas para el select de visitante
+            opcionesOcultasEquipoVisitante[selectedOptionId] = true;
+        });
+
+        equipoVisitanteSelect.addEventListener("change", function () {
+            const selectedOptionId = equipoVisitanteSelect.value;
+
+            // Mostrar opciones ocultas previamente en el select de local
+            for (const id in opcionesOcultasEquipoLocal) {
+                equipoLocalSelect.querySelector(`[value="${id}"]`).style.display = "block";
+            }
+
+            // Ocultar opciones en el select de local
+            ocultarOpciones(equipoLocalSelect, selectedOptionId);
+
+            // Actualizar el registro de opciones ocultas para el select de local
+            opcionesOcultasEquipoLocal[selectedOptionId] = true;
+        });
+
+        // Inicialización: Ocultar opciones en el select de visitante basado en el valor seleccionado del select de local
+        equipoLocalSelect.dispatchEvent(new Event('change'));
+        // Inicialización: Ocultar opciones en el select de local basado en el valor seleccionado del select de visitante
+        equipoVisitanteSelect.dispatchEvent(new Event('change'));
+      
+
+    });
+
+    //Capturar Fecha actual y setear en el valor del elemento fecha Partido
+    document.addEventListener("DOMContentLoaded", function () {
+        const fechaPartidoInput = document.getElementById("FechaPartidoCrear");
+
+        // Obtener la fecha y hora actual
+        const fechaActual = new Date();
+        const year = fechaActual.getFullYear();
+        const month = String(fechaActual.getMonth() + 1).padStart(2, '0');
+        const day = String(fechaActual.getDate()).padStart(2, '0');
+        const hours = String(fechaActual.getHours()).padStart(2, '0');
+        const minutes = String(fechaActual.getMinutes()).padStart(2, '0');
+
+        // Formatear la fecha y hora actual en el formato deseado (yyyy-MM-ddThh:mm)
+        const fechaHoraActual = `${year}-${month}-${day}T${hours}:${minutes}`;
+
+        // Establecer el valor del input con la fecha y hora actual
+        fechaPartidoInput.value = fechaHoraActual;
+    });
+
+    /*const fechaPartido = document.getElementById("FechaPartidoCrear");
+    const fechaActual = new Date();
+    let fechaActualCol = fechaActual.toLocaleString("es-CO")
+    fechaPartido.setAttribute(value,fechaActualCol)*/
+
+
+/*document.addEventListener("DOMContentLoaded", function () {
+        const equipoLocalSelect = document.getElementById("EquipoLocalPartidoCrear");
+        const equipoVisitanteSelect = document.getElementById("EquipoVisitantePartidoCrear");
+
+        equipoLocalSelect.addEventListener("change", function () {
+            const selectedOptionId = equipoLocalSelect.options[equipoLocalSelect.selectedIndex].getAttribute("data-id");
+
+            for (let i = 0; i < equipoVisitanteSelect.options.length; i++) {
+                const option = equipoVisitanteSelect.options[i];
+                const optionId = option.getAttribute("data-id");
+
+                if (optionId === selectedOptionId) {
+                    option.style.display = "none";
+                    //equipoVisitanteSelect.options[i].setAttribute("hidden", "hidden");
+                } else {
+                    option.style.display = "block";
+                    //equipoVisitanteSelect.options[i].removeAttribute("hidden");
+                }
+            }
+
+            equipoVisitanteSelect.value = equipoVisitanteSelect.options[0].value; // Resetear el select
+            equipoVisitanteSelect.dispatchEvent(new Event('change')); // Disparar el evento change manualmente
+        });
+
+        equipoVisitanteSelect.addEventListener("change", function () {
+            const selectedOptionId = equipoVisitanteSelect.options[equipoVisitanteSelect.selectedIndex].getAttribute("data-id");
+
+            for (let i = 0; i < equipoLocalSelect.options.length; i++) {
+                const option = equipoLocalSelect.options[i];
+                const optionId = option.getAttribute("data-id");
+
+                if (optionId === selectedOptionId) {
+                    option.style.display = "none";
+                    //equipoLocalSelect.options[i].setAttribute("hidden", "hidden");
+                } else {
+                    option.style.display = "block";
+                    //equipoLocalSelect.options[i].removeAttribute("hidden");
+                }
+            }
+
+            equipoLocalSelect.value = equipoLocalSelect.options[0].value; // Resetear el select
+            equipoLocalSelect.dispatchEvent(new Event('change')); // Disparar el evento change manualmente
+        });
+    });
+*/
+
+</script>

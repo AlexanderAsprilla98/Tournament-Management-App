@@ -1,0 +1,106 @@
+name: Build and Deploy ASP.NET Core App to Render.com
+
+on:
+  push:
+    branches:
+      - qa
+  pull_request:
+    branches:
+      - qa
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 6.0.x
+
+      # - name: Cache NuGet packages
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: ~/.nuget/packages
+      #     key: ${{ runner.os }}-nuget-${{ hashFiles('**/*.csproj') }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-nuget-
+
+      # - name: Create new solution
+      #   working-directory: ./app
+      #   run: dotnet new sln -n Torneo.App
+
+      # - name: Add projects to solution
+      #   working-directory: ./app
+      #   run: dotnet sln Torneo.App.sln add \
+      #     Torneo.App/Torneo.App.Dominio/Torneo.App.Dominio.csproj \
+      #     Torneo.App/Torneo.App.Consola/Torneo.App.Consola.csproj \
+      #     Torneo.App/Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+      #     Torneo.App/Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+
+      # - name: Restore and Build
+      #   working-directory: ./app/Torneo.App
+      #   run: |
+      #     dotnet restore
+      #     dotnet build --configuration Release
+
+      - name: Install Docker Compose
+        run: |
+          sudo curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+          sudo chmod +x /usr/local/bin/docker-compose
+
+      # Build Docker images once
+      - name: Build Docker Images
+        run: docker-compose -f docker-compose.ci.yml build --no-cache
+
+      # Deploy and run the application
+      - name: Deploy Application
+        run: |
+          docker-compose -f docker-compose.ci.yml up -d torneo-app
+          echo "Waiting for application to start..."
+          docker-compose logs torneo-app
+
+      # Publish artifacts using dotnet
+      # - name: Publish with dotnet
+      #   working-directory: ./app/Torneo.App
+      #   run: dotnet publish Torneo.App.sln -c Release -o out
+
+      # Build and push final Docker image to Docker Hub
+      - name: Build Docker Image for Hub
+        working-directory: ./app
+        run: docker build -t ${{ secrets.DOCKER_USERNAME }}/torneo-app -f ../Dockerfile .
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Push Docker Image
+        run: docker push ${{ secrets.DOCKER_USERNAME }}/torneo-app:latest
+
+      # Optional log checks
+      - name: Check Container Health
+        run: |
+          docker ps -a
+          docker-compose logs
+        if: always()
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Deploy to Render.com
+        run: |
+          curl -X POST \
+          -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
+          -H "Content-Type: application/json" \
+          -d "{
+            \"serviceId\": \"${{ secrets.RENDER_SERVICE_ID }}\",
+            \"branch\": \"qa\"
+          }" \
+          "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys"

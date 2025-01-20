@@ -1,0 +1,92 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Jugadores.CreateModel
+@{
+}
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear</strong> El jugador ya existe en el equipo seleccionado.
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+@if (Model.equipoExits && Model.posicionesExits)
+{
+<h1>Nuevo Jugador</h1>
+@Html.ValidationSummary()
+<form method="post">
+    <div class="form-group">
+        <label asp-for="jugador.Nombre"></label>
+        <!-- <input asp-for="jugador.Nombre" id="NombreJugadorCrear" required maxlength="30" class="form-control" pattern="^[a-zA-ZÀ-ÿ ]*$" title="Campo Obligatorio. Solo letras"> -->
+        <input asp-for="jugador.Nombre" id="NombreJugadorCrear" class="form-control">
+        <span class="text-danger" asp-validation-for="jugador.Nombre"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="jugador.Numero"></label>
+        <!--<input asp-for="jugador.Numero" class="form-control" id="NumeroJugadorCrear" required value="1" type="number" min="1" max="99" pattern="^[0-9]$"> -->
+        <input asp-for="jugador.Numero" class="form-control" id="NumeroJugadorCrear">
+        <span class="text-danger" asp-validation-for="jugador.Numero"></span>
+    </div>
+    <div class="form-group">
+        <label for="idEquipo">Seleccione un equipo</label>
+        <select id="EquipoJugadorCrear" name="idEquipo" class="form-control" required>
+            <!--option value="">Seleccione un equipo</option-->
+            @foreach (var equipo in Model.equipos)
+            {
+                <option value="@equipo.Id">@equipo.Nombre</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="idPosicion">Seleccione una Posicion</label>
+        <select id="PosicionJugadorCrear" name="idPosicion" class="form-control" required>
+            @foreach (var posicion in Model.posiciones)
+            {
+                <option value="@posicion.Id">@posicion.Nombre</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnJugadorCrear">Crear jugador</button>
+</form>
+}
+else
+{
+    @if (!Model.posicionesExits && Model.equipoExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Posiciones antes de crear jugadores
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Posiciones ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Posiciones/Create">Crear Posiciones</a>
+    }
+    else @if (!Model.equipoExits && Model.posicionesExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Equipos antes de crear jugadores
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Equipos ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+
+    }
+    else{    
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Equipos y Posiciones antes de crear jugadores
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <p>Por favor primero cree Equipos y Posiciones en los siguientes botones o menús correspondientes</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Posiciones/Create">Crear Posiciones</a>
+    }
+
+}
+
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>

@@ -1,0 +1,101 @@
+﻿@page
+@model Torneo.App.Frontend.Pages.Equipos.CreateModel
+@{
+}
+@if (Model.duplicate)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear</strong> El nombre del equipo ya existe
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+    </div>
+}
+@if (Model.municipiosExits && Model.dtsExits)
+{
+<h1>Nuevo equipo</h1>
+<!--form method="post" asp-validation-summary="All" data-val="true" data-val-async="true"> -->
+@Html.ValidationSummary()
+<form method="post">
+    <div class="form-group">
+        <label asp-for="equipo.Nombre"></label>
+       <!-- <input asp-for="equipo.Nombre"  id="NombreEquipoCrear" class="form-control" required maxlength="30" pattern="^[a-zA-ZÀ-ÿ \.]*$" title="Campo Obligatorio. Solo letras"> -->
+       <input asp-for="equipo.Nombre" id="NombreEquipoCrear" class="form-control">
+       <span class="text-danger" asp-validation-for="equipo.Nombre"></span>
+    </div>
+    <div class="form-group">
+       <!-- <label for="idMunicipio">Municipio</label> -->
+        <label asp-for="equipo.Municipio.Nombre"></label>
+        <!-- <select id="MunicipioEquipoCrear"  name="idMunicipio" class="form-control" required title="Campo Obligatorio" asp-for="equipo.Municipio"> -->                 
+        <!--select id="MunicipioEquipoCrear" name="idMunicipio" class="form-control" asp-items="Model.municipios" asp-for="equipo.Municipio"> -->
+        <select id="MunicipioEquipoCrear" name="idMunicipio" class="form-control" asp-for="equipo.Municipio.Id"> 
+            @foreach (var municipio in ViewData["Municipios"] as IEnumerable<SelectListItem>)
+            {
+                <option value="@municipio.Value">@municipio.Text</option>
+            }                      
+        </select>
+       <!-- <span class="text-danger" asp-validation-for="equipo.Municipio"></span> -->        
+    </div>
+    <div class="form-group">
+    <div>        
+       <!-- <label for="idDT">D.T.</label> -->
+       <label asp-for="equipo.DirectorTecnico.Nombre"></label>
+        <!-- <select id="DTEquipoCrear"  name="idDT" class="form-control" required title="Campo Obligatorio"  asp-for="equipo.DirectorTecnico"> -->        
+        <!--select id="DTEquipoCrear"  name="idDT" class="form-control" asp-items="Model.dts" asp-for="equipo.DirectorTecnico">   -->
+        <select id="DTEquipoCrear"  name="idDT" class="form-control" asp-for="equipo.DirectorTecnico.Id">
+            @foreach (var dt in ViewData["DTs"] as IEnumerable<SelectListItem>)
+            {
+                <option value="@dt.Value">@dt.Text</option>
+            }        
+        </select>        
+      <!-- <span class="text-danger" asp-validation-for="equipo.DirectorTecnico"></span> -->
+    </div>
+    <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnEquipoCrear">Crear equipo</button>
+</form>
+}
+else
+{
+    @if (!Model.municipiosExits && Model.dtsExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Municipios antes de crear equipos
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Municipios ingresando en el siguiente botón o menú correspondiente</p>
+       <a class="btn btn-secondary" asp-area="" asp-page="/Municipios/Create">Crear Municipios</a>
+    }
+    else @if (!Model.dtsExits && Model.municipiosExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Directores Técnicos antes de crear equipos
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Directores Técnicos ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/DTs/Create">Crear Directores Tecnicos</a>
+
+    }
+    else{    
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Ocurrio un error al crear equipos</strong> Primero se deben crear Municipios y Directores Técnicos antes de crear equipos
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+            <span aria-hidden="true">×</span>
+        </button>
+        </div>
+        <p>Por favor primero cree Municipios y Directores Técnicos desde los siguientes botones o menús correspondientes</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Municipios/Create">Crear Municipios</a>
+        <a class="btn btn-secondary" asp-area="" asp-page="/DTs/Create">Crear Directores Tecnicos</a>
+    }
+
+}
+
+
+<a class="btn btn-secondary" asp-page="./Index">Volver</a>
+
+
+
+
+

@@ -36,6 +36,14 @@ jobs:
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:80
+
+      - name: Test services running
+        run: |
+          docker-compose ps
+          docker-compose logs
+          docker-compose logs sql_server
+          docker-compose logs app
+    
       
       # - name: Test Frontend
       #   working-directory: .

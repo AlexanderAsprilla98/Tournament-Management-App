@@ -36,7 +36,7 @@ RUN dotnet new sln -n Torneo.App \
     && dotnet publish Torneo.App.sln -c Release -o /app/publish --no-restore --no-build \
     && dotnet nuget locals all --clear
 
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/publish .
 COPY --from=build /app/Torneo.db .

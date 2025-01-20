@@ -34,7 +34,11 @@ RUN dotnet new sln -n Torneo.App \
         --startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
         --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext \
     && dotnet publish Torneo.App.sln -c Release -o /app/publish --no-restore --no-build \
-    && dotnet nuget locals all --clear
+    && dotnet nuget locals all --clear \
+    && rm -rf /root/.nuget /root/.dotnet /root/.local /root/.config /root/.npm /root/.cache \
+    && rm -rf /tmp /var/tmp /var/cache /var/lib/apt/lists /var/log /var/backups \
+    && find /app \( -name "*.csproj" -o -name "*.sln" -o -name "*.cs" -o -name "*.sql" -o -name "*.sh" -o -name "*.md" -o -name "*.yml" -o -name "*.json" -o -name "*.txt" \) -type f -delete \
+    && find /app -type d -empty -delete
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app

@@ -1,12 +1,12 @@
 services:
   - type: web
+    runtime: node
     name: tournament-management-app
-    env: docker
     plan: free
     region: oregon
     branch: qa
     dockerfilePath: ./Dockerfile
-    dockerContext: ./app
+    dockerContext: ./
     envVars:
       - key: ASPNETCORE_ENVIRONMENT
         value: Staging

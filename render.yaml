@@ -2,6 +2,7 @@ services:
   - type: web
     runtime: node
     name: tournament-management-app
+    env: docker
     plan: free
     region: oregon
     branch: qa
@@ -17,4 +18,4 @@ services:
       - key: DataProtectionKeysLocation
         value: "/root/.aspnet/DataProtection-Keys"
     healthCheckPath: /health
-    autoDeploy: true
+    autoDeploy: false

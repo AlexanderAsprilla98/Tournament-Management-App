@@ -1,6 +1,6 @@
 services:
   - type: web
-    runtime: node
+    #runtime: node
     name: tournament-management-app
     env: docker
     plan: free

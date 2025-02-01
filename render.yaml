@@ -1,8 +1,7 @@
 services:
   - type: web
-    #runtime: node
+    runtime: docker
     name: tournament-management-app
-    env: docker
     plan: free
     region: oregon
     branch: qa

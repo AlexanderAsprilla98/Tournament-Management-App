@@ -31,14 +31,14 @@ namespace Torneo.App.Frontend.Pages.Municipios
         public IActionResult OnPost(Municipio municipio)
         {
             try
-            {
-                //Validar duplicados por nombre
-                duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);                      
-                Console.WriteLine("\nMunicipio ingresado en input  - "+ municipio.Nombre);            
-
+            {                      
+                Console.WriteLine("\nMunicipio ingresado en input  - "+ municipio.Nombre);     
 
                     if(ModelState.IsValid)
-                    {   
+                    {
+                         //Validar duplicados por nombre
+                         duplicate =  _repoMunicipio.validateDuplicates(municipio);               
+
                         //Validacion si se edita pero el nombre queda igual            
                         if(!duplicate)
                         {                    

@@ -37,7 +37,7 @@ namespace Torneo.App.Frontend.Pages.Posiciones
                 {   
                     Console.WriteLine("Modelo posicion valida");
 
-                    duplicate = _repoPosicion.validateDuplicates(posicion.Nombre);
+                    duplicate = _repoPosicion.validateDuplicates(posicion);
                     if(!duplicate)
                     {
                         _repoPosicion.AddPosicion(posicion);

@@ -1,39 +1,50 @@
-# Use the official .NET SDK image to build the application
-FROM mcr.microsoft.com/dotnet/sdk:6.0
-
-# Set the working directory inside the container
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy the project files and restore dependencies
+# Install tools, set paths, copy code, and run all build steps in one layer
+RUN dotnet tool install --global dotnet-ef --version 8
 
-# Set the ASPNETCORE_URLS environment variable to configure the port that Kestrel listens to
-ENV ASPNETCORE_URLS=http://*:5000
+ENV PATH="${PATH}:/root/.dotnet/tools"
+ENV DATABASE_CONNECTION_STRING="Data Source=/app/Torneo.db"
 
-# Install the Entity Framework Core tools
-RUN dotnet tool install --global dotnet-ef
+COPY ["Torneo.App/", "./"]
+RUN dotnet new sln -n Torneo.App \
+    && dotnet sln Torneo.App.sln add \
+        Torneo.App.Dominio/Torneo.App.Dominio.csproj \
+        Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+        Torneo.App.Consola/Torneo.App.Consola.csproj \
+        Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+    && dotnet restore Torneo.App.sln \
+    && dotnet build Torneo.App.sln -c Release --no-restore \
+    && dotnet ef migrations add InitialCreate \
+        --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+        --startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+        --context Torneo.App.Persistencia.DataContext \
+        --no-build --configuration Release \
+    && dotnet ef database update \
+        --project Torneo.App.Persistencia/Torneo.App.Persistencia.csproj \
+        --startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+        --context Torneo.App.Persistencia.DataContext \
+    && dotnet ef migrations add CreateIdentitySchema \
+        --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+        --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext \
+        --no-build --configuration Release \
+    && dotnet ef database update \
+        --project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+        --startup-project Torneo.App.Frontend/Torneo.App.Frontend.csproj \
+        --context Torneo.App.Frontend.Areas.Identity.Data.IdentityDataContext \
+    && dotnet publish Torneo.App.sln -c Release -o /app/publish --no-restore --no-build \
+    && dotnet nuget locals all --clear \
+    && rm -rf /root/.nuget /root/.dotnet /root/.local /root/.config /root/.npm /root/.cache \
+    && rm -rf /tmp /var/tmp /var/cache /var/lib/apt/lists /var/log /var/backups \
+    && find /app \( -name "*.csproj" -o -name "*.sln" -o -name "*.cs" -o -name "*.sql" -o -name "*.sh" -o -name "*.md" -o -name "*.yml" -o -name "*.json" -o -name "*.txt" \) -type f -delete \
+    && find /app -type d -empty -delete
 
-# Add the tools to the PATH environment variable
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-# Add the Entity Framework Core tools reference
-# RUN dotnet add Torneo.App.Frontend/Torneo.App.Frontend.csproj reference Torneo.App.Dominio/Torneo.App.Dominio.csproj && \
-#     dotnet add Torneo.App.Frontend/Torneo.App.Frontend.csproj reference Torneo.App.Persistencia/Torneo.App.Persistencia.csproj
-
-# Restore the dependencies
-# RUN dotnet restore Torneo.App.Dominio/Torneo.App.Dominio.csproj
-# RUN dotnet restore Torneo.App.Persistencia/Torneo.App.Persistencia.csproj
-
-
-# Copy the remaining project files and build the application
-COPY Torneo.App/ .
-
-# Build the application
-RUN dotnet publish Torneo.App.Frontend/Torneo.App.Frontend.csproj -c Release -o out
-
-# Expose the port used by the ASP.NET Core application
-EXPOSE 5000
-
-# Start the ASP.NET Core application when the database is loaded
-COPY entrypoint.sh entrypoint.sh
-RUN chmod +x entrypoint.sh
-ENTRYPOINT ["bash", "entrypoint.sh"]
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+WORKDIR /app
+COPY --from=build /app/publish .
+COPY --from=build /app/Torneo.db .
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=0
+ENV PORT=80
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Torneo.App.Frontend.dll", "--urls", "http://0.0.0.0:80"]

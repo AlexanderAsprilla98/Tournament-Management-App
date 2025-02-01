@@ -49,10 +49,7 @@ namespace Torneo.App.Frontend.Pages.Dts
                     {
                         //Console.WriteLine("Document DT ingresado ya existe - " + DT.Documento);
                         return Page();
-
                     }
-                    
-
                 }
                 else
                 {
@@ -60,8 +57,6 @@ namespace Torneo.App.Frontend.Pages.Dts
                     DT = _repoDT.GetDT(id);
                     return Page();
                 }
-
-
             }
             catch
             {

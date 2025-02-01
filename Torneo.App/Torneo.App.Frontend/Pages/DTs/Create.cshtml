@@ -5,7 +5,7 @@
 @if (Model.duplicate)
 {
     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        <strong>Ocurrio un error al crear</strong> El documento del director técnico ya existe en la base de datos.
+        <strong>Ocurrio un error al crear</strong> - El documento del director técnico ya existe en la base de datos.
         <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
             <span aria-hidden="true">×</span>
         </button>
@@ -32,6 +32,6 @@
       <input asp-for="dt.Telefono" id="TelefonoDTCrear"  class="form-control"> 
      <span asp-validation-for="dt.Telefono" class="text-danger"></span> 
     </div>
-    <button type="submit" class="btn btn-primary btn-block" id="BtnDTCrear">Crear director Tecnico</button>
+    <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnDTCrear">Crear director Tecnico</button>
 </form>
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

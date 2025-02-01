@@ -33,6 +33,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             MunicipioSelected = -1;
             BusquedaActual = "";
             ErrorEliminar = false;
+            //Console.WriteLine("conteo municipios "+ equipos);            
         }
         public void OnPostFiltro(int idMunicipio)
         {

@@ -1,11 +1,13 @@
 using Torneo.App.Persistencia;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Torneo.App.Frontend.Areas.Identity.Data;
+using Microsoft.AspNetCore.DataProtection;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("IdentityDataContextConnection");
-builder.Services.AddDbContext<IdentityDataContext>(options => options.UseSqlServer(connectionString));
+var connectionString = Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING") ?? "Data Source=/app/Torneo.db";
+builder.Services.AddDbContext<IdentityDataContext>(options => options.UseSqlite(connectionString));
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<IdentityDataContext>();
 
 // Add services to the container.
@@ -36,6 +38,20 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Password.RequiredLength = 6;
     options.Password.RequiredUniqueChars = 1;
 });
+
+// Add health checks
+builder.Services.AddHealthChecks()
+    .AddSqlite(connectionString, name: "database", failureStatus: HealthStatus.Unhealthy, tags: new[] { "db" });
+
+//Configure Data Protection to persist keys to a specific database
+builder.Services.AddDataProtection()
+    .PersistKeysToDbContext<IdentityDataContext>()
+    .SetApplicationName("TorneoApp");
+
+//Configure Data Protection to persist keys to a specific directory
+/*builder.Services.AddDataProtection()
+    .PersistKeysToFileSystem(new DirectoryInfo(@"/root/.aspnet/DataProtection-Keys"))
+    .SetApplicationName("TournamentManagementApp");*/
 
 /* Configurar para siguiente sprint
 builder.Services.AddAuthentication()
@@ -79,5 +95,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
+
+app.MapHealthChecks("/health");
 
 app.Run();

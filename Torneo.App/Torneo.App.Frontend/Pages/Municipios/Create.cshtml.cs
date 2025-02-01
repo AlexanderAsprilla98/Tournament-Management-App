@@ -29,7 +29,7 @@ namespace Torneo.App.Frontend.Pages.Municipios
                 //Validacion si el modelo es valido cumpliendo con la anotaciones en la entidad
                 if(ModelState.IsValid)
                 { 
-                    duplicate =  _repoMunicipio.validateDuplicates(municipio.Nombre);
+                    duplicate =  _repoMunicipio.validateDuplicates(municipio);
 
                     if(!duplicate)
                     {

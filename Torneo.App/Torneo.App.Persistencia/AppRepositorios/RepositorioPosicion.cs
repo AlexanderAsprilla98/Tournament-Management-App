@@ -15,11 +15,12 @@ namespace Torneo.App.Persistencia
         {   
             var posiciones = _dataContext.Posiciones
                                 .Include(p => p.Jugadores)
+                                .AsNoTracking()
                                 .ToList();
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();   
+            _dataContext = new DataContext();*/
 
             return posiciones ?? throw new Exception("Posiciones not found");  // Throw an exception if posiciones is null.
         }
@@ -55,7 +56,7 @@ namespace Torneo.App.Persistencia
             return posicionEncontrada ?? throw new Exception("Posicion not found");  // Throw an exception if posicionEncontrada is null.
         }
 
-        public bool validateDuplicates(string nombrePosicion)
+        public bool validateDuplicates(Posicion posicionIngresada)
         {
             try
             {
@@ -64,12 +65,16 @@ namespace Torneo.App.Persistencia
 
                 foreach(Posicion posicion in allPosiciones)
                 {
-                    if(posicion.Nombre.ToLower()  == nombrePosicion.ToLower().Trim())   
-                    {
-                        duplicado = true;
-                    }              
+                    if(posicionIngresada.Id != posicion.Id){
+                        if(posicion.Nombre.ToLower()  == posicionIngresada.Nombre.ToLower().Trim())   
+                        {
+                            duplicado = true;
+                            break;
+                        }   
+                    }
+
                 }               
-                Console.WriteLine("Posicion duplicada al Crear/Editar " + nombrePosicion  +" - "+ duplicado);
+                Console.WriteLine("Posicion duplicada al Crear/Editar " + posicionIngresada.Nombre.ToString()  +" - "+ duplicado);
                 return duplicado;
 
             }catch(Exception e){

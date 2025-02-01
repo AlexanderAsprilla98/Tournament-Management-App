@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:  
+  torneo-app:
+    container_name: torneo-app
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Testing
+    ports:
+      - "80:80"
+    networks:
+      - torneo-network
+
+networks:
+  torneo-network:
+    driver: bridge

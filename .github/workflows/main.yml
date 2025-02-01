@@ -4,11 +4,9 @@ on:
   push:
     branches:
       - main
-      - dev
   pull_request:
     branches:
       - main
-      - dev
 
 jobs:
   build-and-test:
@@ -38,6 +36,14 @@ jobs:
         env:
           ASPNETCORE_ENVIRONMENT: Development
           ASPNETCORE_URLS: http://localhost:80
+
+      - name: Test services running
+        run: |
+          docker-compose ps
+          docker-compose logs
+          docker-compose logs sql_server
+          docker-compose logs app
+    
       
       # - name: Test Frontend
       #   working-directory: .

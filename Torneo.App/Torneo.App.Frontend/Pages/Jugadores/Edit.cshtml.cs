@@ -89,7 +89,7 @@ namespace Torneo.App.Frontend.Pages.Jugadores
                     return RedirectToPage("Index");
                 }
                 else
-                {
+                {                    
                     //Cargar entidades refenciadas como la lista de equipos, posiciones y las opciones guardadas del jugador si existen duplicados
                     jugador = _repoJugador.GetJugador(id);
                     EquipoOptions = new SelectList(_repoEquipo.GetAllEquipos(), "Id", "Nombre");

@@ -11,6 +11,8 @@
         </button>
     </div>
 }
+@if (Model.equipoExits && Model.posicionesExits)
+{
 <h1>Nuevo Jugador</h1>
 @Html.ValidationSummary()
 <form method="post">
@@ -45,6 +47,46 @@
             }
         </select>
     </div>
-    <button type="submit" class="btn btn-primary btn-block" id="BtnJugadorCrear">Crear jugador</button>
+    <button type="submit" class="btn btn-primary btn-block mb-2 mt-2" id="BtnJugadorCrear">Crear jugador</button>
 </form>
+}
+else
+{
+    @if (!Model.posicionesExits && Model.equipoExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Posiciones antes de crear jugadores
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Posiciones ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Posiciones/Create">Crear Posiciones</a>
+    }
+    else @if (!Model.equipoExits && Model.posicionesExits)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Equipos antes de crear jugadores
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                    <span aria-hidden="true">×</span>
+                </button>
+        </div>
+        <p>Por favor primero cree Equipos ingresando en el siguiente botón o menú correspondiente</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+
+    }
+    else{    
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>Ocurrio un error al crear jugadores</strong> Primero se deben crear Equipos y Posiciones antes de crear jugadores
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="$('.alert').alert('close')">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+        <p>Por favor primero cree Equipos y Posiciones en los siguientes botones o menús correspondientes</p>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Equipos/Create">Crear Equipos</a>
+        <a class="btn btn-secondary" asp-area="" asp-page="/Posiciones/Create">Crear Posiciones</a>
+    }
+
+}
+
 <a class="btn btn-secondary" asp-page="./Index">Volver</a>

@@ -20,6 +20,8 @@ namespace Torneo.App.Frontend.Pages.Equipos
         public int MunicipioSelected { get; set; }
         public int DTSelected { get; set; }
         public bool duplicate { get; set; }
+         public Equipo equipoOriginal { get; set; }
+        public String nameEquipoOriginal { get; set; }
         public EditModel(IRepositorioEquipo repoEquipo, IRepositorioMunicipio repoMunicipio, IRepositorioDT repoDT)
         {
             _repoEquipo = repoEquipo;
@@ -35,6 +37,7 @@ namespace Torneo.App.Frontend.Pages.Equipos
             DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
             DTSelected = equipo.DirectorTecnico.Id;
             duplicate = false;
+            nameEquipoOriginal = equipo.Nombre;
             if (equipo == null)
             {
                 return NotFound();
@@ -43,17 +46,16 @@ namespace Torneo.App.Frontend.Pages.Equipos
             {
                 return Page();
             }
+           
         }
 
         public IActionResult OnPost(Equipo equipo, int idMunicipio, int idDT, int id)
         {
-            try{
-                //Conocer y setear id entidades relacionadas en atributos de la entidad
-                Console.WriteLine("Editar IdMunicipio escogido " + idMunicipio);                 
-                Console.WriteLine("Crear IdDT escogido " + idDT); 
+            try{               
+                //Conocer y setear id entidades relacionadas en atributos de la entidad                
                 equipo.Municipio = _repoMunicipio.GetMunicipio(idMunicipio);
                 equipo.DirectorTecnico = _repoDT.GetDT(idDT);
-
+ 
                 if(ModelState.IsValid)
                 { 
                     // Obtener y asignar el objeto DirectorTecnico y Municipio  por su Id
@@ -67,22 +69,34 @@ namespace Torneo.App.Frontend.Pages.Equipos
                     }
                     //Imprimir datos de equipo
                     Console.WriteLine("Equipo valido "+ equipo.Nombre + " Municipcio equipo "+ equipo.Municipio.Nombre + " Dt equipo " + equipo.DirectorTecnico.Nombre);                                     
+                    
+                    equipoOriginal = _repoEquipo.GetEquipo(id);
 
-                    duplicate = _repoEquipo.validateDuplicates(equipo);
-                    if (!duplicate)
-                    {
+                    Console.WriteLine("Nombre Original "+equipoOriginal.Nombre);
+                    Console.WriteLine("Equipo editado "+ equipo.Nombre);
+                  
+                    if(equipoOriginal.Nombre == equipo.Nombre){
+                        Console.WriteLine("Nombre de Equipo no presenta cambios");
                         _repoEquipo.UpdateEquipo(equipo, idMunicipio, idDT);
-                        return RedirectToPage("Index");
-                    }
-                    else
-                    {
-                        //Cargar datos de la entidad(Municipios y Dts) en caso que de duplicados
-                        equipo = _repoEquipo.GetEquipo(id);
-                        MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
-                        MunicipioSelected = equipo.Municipio.Id;
-                        DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
-                        DTSelected = equipo.DirectorTecnico.Id;
-                        return Page();
+                        return RedirectToPage("Index");                       
+                    }else{
+                        Console.WriteLine("Nombre Equipo presenta cambios");
+                        duplicate = _repoEquipo.validateDuplicates(equipo);
+                        if (!duplicate)
+                        {
+                            _repoEquipo.UpdateEquipo(equipo, idMunicipio, idDT);
+                            return RedirectToPage("Index");
+                        }
+                        else
+                        {
+                            //Cargar datos de la entidad(Municipios y Dts) en caso que de duplicados
+                            equipo = _repoEquipo.GetEquipo(id);
+                            MunicipioOptions = new SelectList(_repoMunicipio.GetAllMunicipios(), "Id", "Nombre");
+                            MunicipioSelected = equipo.Municipio.Id;
+                            DTOptions = new SelectList(_repoDT.GetAllDTs(), "Id", "Nombre");
+                            DTSelected = equipo.DirectorTecnico.Id;
+                            return Page();
+                        }
                     }
                 }else
                 {   

@@ -25,10 +25,11 @@ namespace Torneo.App.Persistencia
                             .Include(e => e.Jugadores)
                             .Include(e => e.PartidosLocal)                         
                             .Include(e => e.PartidosVisitante)                         
+                            .AsNoTracking()
                             .ToList();
-            _dataContext.ChangeTracker.Clear();
+           /* _dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();           
+            _dataContext = new DataContext();*/
                             
             return equipos;
         }
@@ -84,6 +85,7 @@ namespace Torneo.App.Persistencia
                         .Include(e => e.Jugadores) // Carga explicita
                         .Include(e => e.PartidosLocal)       // Carga explicita                   
                         .Include(e => e.PartidosVisitante) // Carga explicita
+                        .AsNoTracking()
                         .ToList();
             return equipos;
         }
@@ -158,13 +160,46 @@ namespace Torneo.App.Persistencia
                     
                            
                 }               
-                Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
+                //Console.WriteLine("Equipo duplicado al Crear/Editar " + equipo.Nombre  +" - "+ duplicado);
                 return duplicado;
 
             }catch(Exception e){
-                Console.WriteLine("Error Validacion " + e.Message);
+                //Console.WriteLine("Error Validacion " + e.Message);
                 return false;
             }
         }
+
+
+
+        /*public bool exitsMunicipios()
+        {
+            try
+            {
+                IEnumerable<Equipo> allEquipos =  GetAllEquipos();
+                bool exist = false; 
+                               
+
+                foreach(Equipo e in allEquipos)
+                {
+                
+                    if(e.Municipio.Count() == 0)
+                    {      
+                        Console.WriteLine("Equipo sin municipio " + equipo.Nombre  +" - "+ e.Municipio.Count);
+                        exist = true;
+                    }
+                    
+                           
+                }               
+                Console.WriteLine("Equipo sin municipio " + equipo.Nombre  +" - "+ duplicado);
+                return duplicado;
+
+            }catch(Exception e){
+                //Console.WriteLine("Error Validacion " + e.Message);
+                return false;
+            }
+        }*/
+
+
+
     }
 }

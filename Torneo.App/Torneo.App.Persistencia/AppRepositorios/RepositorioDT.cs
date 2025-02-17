@@ -17,11 +17,12 @@ namespace Torneo.App.Persistencia
         {
              var Dts = _dataContext.DirectoresTecnicos
                             .Include(e => e.Equipos)
+                            .AsNoTracking()
                             .ToList();
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();
+            _dataContext = new DataContext();*/
             
             return Dts;
         }
@@ -73,14 +74,19 @@ namespace Torneo.App.Persistencia
                     //Validacion si el documento ingresado ya existe en BD              
                     if(directoresTecnicos.Documento  == dtIngresado.Documento.Trim())   
                     {
+                        Console.WriteLine($"id dt lista {directoresTecnicos.Id}");
+                        Console.WriteLine($"id dt ingresado {dtIngresado.Id}");
                         //Validacion para no marcarlo como duplicado si se edita otro campo del DT
                         if(directoresTecnicos.Id == dtIngresado.Id)
                         {
-                            duplicado = false;
+                            duplicado = false;                            
+                            Console.WriteLine($"id igual no duplicado {directoresTecnicos.Id}");                                               
                         }
                         else
                         {
                             duplicado = true;
+                            Console.WriteLine($"id diferente duplicado {directoresTecnicos.Id}");
+                            break;          
                         }                      
                         
                     }              

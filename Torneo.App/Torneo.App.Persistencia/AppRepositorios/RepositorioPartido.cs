@@ -20,10 +20,11 @@ namespace Torneo.App.Persistencia
             var partidos = _dataContext.Partidos
                             .Include(p => p.Local)
                             .Include(p => p.Visitante)
+                            .AsNoTracking()
                             .ToList();
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();   
+            _dataContext = new DataContext();*/
                             
             return partidos;
         }
@@ -32,6 +33,7 @@ namespace Torneo.App.Persistencia
             var partido = _dataContext.Partidos
                             .Include(p => p.Local)
                             .Include(p => p.Visitante)
+                            .AsNoTracking()
                             .FirstOrDefault(p => p.Id == idPartido);
             return partido ?? throw new Exception("Partido not found");  // Throw an exception if partido is null.
         }
@@ -53,9 +55,9 @@ namespace Torneo.App.Persistencia
                 Console.WriteLine("No se encontró el partido");
             }
 
-            _dataContext.ChangeTracker.Clear();
+            /*_dataContext.ChangeTracker.Clear();
             _dataContext.Dispose();
-            _dataContext = new DataContext();
+            _dataContext = new DataContext();*/
             return partidoEncontrado ?? throw new Exception("Partido not found");  // Throw an exception if partidoEncontrado is null.
         }
 
@@ -67,9 +69,10 @@ namespace Torneo.App.Persistencia
                 
                 _dataContext.Partidos.Remove(partidoEncontrado);
                 _dataContext.SaveChanges();
-                _dataContext.ChangeTracker.Clear();
+                
+                /*_dataContext.ChangeTracker.Clear();
                 _dataContext.Dispose();
-                _dataContext = new DataContext();
+                _dataContext = new DataContext();*/
                 
                 
             } else
@@ -89,14 +92,18 @@ namespace Torneo.App.Persistencia
                                
                 
                 foreach(Partido p in allPartidos)
-                {                    
-                    if((p.Local.Id == idEquipoLocal) && (p.Visitante.Id == idEquipoVisitante) && (p.FechaHora == partido.FechaHora))
-                    {                   
-                        duplicado = true;
-                    }
-                    else if((p.Local.Id == idEquipoVisitante) && (p.Visitante.Id == idEquipoLocal) && (p.FechaHora == partido.FechaHora))
-                    {                   
-                        duplicado = true;
+                {                 
+                    if(p.Id != partido.Id){   
+                        if((p.Local.Id == idEquipoLocal) && (p.Visitante.Id == idEquipoVisitante) && (p.FechaHora == partido.FechaHora))
+                        {                   
+                            duplicado = true;
+                            break;
+                        }
+                        else if((p.Local.Id == idEquipoVisitante) && (p.Visitante.Id == idEquipoLocal) && (p.FechaHora == partido.FechaHora))
+                        {                   
+                            duplicado = true;
+                            break;
+                        }
                     }
                     
                            

@@ -385,7 +385,6 @@ test-results/
 
 # Mac bundle stuff
 *.dmg
-*.app
 
 # content below from: https://github.com/github/gitignore/blob/master/Global/macOS.gitignore
 # General
@@ -456,3 +455,15 @@ $RECYCLE.BIN/
 
 # dotenv
 .env
+
+# .bin files
+*.bin
+
+*.sln
+
+# Migration files
+**/Migrations/*.cs
+
+# data base files
+*.db
+Torneo_RepoAlexander.sln
